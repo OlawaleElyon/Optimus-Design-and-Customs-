@@ -122,19 +122,19 @@ const Footer = () => {
             <h4 className="text-white font-bold text-lg mb-4">Contact</h4>
             <ul className="space-y-3">
               <li>
-                <a href="mailto:info@optimusdesign.com" className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
-                  info@optimusdesign.com
+                <a href="mailto:optimusxcustoms@gmail.com" className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                  optimusxcustoms@gmail.com
                 </a>
               </li>
               <li>
-                <a href="tel:+15551234567" className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
-                  (555) 123-4567
+                <a href="tel:+14434771124" className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                  (443) 477-1124
                 </a>
               </li>
               <li>
-                <a href="https://www.google.com/maps/search/?api=1&query=123+Custom+Street+Auto+City+CA+90210" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
-                  123 Custom Street<br />
-                  Auto City, CA 90210
+                <a href="https://www.google.com/maps/search/?api=1&query=Cherry+Lane+Laurel+MD+20707" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                  Cherry Lane<br />
+                  Laurel MD, 20707
                 </a>
               </li>
             </ul>
