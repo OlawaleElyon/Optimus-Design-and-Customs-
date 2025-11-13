@@ -1,13 +1,22 @@
 import "./App.css";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Success from "./pages/Success";
 import NotFound from "./pages/NotFound";
+import LoadingScreen from "./components/LoadingScreen";
 import { Toaster } from "./components/ui/sonner";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  const handleLoadingComplete = () => {
+    setLoading(false);
+  };
+
   return (
     <div className="App">
+      {loading && <LoadingScreen onLoadingComplete={handleLoadingComplete} />}
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
