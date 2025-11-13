@@ -112,23 +112,23 @@ const Booking = () => {
               </div>
 
               <div className="space-y-6">
-                <a href="mailto:info@optimusdesign.com" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
+                <a href="mailto:optimusxcustoms@gmail.com" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
                   <div className="bg-purple-600/20 p-3 rounded-lg group-hover:bg-purple-600/30 transition-all duration-300">
                     <Mail className="w-6 h-6 text-purple-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Email</p>
-                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">info@optimusdesign.com</p>
+                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">optimusxcustoms@gmail.com</p>
                   </div>
                 </a>
 
-                <a href="tel:+15551234567" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
+                <a href="tel:+14434771124" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
                   <div className="bg-purple-600/20 p-3 rounded-lg group-hover:bg-purple-600/30 transition-all duration-300">
                     <Phone className="w-6 h-6 text-purple-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Phone</p>
-                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">(555) 123-4567</p>
+                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">(443) 477-1124</p>
                   </div>
                 </a>
 
@@ -142,15 +142,27 @@ const Booking = () => {
                   </div>
                 </a>
 
-                <a href="https://www.google.com/maps/search/?api=1&query=123+Custom+Street+Auto+City+CA+90210" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
+                <a href="https://www.google.com/maps/search/?api=1&query=Cherry+Lane+Laurel+MD+20707" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
                   <div className="bg-purple-600/20 p-3 rounded-lg group-hover:bg-purple-600/30 transition-all duration-300">
                     <MapPin className="w-6 h-6 text-purple-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Address</p>
-                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">123 Custom Street, Auto City, CA 90210</p>
+                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">Cherry Lane, Laurel MD, 20707</p>
                   </div>
                 </a>
+
+                <div className="flex items-start gap-4 p-3 rounded-lg">
+                  <div className="bg-purple-600/20 p-3 rounded-lg">
+                    <Clock className="w-6 h-6 text-purple-400" />
+                  </div>
+                  <div>
+                    <p className="text-gray-400 text-sm">Opening Hours</p>
+                    <p className="text-white font-semibold">Mon - Fri: 9am - 6pm</p>
+                    <p className="text-white font-semibold">Saturday: 9am - 4pm</p>
+                    <p className="text-white font-semibold">Sunday: Closed</p>
+                  </div>
+                </div>
 
                 <div className="flex items-start gap-4">
                   <div className="bg-purple-600/20 p-3 rounded-lg">
