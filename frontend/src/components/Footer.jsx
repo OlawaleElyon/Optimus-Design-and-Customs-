@@ -90,7 +90,7 @@ const Footer = () => {
             <h4 className="text-white font-bold text-lg mb-4">Quick Links</h4>
             <ul className="space-y-3">
               <li>
-                <button onClick={() => scrollToSection('home')} className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                <button onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
                   Home
                 </button>
               </li>
