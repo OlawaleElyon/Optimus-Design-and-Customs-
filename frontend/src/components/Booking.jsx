@@ -14,7 +14,6 @@ const Booking = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const sectionRef = useRef(null);
-  const { toast } = useToast();
 
   const [formData, setFormData] = useState({
     name: '',
