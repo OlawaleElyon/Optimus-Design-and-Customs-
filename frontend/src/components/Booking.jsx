@@ -65,23 +65,63 @@ const Booking = () => {
 
     try {
       const response = await axios.post(`${API}/appointments`, formData);
+      const appointmentId = response.data.id;
       
-      toast.success("Success! Your appointment request has been submitted. We'll contact you shortly.");
+      toast.success("Success! Your appointment request has been submitted.");
 
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        serviceType: '',
-        preferredDate: '',
-        message: ''
-      });
+      // Ask if user wants to pay deposit
+      const payDeposit = window.confirm(
+        \"Would you like to secure your appointment with a deposit? This helps us reserve your spot and speeds up the process.\"\n      );
+
+      if (payDeposit) {
+        // Redirect to payment
+        await handlePayment(appointmentId);
+      } else {
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          serviceType: '',
+          preferredDate: '',
+          message: ''
+        });
+        toast.success(\"We'll contact you shortly to confirm your appointment!\");
+      }
     } catch (error) {
       console.error('Error submitting appointment:', error);
       toast.error("Failed to submit appointment. Please try again.");
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handlePayment = async (appointmentId) => {
+    try {
+      // Map service types to package IDs
+      const servicePackageMap = {
+        'vehicle-wrap': 'vehicle-wrap-deposit',
+        'window-tint': 'window-tint-deposit',
+        'custom-decals': 'custom-decals-deposit',
+        'consultation': 'consultation-fee'
+      };
+
+      const packageId = servicePackageMap[formData.serviceType] || 'consultation-fee';
+      const frontendOrigin = window.location.origin;
+
+      const paymentResponse = await axios.post(`${API}/payments/checkout`, {
+        package_id: packageId,
+        appointment_id: appointmentId,
+        frontend_origin: frontendOrigin
+      });
+
+      // Redirect to Stripe Checkout
+      if (paymentResponse.data.url) {
+        window.location.href = paymentResponse.data.url;
+      }
+    } catch (error) {
+      console.error('Error creating payment:', error);
+      toast.error(\"Payment setup failed. Please contact us directly.\");
     }
   };
 
