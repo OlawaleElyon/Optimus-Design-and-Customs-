@@ -120,24 +120,23 @@ const Footer = () => {
           {/* Contact */}
           <div>
             <h4 className="text-white font-bold text-lg mb-4">Contact</h4>
-            <ul className="space-y-3">
-              <li>
-                <a href="mailto:optimusxcustoms@gmail.com" className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+            <div className="space-y-3 text-gray-400">
+              <p>
+                <a href="mailto:optimusxcustoms@gmail.com" className="hover:text-purple-400 transition-colors duration-300">
                   optimusxcustoms@gmail.com
                 </a>
-              </li>
-              <li>
-                <a href="tel:+14434771124" className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+              </p>
+              <p>
+                <a href="tel:+14434771124" className="hover:text-purple-400 transition-colors duration-300">
                   (443) 477-1124
                 </a>
-              </li>
-              <li>
-                <a href="https://www.google.com/maps/search/?api=1&query=Cherry+Lane+Laurel+MD+20707" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
-                  Cherry Lane<br />
-                  Laurel MD, 20707
+              </p>
+              <p>
+                <a href="https://www.google.com/maps/search/?api=1&query=Cherry+Lane+Laurel+MD+20707" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors duration-300">
+                  Cherry Lane Laurel MD, 20707
                 </a>
-              </li>
-            </ul>
+              </p>
+            </div>
           </div>
         </div>
 
