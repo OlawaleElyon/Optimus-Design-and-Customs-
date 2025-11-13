@@ -214,6 +214,7 @@ const Booking = () => {
                         <SelectItem value="window-tint" className="text-white hover:bg-purple-600">Window Tint</SelectItem>
                         <SelectItem value="custom-decals" className="text-white hover:bg-purple-600">Custom Decals</SelectItem>
                         <SelectItem value="consultation" className="text-white hover:bg-purple-600">Consultation</SelectItem>
+                        <SelectItem value="request-quote" className="text-white hover:bg-purple-600">Request a Quote</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
