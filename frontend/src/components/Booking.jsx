@@ -87,7 +87,7 @@ const Booking = () => {
           preferredDate: '',
           message: ''
         });
-        toast.success(\"We'll contact you shortly to confirm your appointment!\");
+        toast.success("We'll contact you shortly to confirm your appointment!");
       }
     } catch (error) {
       console.error('Error submitting appointment:', error);
