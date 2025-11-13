@@ -1,0 +1,150 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
+
+const Footer = () => {
+  const [isVisible, setIsVisible] = useState(false);
+  const footerRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (footerRef.current) {
+      observer.observe(footerRef.current);
+    }
+
+    return () => {
+      if (footerRef.current) {
+        observer.unobserve(footerRef.current);
+      }
+    };
+  }, []);
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <footer ref={footerRef} className="bg-black border-t border-purple-500/20">
+      <div className={`max-w-7xl mx-auto px-6 py-16 transition-all duration-1000 ease-out ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+      }`}>
+        <div className="grid md:grid-cols-4 gap-12 mb-12">
+          {/* Logo & Description */}
+          <div className="md:col-span-2">
+            <h3 className="text-3xl font-bold mb-4">
+              <span className="text-purple-500">OPTIMUS</span>
+              <span className="text-white"> DESIGN</span>
+            </h3>
+            <p className="text-gray-400 mb-6 max-w-md">
+              Transforming vehicles into art. Premium wraps, tints, and custom designs that reflect your unique style.
+            </p>
+            <div className="flex gap-4">
+              <a 
+                href="#" 
+                className="bg-gray-800 hover:bg-purple-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
+              >
+                <Instagram className="w-5 h-5 text-white" />
+              </a>
+              <a 
+                href="#" 
+                className="bg-gray-800 hover:bg-purple-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
+              >
+                <Facebook className="w-5 h-5 text-white" />
+              </a>
+              <a 
+                href="#" 
+                className="bg-gray-800 hover:bg-purple-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
+              >
+                <Twitter className="w-5 h-5 text-white" />
+              </a>
+              <a 
+                href="#" 
+                className="bg-gray-800 hover:bg-purple-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
+              >
+                <Youtube className="w-5 h-5 text-white" />
+              </a>
+            </div>
+          </div>
+
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-white font-bold text-lg mb-4">Quick Links</h4>
+            <ul className="space-y-3">
+              <li>
+                <button onClick={() => scrollToSection('home')} className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                  Home
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollToSection('about')} className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                  About Us
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollToSection('services')} className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                  Services
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollToSection('projects')} className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                  Projects
+                </button>
+              </li>
+              <li>
+                <button onClick={() => scrollToSection('booking')} className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                  Book Now
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact */}
+          <div>
+            <h4 className="text-white font-bold text-lg mb-4">Contact</h4>
+            <ul className="space-y-3">
+              <li className="text-gray-400">
+                info@optimusdesign.com
+              </li>
+              <li className="text-gray-400">
+                (555) 123-4567
+              </li>
+              <li className="text-gray-400">
+                123 Custom Street<br />
+                Auto City, CA 90210
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="border-t border-gray-800 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-gray-500 text-sm">
+              © 2025 Optimus Design & Customs. All rights reserved.
+            </p>
+            <div className="flex gap-6">
+              <a href="#" className="text-gray-500 hover:text-purple-400 text-sm transition-colors duration-300">
+                Privacy Policy
+              </a>
+              <a href="#" className="text-gray-500 hover:text-purple-400 text-sm transition-colors duration-300">
+                Terms of Service
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+};
+
+export default Footer;
