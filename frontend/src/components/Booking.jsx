@@ -151,29 +151,6 @@ const Booking = () => {
                     <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">Cherry Lane, Laurel MD, 20707</p>
                   </div>
                 </a>
-
-                <div className="flex items-start gap-4 p-3 rounded-lg">
-                  <div className="bg-purple-600/20 p-3 rounded-lg">
-                    <Clock className="w-6 h-6 text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Opening Hours</p>
-                    <p className="text-white font-semibold">Mon - Fri: 9am - 6pm</p>
-                    <p className="text-white font-semibold">Saturday: 9am - 4pm</p>
-                    <p className="text-white font-semibold">Sunday: Closed</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start gap-4">
-                  <div className="bg-purple-600/20 p-3 rounded-lg">
-                    <Clock className="w-6 h-6 text-purple-400" />
-                  </div>
-                  <div>
-                    <p className="text-gray-400 text-sm">Hours</p>
-                    <p className="text-white font-semibold">Mon-Fri: 9AM - 6PM</p>
-                    <p className="text-white font-semibold">Sat: 10AM - 4PM</p>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
