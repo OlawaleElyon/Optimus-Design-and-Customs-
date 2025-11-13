@@ -103,13 +103,10 @@ const Services = () => {
           ))}
         </div>
 
-        {/* CTA Buttons */}
-        <div className={`flex flex-col sm:flex-row gap-4 justify-center transition-all duration-1000 delay-600 ease-out ${
+        {/* CTA Button */}
+        <div className={`flex justify-center transition-all duration-1000 delay-600 ease-out ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}>
-          <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6 rounded-md font-semibold transition-all duration-300 hover:scale-105">
-            Explore Services
-          </Button>
           <Button className="bg-transparent border-2 border-purple-500 hover:bg-purple-600 text-white px-8 py-6 rounded-md font-semibold transition-all duration-300 hover:scale-105">
             Contact Us →
           </Button>
