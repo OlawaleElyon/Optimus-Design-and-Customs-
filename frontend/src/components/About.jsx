@@ -52,11 +52,8 @@ const About = () => {
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
               Who We Are
             </h2>
-            <p className="text-gray-300 text-lg leading-relaxed mb-8">
-              Optimus Design & Customs transforms vehicles into art. We blend precision engineering with creative vision to deliver custom wraps that reflect your unique style. Every project is a masterpiece crafted with passion and attention to detail.
-            </p>
-            <p className="text-gray-400 text-base leading-relaxed">
-              With years of experience and a commitment to excellence, we've become the trusted choice for automotive enthusiasts who demand nothing but the best. From luxury vehicles to everyday rides, we treat each car as our own.
+            <p className="text-gray-300 text-lg leading-relaxed">
+              Optimus Design & Customs is a premier car wrap company dedicated to providing top-notch custom designs and products for our valued customers. Our team is passionate about transforming vehicles with our expertise in vehicle wraps, window tints, and decals/graphics. We take pride in delivering exceptional results that exceed expectations.
             </p>
           </div>
         </div>
