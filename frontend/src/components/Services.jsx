@@ -32,6 +32,8 @@ const Services = () => {
       icon: <Palette className="w-12 h-12" />,
       title: 'Vehicle Wraps',
       description: 'Full color change and custom design options for every style.',
+      duration: '1 hr',
+      price: '$500',
       image: 'https://images.unsplash.com/photo-1632432604371-cf8353f02be0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjBjYXIlMjB3cmFwfGVufDB8fHx8MTc2MzA1ODAzOXww&ixlib=rb-4.1.0&q=85',
       delay: 0
     },
@@ -39,6 +41,8 @@ const Services = () => {
       icon: <Shield className="w-12 h-12" />,
       title: 'Window Tint',
       description: 'Professional tinting that enhances privacy and comfort.',
+      duration: '45 mins',
+      price: '$150',
       image: 'https://images.pexels.com/photos/30815197/pexels-photo-30815197.jpeg',
       delay: 200
     },
@@ -46,6 +50,8 @@ const Services = () => {
       icon: <Sparkles className="w-12 h-12" />,
       title: 'Custom Decals',
       description: 'Unique graphics that make your ride stand out from the crowd.',
+      duration: '1 hr',
+      price: '$100',
       image: 'https://images.unsplash.com/photo-1755079601887-91c8b991d1c8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHw0fHxjdXN0b20lMjBjYXIlMjBkZWNhbHN8ZW58MHx8fHwxNzYzMDU4MDU2fDA&ixlib=rb-4.1.0&q=85',
       delay: 400
     }
