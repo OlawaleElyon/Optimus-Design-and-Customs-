@@ -55,17 +55,9 @@ const About = () => {
             <p className="text-gray-300 text-lg leading-relaxed mb-8">
               Optimus Design & Customs transforms vehicles into art. We blend precision engineering with creative vision to deliver custom wraps that reflect your unique style. Every project is a masterpiece crafted with passion and attention to detail.
             </p>
-            <p className="text-gray-400 text-base leading-relaxed mb-8">
+            <p className="text-gray-400 text-base leading-relaxed">
               With years of experience and a commitment to excellence, we've become the trusted choice for automotive enthusiasts who demand nothing but the best. From luxury vehicles to everyday rides, we treat each car as our own.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6 rounded-md font-semibold transition-all duration-300 hover:scale-105">
-                Learn More
-              </Button>
-              <Button className="bg-transparent border-2 border-purple-500 hover:bg-purple-600 text-white px-8 py-6 rounded-md font-semibold transition-all duration-300 hover:scale-105">
-                Our Process →
-              </Button>
-            </div>
           </div>
         </div>
       </div>
