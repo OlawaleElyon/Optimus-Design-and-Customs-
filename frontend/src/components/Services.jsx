@@ -99,7 +99,19 @@ const Services = () => {
                     {service.icon}
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
-                  <p className="text-gray-400">{service.description}</p>
+                  <p className="text-gray-400 mb-4">{service.description}</p>
+                  
+                  {/* Pricing Info */}
+                  <div className="flex items-center justify-between mt-6 pt-4 border-t border-gray-700">
+                    <div>
+                      <p className="text-gray-400 text-sm">Duration</p>
+                      <p className="text-white font-semibold">{service.duration}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-gray-400 text-sm">Starting at</p>
+                      <p className="text-purple-400 text-2xl font-bold">{service.price}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
