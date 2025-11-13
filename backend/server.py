@@ -37,6 +37,27 @@ class StatusCheck(BaseModel):
 class StatusCheckCreate(BaseModel):
     client_name: str
 
+class AppointmentCreate(BaseModel):
+    name: str
+    email: EmailStr
+    phone: str
+    serviceType: str
+    preferredDate: str
+    message: Optional[str] = ""
+
+class Appointment(BaseModel):
+    model_config = ConfigDict(extra="ignore")  # Ignore MongoDB's _id field
+    
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    email: EmailStr
+    phone: str
+    serviceType: str
+    preferredDate: str
+    message: Optional[str] = ""
+    status: str = "pending"
+    createdAt: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
 async def root():
