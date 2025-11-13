@@ -44,7 +44,7 @@ const Footer = () => {
             <img 
               src="https://customer-assets.emergentagent.com/job_luxury-auto-2/artifacts/arff46fq_ChatGPT%20Image%20Nov%2013%2C%202025%2C%2004_50_22%20PM.png" 
               alt="Optimus Design & Customs"
-              className="h-16 w-auto mb-4"
+              className="h-20 md:h-24 w-auto mb-4"
             />
             <p className="text-gray-400 mb-6 max-w-md">
               Transforming vehicles into art. Premium wraps, tints, and custom designs that reflect your unique style.
