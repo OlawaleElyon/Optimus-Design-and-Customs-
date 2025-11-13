@@ -112,45 +112,45 @@ const Booking = () => {
               </div>
 
               <div className="space-y-6">
-                <div className="flex items-start gap-4">
-                  <div className="bg-purple-600/20 p-3 rounded-lg">
+                <a href="mailto:info@optimusdesign.com" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
+                  <div className="bg-purple-600/20 p-3 rounded-lg group-hover:bg-purple-600/30 transition-all duration-300">
                     <Mail className="w-6 h-6 text-purple-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Email</p>
-                    <p className="text-white font-semibold">info@optimusdesign.com</p>
+                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">info@optimusdesign.com</p>
                   </div>
-                </div>
+                </a>
 
-                <div className="flex items-start gap-4">
-                  <div className="bg-purple-600/20 p-3 rounded-lg">
+                <a href="tel:+15551234567" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
+                  <div className="bg-purple-600/20 p-3 rounded-lg group-hover:bg-purple-600/30 transition-all duration-300">
                     <Phone className="w-6 h-6 text-purple-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Phone</p>
-                    <p className="text-white font-semibold">(555) 123-4567</p>
+                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">(555) 123-4567</p>
                   </div>
-                </div>
+                </a>
 
-                <div className="flex items-start gap-4">
-                  <div className="bg-purple-600/20 p-3 rounded-lg">
+                <a href="https://instagram.com/optimusdesign" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
+                  <div className="bg-purple-600/20 p-3 rounded-lg group-hover:bg-purple-600/30 transition-all duration-300">
                     <Instagram className="w-6 h-6 text-purple-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Instagram</p>
-                    <p className="text-white font-semibold">@optimusdesign</p>
+                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">@optimusdesign</p>
                   </div>
-                </div>
+                </a>
 
-                <div className="flex items-start gap-4">
-                  <div className="bg-purple-600/20 p-3 rounded-lg">
+                <a href="https://www.google.com/maps/search/?api=1&query=123+Custom+Street+Auto+City+CA+90210" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
+                  <div className="bg-purple-600/20 p-3 rounded-lg group-hover:bg-purple-600/30 transition-all duration-300">
                     <MapPin className="w-6 h-6 text-purple-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Address</p>
-                    <p className="text-white font-semibold">123 Custom Street, Auto City, CA 90210</p>
+                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">123 Custom Street, Auto City, CA 90210</p>
                   </div>
-                </div>
+                </a>
 
                 <div className="flex items-start gap-4">
                   <div className="bg-purple-600/20 p-3 rounded-lg">
