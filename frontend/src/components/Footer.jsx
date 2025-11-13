@@ -51,25 +51,33 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a 
-                href="#" 
+                href="https://instagram.com/optimusdesign" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gray-800 hover:bg-purple-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
               >
                 <Instagram className="w-5 h-5 text-white" />
               </a>
               <a 
-                href="#" 
+                href="https://facebook.com/optimusdesign" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gray-800 hover:bg-purple-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
               >
                 <Facebook className="w-5 h-5 text-white" />
               </a>
               <a 
-                href="#" 
+                href="https://twitter.com/optimusdesign" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gray-800 hover:bg-purple-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
               >
                 <Twitter className="w-5 h-5 text-white" />
               </a>
               <a 
-                href="#" 
+                href="https://youtube.com/@optimusdesign" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className="bg-gray-800 hover:bg-purple-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
               >
                 <Youtube className="w-5 h-5 text-white" />
