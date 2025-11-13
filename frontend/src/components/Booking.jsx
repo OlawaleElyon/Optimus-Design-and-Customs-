@@ -66,10 +66,7 @@ const Booking = () => {
     try {
       const response = await axios.post(`${API}/appointments`, formData);
       
-      toast({
-        title: "Success!",
-        description: "Your appointment request has been submitted. We'll contact you shortly.",
-      });
+      toast.success("Success! Your appointment request has been submitted. We'll contact you shortly.");
 
       // Reset form
       setFormData({
@@ -82,11 +79,7 @@ const Booking = () => {
       });
     } catch (error) {
       console.error('Error submitting appointment:', error);
-      toast({
-        title: "Error",
-        description: "Failed to submit appointment. Please try again.",
-        variant: "destructive"
-      });
+      toast.error("Failed to submit appointment. Please try again.");
     } finally {
       setLoading(false);
     }
