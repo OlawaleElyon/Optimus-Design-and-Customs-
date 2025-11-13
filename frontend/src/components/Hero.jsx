@@ -27,7 +27,7 @@ const Hero = () => {
             <img 
               src="https://customer-assets.emergentagent.com/job_luxury-auto-2/artifacts/arff46fq_ChatGPT%20Image%20Nov%2013%2C%202025%2C%2004_50_22%20PM.png" 
               alt="Optimus Design & Customs"
-              className="h-12 w-auto"
+              className="h-16 md:h-20 w-auto"
             />
           </div>
           
