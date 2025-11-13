@@ -121,15 +121,21 @@ const Footer = () => {
           <div>
             <h4 className="text-white font-bold text-lg mb-4">Contact</h4>
             <ul className="space-y-3">
-              <li className="text-gray-400">
-                info@optimusdesign.com
+              <li>
+                <a href="mailto:info@optimusdesign.com" className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                  info@optimusdesign.com
+                </a>
               </li>
-              <li className="text-gray-400">
-                (555) 123-4567
+              <li>
+                <a href="tel:+15551234567" className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                  (555) 123-4567
+                </a>
               </li>
-              <li className="text-gray-400">
-                123 Custom Street<br />
-                Auto City, CA 90210
+              <li>
+                <a href="https://www.google.com/maps/search/?api=1&query=123+Custom+Street+Auto+City+CA+90210" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                  123 Custom Street<br />
+                  Auto City, CA 90210
+                </a>
               </li>
             </ul>
           </div>
