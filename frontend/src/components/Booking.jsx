@@ -71,7 +71,8 @@ const Booking = () => {
 
       // Ask if user wants to pay deposit
       const payDeposit = window.confirm(
-        \"Would you like to secure your appointment with a deposit? This helps us reserve your spot and speeds up the process.\"\n      );
+        "Would you like to secure your appointment with a deposit? This helps us reserve your spot and speeds up the process."
+      );
 
       if (payDeposit) {
         // Redirect to payment
