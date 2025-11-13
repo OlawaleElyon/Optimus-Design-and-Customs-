@@ -58,9 +58,8 @@ const Services = () => {
         <div className={`text-center mb-16 transition-all duration-1000 ease-out ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
         }`}>
-          <p className="text-purple-400 font-semibold text-sm uppercase tracking-wider mb-4">Services</p>
           <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
-            Custom Automotive<br />Transformation
+            Services
           </h2>
           <p className="text-gray-300 text-lg max-w-3xl mx-auto">
             We offer precision services that elevate your vehicle's aesthetic and performance.
