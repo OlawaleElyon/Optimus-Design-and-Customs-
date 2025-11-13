@@ -33,7 +33,7 @@ def send_booking_confirmation(booking_data: dict) -> dict:
         
         # Prepare email parameters
         params = {
-            "from": sender_email,
+            "from": f"Optimus Design & Customs <{sender_email}>",
             "to": [recipient_email],
             "subject": f"New Booking Request from {booking_data['name']}",
             "html": html_body,
