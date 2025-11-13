@@ -87,6 +87,63 @@ async def get_status_checks():
     
     return status_checks
 
+# Appointment Routes
+@api_router.post("/appointments", response_model=Appointment)
+async def create_appointment(appointment_data: AppointmentCreate):
+    try:
+        appointment_dict = appointment_data.model_dump()
+        appointment_obj = Appointment(**appointment_dict)
+        
+        # Convert to dict and serialize datetime to ISO string for MongoDB
+        doc = appointment_obj.model_dump()
+        doc['createdAt'] = doc['createdAt'].isoformat()
+        
+        # Insert into database
+        result = await db.appointments.insert_one(doc)
+        
+        if not result.inserted_id:
+            raise HTTPException(status_code=500, detail="Failed to create appointment")
+        
+        return appointment_obj
+    except Exception as e:
+        logging.error(f"Error creating appointment: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/appointments", response_model=List[Appointment])
+async def get_appointments():
+    try:
+        # Exclude MongoDB's _id field from the query results
+        appointments = await db.appointments.find({}, {"_id": 0}).sort("createdAt", -1).to_list(1000)
+        
+        # Convert ISO string timestamps back to datetime objects
+        for appointment in appointments:
+            if isinstance(appointment['createdAt'], str):
+                appointment['createdAt'] = datetime.fromisoformat(appointment['createdAt'])
+        
+        return appointments
+    except Exception as e:
+        logging.error(f"Error fetching appointments: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@api_router.get("/appointments/{appointment_id}", response_model=Appointment)
+async def get_appointment(appointment_id: str):
+    try:
+        # Exclude MongoDB's _id field from the query results
+        appointment = await db.appointments.find_one({"id": appointment_id}, {"_id": 0})
+        if not appointment:
+            raise HTTPException(status_code=404, detail="Appointment not found")
+        
+        # Convert ISO string timestamp back to datetime object
+        if isinstance(appointment['createdAt'], str):
+            appointment['createdAt'] = datetime.fromisoformat(appointment['createdAt'])
+        
+        return Appointment(**appointment)
+    except HTTPException:
+        raise
+    except Exception as e:
+        logging.error(f"Error fetching appointment: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
 # Include the router in the main app
 app.include_router(api_router)
 
