@@ -122,7 +122,7 @@ const Booking = () => {
       }
     } catch (error) {
       console.error('Error creating payment:', error);
-      toast.error(\"Payment setup failed. Please contact us directly.\");
+      toast.error("Payment setup failed. Please contact us directly.");
     }
   };
 
