@@ -41,10 +41,11 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-12 mb-12">
           {/* Logo & Description */}
           <div className="md:col-span-2">
-            <h3 className="text-3xl font-bold mb-4">
-              <span className="text-purple-500">OPTIMUS</span>
-              <span className="text-white"> DESIGN</span>
-            </h3>
+            <img 
+              src="https://customer-assets.emergentagent.com/job_luxury-auto-2/artifacts/arff46fq_ChatGPT%20Image%20Nov%2013%2C%202025%2C%2004_50_22%20PM.png" 
+              alt="Optimus Design & Customs"
+              className="h-16 w-auto mb-4"
+            />
             <p className="text-gray-400 mb-6 max-w-md">
               Transforming vehicles into art. Premium wraps, tints, and custom designs that reflect your unique style.
             </p>
