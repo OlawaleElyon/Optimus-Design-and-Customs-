@@ -93,10 +93,7 @@ const Services = () => {
                     {service.icon}
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
-                  <p className="text-gray-400 mb-6">{service.description}</p>
-                  <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-md font-semibold transition-all duration-300">
-                    Learn More
-                  </Button>
+                  <p className="text-gray-400">{service.description}</p>
                 </div>
               </div>
             </div>
