@@ -42,13 +42,13 @@ const LoadingScreen = ({ onLoadingComplete }) => {
 
         {/* Loading Spinner */}
         <div className="flex items-center justify-center mb-6">
-          <Loader2 className="w-12 h-12 text-purple-400 animate-spin" />
+          <Loader2 className="w-12 h-12 text-sky-400 animate-spin" />
         </div>
 
         {/* Progress Bar */}
         <div className="w-64 h-2 bg-gray-800 rounded-full overflow-hidden mx-auto mb-4">
           <div
-            className="h-full bg-gradient-to-r from-purple-600 to-purple-400 transition-all duration-300 ease-out rounded-full"
+            className="h-full bg-gradient-to-r from-sky-500 to-sky-400 transition-all duration-300 ease-out rounded-full"
             style={{ width: `${progress}%` }}
           />
         </div>
