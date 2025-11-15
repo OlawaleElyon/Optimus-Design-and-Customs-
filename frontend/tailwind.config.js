@@ -55,7 +55,7 @@ module.exports = {
   			}
   		},
   		fontFamily: {
-  			'serif-accent': ['"Instrument Serif"', 'serif'],
+  			'serif-accent': ['Lora', 'Georgia', 'serif'],
   			'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif']
   		},
   		keyframes: {
