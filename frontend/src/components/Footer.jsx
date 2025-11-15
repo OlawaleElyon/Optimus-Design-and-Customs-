@@ -46,7 +46,7 @@ const Footer = () => {
               alt="Optimus Design & Customs"
               className="h-20 md:h-24 w-auto mb-4"
             />
-            <p className="text-gray-400 mb-6 max-w-md">
+            <p className="text-gray-400 mb-6 max-w-md font-serif-accent italic text-lg">
               Transforming vehicles into art. Premium wraps, tints, and custom designs that reflect your unique style.
             </p>
             <div className="flex gap-4">
