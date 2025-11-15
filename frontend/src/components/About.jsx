@@ -48,7 +48,7 @@ const About = () => {
           <div className={`transition-all duration-1000 delay-300 ease-out ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
           }`}>
-            <p className="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Craft</p>
+            <p className="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4 font-sans">Craft</p>
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
               Who We Are
             </h2>
