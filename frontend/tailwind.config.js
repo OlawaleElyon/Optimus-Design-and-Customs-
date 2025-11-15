@@ -54,6 +54,10 @@ module.exports = {
   				'5': 'hsl(var(--chart-5))'
   			}
   		},
+  		fontFamily: {
+  			'serif-accent': ['"Instrument Serif"', 'serif'],
+  			'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif']
+  		},
   		keyframes: {
   			'accordion-down': {
   				from: {
