@@ -32,18 +32,13 @@ const LoadingScreen = ({ onLoadingComplete }) => {
     >
       <div className="text-center">
         {/* Logo Animation */}
-        <div className="mb-8 animate-pulse">
+        <div className="mb-12 animate-pulse">
           <img
             src="https://customer-assets.emergentagent.com/job_luxury-auto-2/artifacts/arff46fq_ChatGPT%20Image%20Nov%2013%2C%202025%2C%2004_50_22%20PM.png"
             alt="Optimus Design & Customs"
-            className="h-24 w-auto mx-auto"
+            className="h-32 w-auto mx-auto"
           />
         </div>
-
-        {/* Company Name */}
-        <h1 className="text-4xl font-bold text-white mb-8 animate-fade-in">
-          <span className="text-purple-400">OPTIMUS</span> DESIGN & CUSTOMS
-        </h1>
 
         {/* Loading Spinner */}
         <div className="flex items-center justify-center mb-6">
