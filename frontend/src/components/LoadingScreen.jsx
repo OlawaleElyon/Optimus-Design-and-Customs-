@@ -67,8 +67,8 @@ const LoadingScreen = ({ onLoadingComplete }) => {
 
       {/* Background Animation */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute w-96 h-96 bg-purple-600/20 rounded-full blur-3xl animate-pulse" style={{ top: '10%', left: '10%' }} />
-        <div className="absolute w-96 h-96 bg-purple-400/20 rounded-full blur-3xl animate-pulse" style={{ bottom: '10%', right: '10%', animationDelay: '1s' }} />
+        <div className="absolute w-96 h-96 bg-sky-500/20 rounded-full blur-3xl animate-pulse" style={{ top: '10%', left: '10%' }} />
+        <div className="absolute w-96 h-96 bg-sky-400/20 rounded-full blur-3xl animate-pulse" style={{ bottom: '10%', right: '10%', animationDelay: '1s' }} />
       </div>
     </div>
   );
