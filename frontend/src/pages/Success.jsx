@@ -64,7 +64,7 @@ const Success = () => {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-900 via-gray-950 to-black flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-16 h-16 text-purple-500 animate-spin mx-auto mb-4" />
+          <Loader2 className="w-16 h-16 text-sky-500 animate-spin mx-auto mb-4" />
           <p className="text-white text-xl">Verifying your payment...</p>
           <p className="text-gray-400 mt-2">Please wait a moment</p>
         </div>
@@ -82,7 +82,7 @@ const Success = () => {
           </div>
           <Button
             onClick={() => navigate('/booking')}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg"
+            className="bg-sky-600 hover:bg-sky-700 text-white px-8 py-4 text-lg"
           >
             Return to Booking
           </Button>
@@ -109,7 +109,7 @@ const Success = () => {
 
         {/* Payment Details */}
         {paymentInfo && (
-          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-purple-500/20 mb-8">
+          <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-sky-500/20 mb-8">
             <h2 className="text-2xl font-bold text-white mb-6">Payment Details</h2>
             <div className="space-y-4 text-left">
               <div className="flex justify-between items-center border-b border-gray-700 pb-3">
@@ -131,19 +131,19 @@ const Success = () => {
         )}
 
         {/* Next Steps */}
-        <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-6 mb-8">
+        <div className="bg-sky-500/10 border border-sky-500/30 rounded-lg p-6 mb-8">
           <h3 className="text-xl font-bold text-white mb-3">What's Next?</h3>
           <ul className="text-gray-300 space-y-2 text-left">
             <li className="flex items-start">
-              <span className="text-purple-400 mr-2">•</span>
+              <span className="text-sky-400 mr-2">•</span>
               You'll receive a confirmation email shortly
             </li>
             <li className="flex items-start">
-              <span className="text-purple-400 mr-2">•</span>
+              <span className="text-sky-400 mr-2">•</span>
               Our team will contact you within 24 hours
             </li>
             <li className="flex items-start">
-              <span className="text-purple-400 mr-2">•</span>
+              <span className="text-sky-400 mr-2">•</span>
               We'll schedule your service appointment
             </li>
           </ul>
@@ -153,13 +153,13 @@ const Success = () => {
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button
             onClick={() => navigate('/')}
-            className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 text-lg"
+            className="bg-sky-600 hover:bg-sky-700 text-white px-8 py-4 text-lg"
           >
             Back to Home
           </Button>
           <Button
             onClick={() => navigate('/booking')}
-            className="bg-transparent border-2 border-purple-500 hover:bg-purple-600 text-white px-8 py-4 text-lg"
+            className="bg-transparent border-2 border-sky-500 hover:bg-sky-600 text-white px-8 py-4 text-lg"
           >
             Book Another Service
           </Button>
