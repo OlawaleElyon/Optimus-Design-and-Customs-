@@ -17,13 +17,13 @@ const Testimonials = () => {
     {
       name: "Beeka B",
       rating: 5,
-      date: "Recently",
+      date: "2 months ago",
       text: "I couldn't be happier with the wrap on my car! The attention to detail was flawless smooth lines, no bubbles, and the finish looks factory-perfect. My car literally turned heads the moment I drove it out. Professional, reliable, and clearly passionate about the craft. If you're looking to transform your vehicle with quality work that lasts, this is the place to go. Highly recommend!"
     },
     {
       name: "Darryl Bagley",
       rating: 5,
-      date: "Recently",
+      date: "2 months ago",
       text: "Ivan did a wrap for my 2008 Escalade ESV and tinted the windows. He is polite professional, cares about his customers and takes pride in his work unlike many business owners today. I would give him 10 stars not just 5. I will be working with him in the future and if you are reading this you won't be disappointed."
     },
     {
