@@ -39,6 +39,7 @@ const HeroAnimated = () => {
             <button onClick={() => scrollToSection('home')} className="text-gray-300 hover:text-white transition-colors duration-300">Home</button>
             <button onClick={() => scrollToSection('services')} className="text-gray-300 hover:text-white transition-colors duration-300">Services</button>
             <button onClick={() => scrollToSection('projects')} className="text-gray-300 hover:text-white transition-colors duration-300">Projects</button>
+            <button onClick={() => scrollToSection('testimonials')} className="text-gray-300 hover:text-white transition-colors duration-300">Reviews</button>
             <button onClick={() => scrollToSection('about')} className="text-gray-300 hover:text-white transition-colors duration-300">About</button>
             <Button 
               onClick={() => scrollToSection('booking')}
