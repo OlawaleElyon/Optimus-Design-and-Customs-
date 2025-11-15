@@ -67,7 +67,7 @@ const Services = () => {
           <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
             Services
           </h2>
-          <p className="text-gray-300 text-lg max-w-3xl mx-auto">
+          <p className="text-gray-300 text-lg max-w-3xl mx-auto font-serif-accent italic">
             We offer precision services that elevate your vehicle's aesthetic and performance.
           </p>
         </div>
