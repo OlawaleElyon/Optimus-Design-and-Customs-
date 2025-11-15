@@ -29,25 +29,25 @@ const Testimonials = () => {
     {
       name: "Oscar Martinez",
       rating: 5,
-      date: "Recently",
+      date: "2 months ago",
       text: "Good quality work! If you're looking for a good tint or wrap, this place is the one! Good pricing, good customer service. I highly recommend in the DMV area!"
     },
     {
       name: "DMV Medical Trans",
       rating: 5,
-      date: "Recently",
+      date: "2 months ago",
       text: "Reached out to get custom decals, came out exactly how I wanted it. Quick turnaround and very reasonable with the price."
     },
     {
       name: "Marvin Santos",
       rating: 5,
-      date: "Recently",
+      date: "2 months ago",
       text: "Optimus customs did the decals on my work truck and it came out perfect. The attention to detail is what really sets Optimus customs apart from anyone else. Highly recommend."
     },
     {
       name: "Lester",
       rating: 5,
-      date: "Recently",
+      date: "2 months ago",
       text: "Great guy, he's very helpful and professional with his wrapping and tints. The waiting room is also nice."
     },
     {
