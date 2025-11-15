@@ -8,15 +8,51 @@ const Projects = () => {
   const sectionRef = useRef(null);
 
   const projects = [
-    'https://images.unsplash.com/photo-1638731006124-1c9a33edba30?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwzfHxsdXh1cnklMjBjYXIlMjB3cmFwfGVufDB8fHx8MTc2MzA1ODAzOXww&ixlib=rb-4.1.0&q=85',
-    'https://images.unsplash.com/photo-1555534650-6bb24b6fc0e7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHw0fHxsdXh1cnklMjBjYXIlMjB3cmFwfGVufDB8fHx8MTc2MzA1ODAzOXww&ixlib=rb-4.1.0&q=85',
-    'https://images.pexels.com/photos/13869047/pexels-photo-13869047.jpeg',
-    'https://images.pexels.com/photos/18792905/pexels-photo-18792905.jpeg',
-    'https://images.unsplash.com/photo-1758445048963-c8682c897428?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2MzR8MHwxfHNlYXJjaHw0fHxjYXIlMjBjdXN0b21pemF0aW9uJTIwc2hvcHxlbnwwfHx8fDE3NjMwNTgwNDV8MA&ixlib=rb-4.1.0&q=85',
-    'https://images.unsplash.com/photo-1646531839801-7d0010d7513a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwzfHxjYXIlMjB3aW5kb3clMjB0aW50fGVufDB8fHx8MTc2MzA1ODA1MHww&ixlib=rb-4.1.0&q=85',
-    'https://images.unsplash.com/photo-1755079602229-f46eceb2683e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwxfHxjdXN0b20lMjBjYXIlMjBkZWNhbHN8ZW58MHx8fHwxNzYzMDU4MDU2fDA&ixlib=rb-4.1.0&q=85',
-    'https://images.unsplash.com/photo-1755079601926-0003a950186b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwyfHxjdXN0b20lMjBjYXIlMjBkZWNhbHN8ZW58MHx8fHwxNzYzMDU4MDU2fDA&ixlib=rb-4.1.0&q=85',
-    'https://images.pexels.com/photos/33475330/pexels-photo-33475330.jpeg'
+    {
+      image: 'https://images.unsplash.com/photo-1638731006124-1c9a33edba30?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwzfHxsdXh1cnklMjBjYXIlMjB3cmFwfGVufDB8fHx8MTc2MzA1ODAzOXww&ixlib=rb-4.1.0&q=85',
+      category: 'Vehicle Wrap',
+      description: 'Matte black full body wrap'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1555534650-6bb24b6fc0e7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHw0fHxsdXh1cnklMjBjYXIlMjB3cmFwfGVufDB8fHx8MTc2MzA1ODAzOXww&ixlib=rb-4.1.0&q=85',
+      category: 'Vehicle Wrap',
+      description: 'Metallic blue wrap finish'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1632432604371-cf8353f02be0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjBjYXIlMjB3cmFwfGVufDB8fHx8MTc2MzA1ODAzOXww&ixlib=rb-4.1.0&q=85',
+      category: 'Vehicle Wrap',
+      description: 'Chrome silver luxury wrap'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1646531839801-7d0010d7513a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwzfHxjYXIlMjB3aW5kb3clMjB0aW50fGVufDB8fHx8MTc2MzA1ODA1MHww&ixlib=rb-4.1.0&q=85',
+      category: 'Window Tint',
+      description: 'Premium dark tint installation'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1646531839844-034be6a06aad?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwyfHxjYXIlMjB3aW5kb3clMjB0aW50fGVufDB8fHx8MTc2MzA1ODA1MHww&ixlib=rb-4.1.0&q=85',
+      category: 'Window Tint',
+      description: 'Ceramic tint application'
+    },
+    {
+      image: 'https://images.pexels.com/photos/30815197/pexels-photo-30815197.jpeg',
+      category: 'Window Tint',
+      description: 'SUV full window tinting'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1755079602229-f46eceb2683e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwxfHxjdXN0b20lMjBjYXIlMjBkZWNhbHN8ZW58MHx8fHwxNzYzMDU4MDU2fDA&ixlib=rb-4.1.0&q=85',
+      category: 'Custom Decals',
+      description: 'Racing stripes & graphics'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1755079601926-0003a950186b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwyfHxjdXN0b20lMjBjYXIlMjBkZWNhbHN8ZW58MHx8fHwxNzYzMDU4MDU2fDA&ixlib=rb-4.1.0&q=85',
+      category: 'Custom Decals',
+      description: 'Custom logo & branding'
+    },
+    {
+      image: 'https://images.unsplash.com/photo-1755079601887-91c8b991d1c8?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHw0fHxjdXN0b20lMjBjYXIlMjBkZWNhbHN8ZW58MHx8fHwxNzYzMDU4MDU2fDA&ixlib=rb-4.1.0&q=85',
+      category: 'Custom Decals',
+      description: 'Hood & side graphics'
+    }
   ];
 
   useEffect(() => {
