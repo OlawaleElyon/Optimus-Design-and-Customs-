@@ -96,7 +96,7 @@ const Projects = () => {
           <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
             Our Projects
           </h2>
-          <p className="text-gray-300 text-lg max-w-3xl">
+          <p className="text-gray-300 text-lg max-w-3xl font-serif-accent italic">
             A showcase of transformations that push the boundaries of automotive design.
           </p>
         </div>
