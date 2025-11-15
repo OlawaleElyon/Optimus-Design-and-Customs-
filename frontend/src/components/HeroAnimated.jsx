@@ -42,7 +42,7 @@ const HeroAnimated = () => {
             <button onClick={() => scrollToSection('about')} className="text-gray-300 hover:text-white transition-colors duration-300">About</button>
             <Button 
               onClick={() => scrollToSection('booking')}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-md font-semibold transition-all duration-300 hover:scale-105"
+              className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-md font-semibold transition-all duration-300 hover:scale-105"
             >
               Book
             </Button>
@@ -59,7 +59,7 @@ const HeroAnimated = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-gray-900/95 backdrop-blur-lg border-t border-purple-500/20 py-4 animate-fade-in">
+          <div className="md:hidden absolute top-full left-0 right-0 bg-gray-900/95 backdrop-blur-lg border-t border-sky-500/20 py-4 animate-fade-in">
             <div className="flex flex-col gap-4 px-6">
               <button onClick={() => scrollToSection('home')} className="text-gray-300 hover:text-white transition-colors duration-300 text-left">Home</button>
               <button onClick={() => scrollToSection('services')} className="text-gray-300 hover:text-white transition-colors duration-300 text-left">Services</button>
@@ -67,7 +67,7 @@ const HeroAnimated = () => {
               <button onClick={() => scrollToSection('about')} className="text-gray-300 hover:text-white transition-colors duration-300 text-left">About</button>
               <Button 
                 onClick={() => scrollToSection('booking')}
-                className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-md font-semibold"
+                className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-md font-semibold"
               >
                 Book
               </Button>
@@ -109,7 +109,7 @@ const HeroAnimated = () => {
               isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
             }`}>
               <h1 className="text-5xl md:text-7xl font-bold leading-tight">
-                <span className="bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent animate-gradient">
+                <span className="bg-gradient-to-r from-sky-400 to-sky-600 bg-clip-text text-transparent animate-gradient">
                   WITH STYLE
                 </span>
               </h1>
@@ -131,13 +131,13 @@ const HeroAnimated = () => {
           }`}>
             <Button 
               onClick={() => scrollToSection('booking')}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-10 py-7 text-lg rounded-md font-semibold transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-purple-500/50 animate-pulse-slow"
+              className="bg-sky-600 hover:bg-sky-700 text-white px-10 py-7 text-lg rounded-md font-semibold transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-sky-500/50 animate-pulse-slow"
             >
               Book Appointment
             </Button>
             <Button 
               onClick={() => scrollToSection('projects')}
-              className="bg-transparent border-2 border-purple-500 hover:bg-purple-600 text-white px-10 py-7 text-lg rounded-md font-semibold transition-all duration-300 hover:scale-110 backdrop-blur-sm"
+              className="bg-transparent border-2 border-sky-500 hover:bg-sky-600 text-white px-10 py-7 text-lg rounded-md font-semibold transition-all duration-300 hover:scale-110 backdrop-blur-sm"
             >
               View Projects
             </Button>
@@ -149,18 +149,18 @@ const HeroAnimated = () => {
           isVisible ? 'opacity-100' : 'opacity-0'
         }`}>
           <div className="animate-bounce">
-            <div className="w-6 h-10 border-2 border-purple-500 rounded-full flex items-start justify-center p-2">
-              <div className="w-1 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+            <div className="w-6 h-10 border-2 border-sky-500 rounded-full flex items-start justify-center p-2">
+              <div className="w-1 h-3 bg-sky-500 rounded-full animate-pulse"></div>
             </div>
           </div>
         </div>
 
         {/* Animated Background Particles */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute w-2 h-2 bg-purple-400 rounded-full opacity-60 animate-float" style={{ top: '20%', left: '15%', animationDelay: '0s' }} />
-          <div className="absolute w-3 h-3 bg-purple-500 rounded-full opacity-40 animate-float" style={{ top: '40%', right: '20%', animationDelay: '2s' }} />
-          <div className="absolute w-2 h-2 bg-purple-300 rounded-full opacity-50 animate-float" style={{ bottom: '30%', left: '25%', animationDelay: '4s' }} />
-          <div className="absolute w-4 h-4 bg-purple-600 rounded-full opacity-30 animate-float" style={{ top: '60%', right: '15%', animationDelay: '1s' }} />
+          <div className="absolute w-2 h-2 bg-sky-400 rounded-full opacity-60 animate-float" style={{ top: '20%', left: '15%', animationDelay: '0s' }} />
+          <div className="absolute w-3 h-3 bg-sky-500 rounded-full opacity-40 animate-float" style={{ top: '40%', right: '20%', animationDelay: '2s' }} />
+          <div className="absolute w-2 h-2 bg-sky-300 rounded-full opacity-50 animate-float" style={{ bottom: '30%', left: '25%', animationDelay: '4s' }} />
+          <div className="absolute w-4 h-4 bg-sky-600 rounded-full opacity-30 animate-float" style={{ top: '60%', right: '15%', animationDelay: '1s' }} />
         </div>
       </div>
     </div>

@@ -82,7 +82,7 @@ const Services = () => {
               }`}
               style={{ transitionDelay: `${service.delay}ms` }}
             >
-              <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-purple-500/50 transition-all duration-500 hover:transform hover:scale-[1.02] hover:shadow-2xl hover:shadow-purple-500/20">
+              <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl overflow-hidden border border-gray-700/50 hover:border-sky-500/50 transition-all duration-500 hover:transform hover:scale-[1.02] hover:shadow-2xl hover:shadow-sky-500/20">
                 {/* Image */}
                 <div className="relative h-64 overflow-hidden">
                   <img 
@@ -95,7 +95,7 @@ const Services = () => {
 
                 {/* Content */}
                 <div className="p-8">
-                  <div className="text-purple-400 mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                  <div className="text-sky-400 mb-4 transform group-hover:scale-110 transition-transform duration-300">
                     {service.icon}
                   </div>
                   <h3 className="text-2xl font-bold text-white mb-4">{service.title}</h3>
@@ -109,7 +109,7 @@ const Services = () => {
                     </div>
                     <div className="text-right">
                       <p className="text-gray-400 text-sm">Starting at</p>
-                      <p className="text-purple-400 text-2xl font-bold">{service.price}</p>
+                      <p className="text-sky-400 text-2xl font-bold">{service.price}</p>
                     </div>
                   </div>
                 </div>

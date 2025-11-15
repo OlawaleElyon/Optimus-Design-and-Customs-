@@ -35,7 +35,7 @@ const About = () => {
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'
           }`}>
             <div className="relative group">
-              <div className="absolute inset-0 bg-purple-600/20 rounded-2xl transform group-hover:scale-105 transition-transform duration-500"></div>
+              <div className="absolute inset-0 bg-sky-600/20 rounded-2xl transform group-hover:scale-105 transition-transform duration-500"></div>
               <img 
                 src="https://images.unsplash.com/photo-1646531839844-034be6a06aad?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwyfHxjYXIlMjB3aW5kb3clMjB0aW50fGVufDB8fHx8MTc2MzA1ODA1MHww&ixlib=rb-4.1.0&q=85"
                 alt="Car Customization Shop"
@@ -48,7 +48,7 @@ const About = () => {
           <div className={`transition-all duration-1000 delay-300 ease-out ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
           }`}>
-            <p className="text-purple-400 font-semibold text-sm uppercase tracking-wider mb-4">Craft</p>
+            <p className="text-sky-400 font-semibold text-sm uppercase tracking-wider mb-4">Craft</p>
             <h2 className="text-5xl md:text-6xl font-bold text-white mb-6">
               Who We Are
             </h2>

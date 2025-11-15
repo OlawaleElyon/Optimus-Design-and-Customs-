@@ -39,7 +39,7 @@ const Hero = () => {
             <button onClick={() => scrollToSection('about')} className="text-gray-300 hover:text-white transition-colors duration-300">About</button>
             <Button 
               onClick={() => scrollToSection('booking')}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-md font-semibold transition-all duration-300 hover:scale-105"
+              className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-md font-semibold transition-all duration-300 hover:scale-105"
             >
               Book
             </Button>
@@ -56,7 +56,7 @@ const Hero = () => {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden absolute top-full left-0 right-0 bg-gray-900/95 backdrop-blur-lg border-t border-purple-500/20 py-4">
+          <div className="md:hidden absolute top-full left-0 right-0 bg-gray-900/95 backdrop-blur-lg border-t border-sky-500/20 py-4">
             <div className="flex flex-col gap-4 px-6">
               <button onClick={() => scrollToSection('home')} className="text-gray-300 hover:text-white transition-colors duration-300 text-left">Home</button>
               <button onClick={() => scrollToSection('services')} className="text-gray-300 hover:text-white transition-colors duration-300 text-left">Services</button>
@@ -64,7 +64,7 @@ const Hero = () => {
               <button onClick={() => scrollToSection('about')} className="text-gray-300 hover:text-white transition-colors duration-300 text-left">About</button>
               <Button 
                 onClick={() => scrollToSection('booking')}
-                className="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-md font-semibold"
+                className="bg-sky-600 hover:bg-sky-700 text-white px-6 py-2 rounded-md font-semibold"
               >
                 Book
               </Button>
@@ -94,7 +94,7 @@ const Hero = () => {
           }`}>
             <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
               TRANSFORM YOUR RIDE<br />
-              <span className="text-purple-400">WITH STYLE</span>
+              <span className="text-sky-400">WITH STYLE</span>
             </h1>
           </div>
           
@@ -111,13 +111,13 @@ const Hero = () => {
           }`}>
             <Button 
               onClick={() => scrollToSection('booking')}
-              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-6 text-lg rounded-md font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-purple-500/50"
+              className="bg-sky-600 hover:bg-sky-700 text-white px-8 py-6 text-lg rounded-md font-semibold transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-sky-500/50"
             >
               Book Appointment
             </Button>
             <Button 
               onClick={() => scrollToSection('projects')}
-              className="bg-transparent border-2 border-purple-500 hover:bg-purple-600 text-white px-8 py-6 text-lg rounded-md font-semibold transition-all duration-300 hover:scale-105"
+              className="bg-transparent border-2 border-sky-500 hover:bg-sky-600 text-white px-8 py-6 text-lg rounded-md font-semibold transition-all duration-300 hover:scale-105"
             >
               View Projects
             </Button>
@@ -126,8 +126,8 @@ const Hero = () => {
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-purple-500 rounded-full flex items-start justify-center p-2">
-            <div className="w-1 h-3 bg-purple-500 rounded-full animate-pulse"></div>
+          <div className="w-6 h-10 border-2 border-sky-500 rounded-full flex items-start justify-center p-2">
+            <div className="w-1 h-3 bg-sky-500 rounded-full animate-pulse"></div>
           </div>
         </div>
       </div>

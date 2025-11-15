@@ -94,7 +94,7 @@ const Booking = () => {
         }`}>
           <h2 className="text-5xl md:text-6xl font-bold mb-4">
             <span className="text-white">Book Your </span>
-            <span className="text-purple-400">Appointment</span>
+            <span className="text-sky-400">Appointment</span>
           </h2>
         </div>
 
@@ -112,43 +112,43 @@ const Booking = () => {
               </div>
 
               <div className="space-y-6">
-                <a href="mailto:optimusxcustoms@gmail.com" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
-                  <div className="bg-purple-600/20 p-3 rounded-lg group-hover:bg-purple-600/30 transition-all duration-300">
-                    <Mail className="w-6 h-6 text-purple-400" />
+                <a href="mailto:optimusxcustoms@gmail.com" className="flex items-start gap-4 group hover:bg-sky-600/10 p-3 rounded-lg transition-all duration-300">
+                  <div className="bg-sky-600/20 p-3 rounded-lg group-hover:bg-sky-600/30 transition-all duration-300">
+                    <Mail className="w-6 h-6 text-sky-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Email</p>
-                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">optimusxcustoms@gmail.com</p>
+                    <p className="text-white font-semibold group-hover:text-sky-400 transition-colors">optimusxcustoms@gmail.com</p>
                   </div>
                 </a>
 
-                <a href="tel:+14434771124" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
-                  <div className="bg-purple-600/20 p-3 rounded-lg group-hover:bg-purple-600/30 transition-all duration-300">
-                    <Phone className="w-6 h-6 text-purple-400" />
+                <a href="tel:+14434771124" className="flex items-start gap-4 group hover:bg-sky-600/10 p-3 rounded-lg transition-all duration-300">
+                  <div className="bg-sky-600/20 p-3 rounded-lg group-hover:bg-sky-600/30 transition-all duration-300">
+                    <Phone className="w-6 h-6 text-sky-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Phone</p>
-                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">(443) 477-1124</p>
+                    <p className="text-white font-semibold group-hover:text-sky-400 transition-colors">(443) 477-1124</p>
                   </div>
                 </a>
 
-                <a href="https://instagram.com/optimusdesign" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
-                  <div className="bg-purple-600/20 p-3 rounded-lg group-hover:bg-purple-600/30 transition-all duration-300">
-                    <Instagram className="w-6 h-6 text-purple-400" />
+                <a href="https://instagram.com/optimusdesign" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group hover:bg-sky-600/10 p-3 rounded-lg transition-all duration-300">
+                  <div className="bg-sky-600/20 p-3 rounded-lg group-hover:bg-sky-600/30 transition-all duration-300">
+                    <Instagram className="w-6 h-6 text-sky-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Instagram</p>
-                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">@optimusdesign</p>
+                    <p className="text-white font-semibold group-hover:text-sky-400 transition-colors">@optimusdesign</p>
                   </div>
                 </a>
 
-                <a href="https://www.google.com/maps/search/?api=1&query=Cherry+Lane+Laurel+MD+20707" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group hover:bg-purple-600/10 p-3 rounded-lg transition-all duration-300">
-                  <div className="bg-purple-600/20 p-3 rounded-lg group-hover:bg-purple-600/30 transition-all duration-300">
-                    <MapPin className="w-6 h-6 text-purple-400" />
+                <a href="https://www.google.com/maps/search/?api=1&query=Cherry+Lane+Laurel+MD+20707" target="_blank" rel="noopener noreferrer" className="flex items-start gap-4 group hover:bg-sky-600/10 p-3 rounded-lg transition-all duration-300">
+                  <div className="bg-sky-600/20 p-3 rounded-lg group-hover:bg-sky-600/30 transition-all duration-300">
+                    <MapPin className="w-6 h-6 text-sky-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Address</p>
-                    <p className="text-white font-semibold group-hover:text-purple-400 transition-colors">Cherry Lane, Laurel MD, 20707</p>
+                    <p className="text-white font-semibold group-hover:text-sky-400 transition-colors">Cherry Lane, Laurel MD, 20707</p>
                   </div>
                 </a>
               </div>
@@ -159,7 +159,7 @@ const Booking = () => {
           <div className={`transition-all duration-1000 delay-400 ease-out ${
             isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'
           }`}>
-            <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20">
+            <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm p-8 rounded-2xl border border-sky-500/20">
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
@@ -170,7 +170,7 @@ const Booking = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="bg-gray-900/50 border-purple-500/30 text-white focus:border-purple-500 transition-colors"
+                      className="bg-gray-900/50 border-sky-500/30 text-white focus:border-sky-500 transition-colors"
                       placeholder="Your name"
                     />
                   </div>
@@ -183,7 +183,7 @@ const Booking = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="bg-gray-900/50 border-purple-500/30 text-white focus:border-purple-500 transition-colors"
+                      className="bg-gray-900/50 border-sky-500/30 text-white focus:border-sky-500 transition-colors"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -198,7 +198,7 @@ const Booking = () => {
                       value={formData.phone}
                       onChange={handleChange}
                       required
-                      className="bg-gray-900/50 border-purple-500/30 text-white focus:border-purple-500 transition-colors"
+                      className="bg-gray-900/50 border-sky-500/30 text-white focus:border-sky-500 transition-colors"
                       placeholder="(555) 123-4567"
                     />
                   </div>
@@ -206,15 +206,15 @@ const Booking = () => {
                   <div>
                     <label className="text-white font-semibold mb-2 block">Service Type</label>
                     <Select onValueChange={handleServiceChange} value={formData.serviceType} required>
-                      <SelectTrigger className="bg-gray-900/50 border-purple-500/30 text-white focus:border-purple-500">
+                      <SelectTrigger className="bg-gray-900/50 border-sky-500/30 text-white focus:border-sky-500">
                         <SelectValue placeholder="Select a service" />
                       </SelectTrigger>
-                      <SelectContent className="bg-gray-900 border-purple-500/30">
-                        <SelectItem value="vehicle-wrap" className="text-white hover:bg-purple-600">Vehicle Wrap</SelectItem>
-                        <SelectItem value="window-tint" className="text-white hover:bg-purple-600">Window Tint</SelectItem>
-                        <SelectItem value="custom-decals" className="text-white hover:bg-purple-600">Custom Decals</SelectItem>
-                        <SelectItem value="consultation" className="text-white hover:bg-purple-600">Consultation</SelectItem>
-                        <SelectItem value="request-quote" className="text-white hover:bg-purple-600">Request a Quote</SelectItem>
+                      <SelectContent className="bg-gray-900 border-sky-500/30">
+                        <SelectItem value="vehicle-wrap" className="text-white hover:bg-sky-600">Vehicle Wrap</SelectItem>
+                        <SelectItem value="window-tint" className="text-white hover:bg-sky-600">Window Tint</SelectItem>
+                        <SelectItem value="custom-decals" className="text-white hover:bg-sky-600">Custom Decals</SelectItem>
+                        <SelectItem value="consultation" className="text-white hover:bg-sky-600">Consultation</SelectItem>
+                        <SelectItem value="request-quote" className="text-white hover:bg-sky-600">Request a Quote</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -228,7 +228,7 @@ const Booking = () => {
                     value={formData.preferredDate}
                     onChange={handleChange}
                     required
-                    className="bg-gray-900/50 border-purple-500/30 text-white focus:border-purple-500 transition-colors"
+                    className="bg-gray-900/50 border-sky-500/30 text-white focus:border-sky-500 transition-colors"
                   />
                 </div>
 
@@ -239,7 +239,7 @@ const Booking = () => {
                     value={formData.message}
                     onChange={handleChange}
                     rows={5}
-                    className="bg-gray-900/50 border-purple-500/30 text-white focus:border-purple-500 transition-colors resize-none"
+                    className="bg-gray-900/50 border-sky-500/30 text-white focus:border-sky-500 transition-colors resize-none"
                     placeholder="Tell us about your project..."
                   />
                 </div>
@@ -247,7 +247,7 @@ const Booking = () => {
                 <Button 
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white py-6 text-lg rounded-md font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-purple-500/50"
+                  className="w-full bg-sky-600 hover:bg-sky-700 text-white py-6 text-lg rounded-md font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-xl hover:shadow-sky-500/50"
                 >
                   {loading ? 'Submitting...' : 'Submit Request'}
                 </Button>

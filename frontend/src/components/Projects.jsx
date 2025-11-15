@@ -102,7 +102,7 @@ const Projects = () => {
                 onClick={() => setCurrentIndex(index * 3)}
                 className={`w-3 h-3 rounded-full transition-all duration-300 ${
                   Math.floor(currentIndex / 3) === index 
-                    ? 'bg-purple-600 w-8' 
+                    ? 'bg-sky-600 w-8' 
                     : 'bg-gray-600 hover:bg-gray-500'
                 }`}
               />
@@ -112,13 +112,13 @@ const Projects = () => {
           <div className="flex gap-3">
             <Button
               onClick={prevSlide}
-              className="bg-gray-800 hover:bg-purple-600 text-white p-3 rounded-lg transition-all duration-300"
+              className="bg-gray-800 hover:bg-sky-600 text-white p-3 rounded-lg transition-all duration-300"
             >
               <ChevronLeft className="w-6 h-6" />
             </Button>
             <Button
               onClick={nextSlide}
-              className="bg-gray-800 hover:bg-purple-600 text-white p-3 rounded-lg transition-all duration-300"
+              className="bg-gray-800 hover:bg-sky-600 text-white p-3 rounded-lg transition-all duration-300"
             >
               <ChevronRight className="w-6 h-6" />
             </Button>

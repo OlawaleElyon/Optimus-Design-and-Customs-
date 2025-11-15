@@ -34,7 +34,7 @@ const Footer = () => {
   };
 
   return (
-    <footer ref={footerRef} className="bg-black border-t border-purple-500/20">
+    <footer ref={footerRef} className="bg-black border-t border-sky-500/20">
       <div className={`max-w-7xl mx-auto px-6 py-16 transition-all duration-1000 ease-out ${
         isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
       }`}>
@@ -54,7 +54,7 @@ const Footer = () => {
                 href="https://instagram.com/optimusdesign" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-gray-800 hover:bg-purple-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
+                className="bg-gray-800 hover:bg-sky-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
               >
                 <Instagram className="w-5 h-5 text-white" />
               </a>
@@ -62,7 +62,7 @@ const Footer = () => {
                 href="https://facebook.com/optimusdesign" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-gray-800 hover:bg-purple-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
+                className="bg-gray-800 hover:bg-sky-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
               >
                 <Facebook className="w-5 h-5 text-white" />
               </a>
@@ -70,7 +70,7 @@ const Footer = () => {
                 href="https://twitter.com/optimusdesign" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-gray-800 hover:bg-purple-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
+                className="bg-gray-800 hover:bg-sky-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
               >
                 <Twitter className="w-5 h-5 text-white" />
               </a>
@@ -78,7 +78,7 @@ const Footer = () => {
                 href="https://youtube.com/@optimusdesign" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-gray-800 hover:bg-purple-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
+                className="bg-gray-800 hover:bg-sky-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
               >
                 <Youtube className="w-5 h-5 text-white" />
               </a>
@@ -90,27 +90,27 @@ const Footer = () => {
             <h4 className="text-white font-bold text-lg mb-4">Quick Links</h4>
             <ul className="space-y-3">
               <li>
-                <button onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                <button onClick={() => { window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="text-gray-400 hover:text-sky-400 transition-colors duration-300">
                   Home
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('about')} className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                <button onClick={() => scrollToSection('about')} className="text-gray-400 hover:text-sky-400 transition-colors duration-300">
                   About Us
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('services')} className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                <button onClick={() => scrollToSection('services')} className="text-gray-400 hover:text-sky-400 transition-colors duration-300">
                   Services
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('projects')} className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                <button onClick={() => scrollToSection('projects')} className="text-gray-400 hover:text-sky-400 transition-colors duration-300">
                   Projects
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('booking')} className="text-gray-400 hover:text-purple-400 transition-colors duration-300">
+                <button onClick={() => scrollToSection('booking')} className="text-gray-400 hover:text-sky-400 transition-colors duration-300">
                   Book Now
                 </button>
               </li>
@@ -122,17 +122,17 @@ const Footer = () => {
             <h4 className="text-white font-bold text-lg mb-4">Contact</h4>
             <div className="space-y-3 text-gray-400">
               <p>
-                <a href="mailto:optimusxcustoms@gmail.com" className="hover:text-purple-400 transition-colors duration-300">
+                <a href="mailto:optimusxcustoms@gmail.com" className="hover:text-sky-400 transition-colors duration-300">
                   optimusxcustoms@gmail.com
                 </a>
               </p>
               <p>
-                <a href="tel:+14434771124" className="hover:text-purple-400 transition-colors duration-300">
+                <a href="tel:+14434771124" className="hover:text-sky-400 transition-colors duration-300">
                   (443) 477-1124
                 </a>
               </p>
               <p>
-                <a href="https://www.google.com/maps/search/?api=1&query=Cherry+Lane+Laurel+MD+20707" target="_blank" rel="noopener noreferrer" className="hover:text-purple-400 transition-colors duration-300">
+                <a href="https://www.google.com/maps/search/?api=1&query=Cherry+Lane+Laurel+MD+20707" target="_blank" rel="noopener noreferrer" className="hover:text-sky-400 transition-colors duration-300">
                   Cherry Lane Laurel MD, 20707
                 </a>
               </p>
@@ -147,10 +147,10 @@ const Footer = () => {
               © 2025 Optimus Design & Customs. All rights reserved.
             </p>
             <div className="flex gap-6">
-              <a href="#" className="text-gray-500 hover:text-purple-400 text-sm transition-colors duration-300">
+              <a href="#" className="text-gray-500 hover:text-sky-400 text-sm transition-colors duration-300">
                 Privacy Policy
               </a>
-              <a href="#" className="text-gray-500 hover:text-purple-400 text-sm transition-colors duration-300">
+              <a href="#" className="text-gray-500 hover:text-sky-400 text-sm transition-colors duration-300">
                 Terms of Service
               </a>
             </div>
