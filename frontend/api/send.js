@@ -59,7 +59,7 @@ module.exports = async (req, res) => {
     });
 
     // Send email
-    const data = await resend.emails.send({
+    const result = await resend.emails.send({
       from: `Optimus Design & Customs <${senderEmail}>`,
       to: [recipientEmail],
       subject: `New Booking Request from ${name}`,
@@ -67,14 +67,19 @@ module.exports = async (req, res) => {
       reply_to: email,
     });
 
-    console.log('Email sent successfully:', data);
-    console.log('Email ID:', data?.id);
+    // Resend API returns { data: { id }, error }
+    if (result.error) {
+      console.error('Resend API error:', result.error);
+      throw new Error(result.error.message || 'Failed to send email');
+    }
+
+    console.log('Email sent successfully:', result.data);
 
     // Return success response
     return res.status(200).json({
       success: true,
       message: 'Booking email sent successfully',
-      email_id: data.id
+      email_id: result.data?.id
     });
 
   } catch (error) {
