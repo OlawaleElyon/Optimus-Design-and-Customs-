@@ -67,7 +67,8 @@ module.exports = async (req, res) => {
       reply_to: email,
     });
 
-    console.log('Email sent successfully:', data.id);
+    console.log('Email sent successfully:', data);
+    console.log('Email ID:', data?.id);
 
     // Return success response
     return res.status(200).json({
