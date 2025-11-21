@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+const fetch = require('node-fetch');
 
 module.exports = async (req, res) => {
   // Set CORS headers
@@ -40,42 +40,25 @@ module.exports = async (req, res) => {
 
     console.log('✅ All required fields present');
 
-    // Get Mailtrap credentials from environment variables
-    const mailtrapHost = process.env.MAILTRAP_HOST || 'live.smtp.mailtrap.io';
-    const mailtrapPort = process.env.MAILTRAP_PORT || 587;
-    const mailtrapUser = process.env.MAILTRAP_USER;
-    const mailtrapPass = process.env.MAILTRAP_PASS;
-    const senderEmail = process.env.SENDER_EMAIL || 'noreply@optimuscustomz.com';
+    // Get Mailtrap API credentials from environment variables
+    const mailtrapApiToken = process.env.MAILTRAP_API_TOKEN;
+    const senderEmail = process.env.SENDER_EMAIL || 'hello@optimuscustomz.com';
+    const senderName = process.env.SENDER_NAME || 'Optimus Design & Customs';
     const recipientEmail = process.env.RECIPIENT_EMAIL || 'elyonolawale@gmail.com';
 
     console.log('🔑 Environment check:');
-    console.log('   Mailtrap Host:', mailtrapHost);
-    console.log('   Mailtrap Port:', mailtrapPort);
-    console.log('   Mailtrap User:', mailtrapUser ? 'Present' : 'MISSING');
-    console.log('   Mailtrap Pass:', mailtrapPass ? 'Present' : 'MISSING');
+    console.log('   API Token:', mailtrapApiToken ? 'Present' : 'MISSING');
     console.log('   Sender Email:', senderEmail);
+    console.log('   Sender Name:', senderName);
     console.log('   Recipient Email:', recipientEmail);
 
-    if (!mailtrapUser || !mailtrapPass) {
-      console.error('❌ Mailtrap credentials not found in environment variables');
+    if (!mailtrapApiToken) {
+      console.error('❌ MAILTRAP_API_TOKEN not found in environment variables');
       return res.status(500).json({ 
         success: false, 
-        message: 'Email service not configured - Mailtrap credentials missing' 
+        message: 'Email service not configured - Mailtrap API token missing' 
       });
     }
-
-    console.log('📤 Creating Mailtrap transporter...');
-    
-    // Create Mailtrap transporter
-    const transporter = nodemailer.createTransport({
-      host: mailtrapHost,
-      port: mailtrapPort,
-      secure: false, // Use TLS
-      auth: {
-        user: mailtrapUser,
-        pass: mailtrapPass,
-      },
-    });
 
     // Generate HTML email
     const htmlBody = generateEmailHtml({
@@ -87,25 +70,65 @@ module.exports = async (req, res) => {
       message: message || 'No message provided'
     });
 
-    console.log('📨 Sending email via Mailtrap...');
+    // Generate plain text version
+    const textBody = `
+New Booking Request from ${name}
+
+Customer Details:
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+Service Type: ${serviceType}
+Preferred Date: ${preferredDate}
+Message: ${message || 'No message provided'}
+
+---
+Optimus Design & Customs
+Cherry Lane, Laurel MD, 20707
+Phone: (443) 477-1124
+    `;
+
+    console.log('📨 Sending email via Mailtrap API...');
     
-    // Send email
-    const info = await transporter.sendMail({
-      from: `"Optimus Design & Customs" <${senderEmail}>`,
-      to: recipientEmail,
-      subject: `New Booking Request from ${name}`,
-      html: htmlBody,
-      replyTo: email,
+    // Send email via Mailtrap HTTP API
+    const response = await fetch('https://send.api.mailtrap.io/api/send', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${mailtrapApiToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: {
+          email: senderEmail,
+          name: senderName
+        },
+        to: [
+          {
+            email: recipientEmail
+          }
+        ],
+        subject: `New Booking Request from ${name}`,
+        text: textBody,
+        html: htmlBody,
+        category: 'Booking Request'
+      })
     });
 
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('❌ Mailtrap API error:', JSON.stringify(data, null, 2));
+      throw new Error(data.errors ? JSON.stringify(data.errors) : 'Failed to send email');
+    }
+
     console.log('✅ Email sent successfully!');
-    console.log('   Message ID:', info.messageId);
+    console.log('   Response:', JSON.stringify(data, null, 2));
 
     // Return success response
     return res.status(200).json({
       success: true,
       message: 'Booking email sent successfully',
-      email_id: info.messageId
+      email_id: data.message_id || 'sent'
     });
 
   } catch (error) {
