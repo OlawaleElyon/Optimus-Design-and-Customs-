@@ -58,6 +58,7 @@ module.exports = async (req, res) => {
       });
     }
 
+    console.log('📤 Initializing Resend client...');
     const resend = new Resend(resendApiKey);
 
     // Generate HTML email
@@ -70,6 +71,8 @@ module.exports = async (req, res) => {
       message: message || 'No message provided'
     });
 
+    console.log('📨 Sending email via Resend API...');
+    
     // Send email
     const result = await resend.emails.send({
       from: `Optimus Design & Customs <${senderEmail}>`,
@@ -81,11 +84,12 @@ module.exports = async (req, res) => {
 
     // Resend API returns { data: { id }, error }
     if (result.error) {
-      console.error('Resend API error:', result.error);
+      console.error('❌ Resend API error:', JSON.stringify(result.error, null, 2));
       throw new Error(result.error.message || 'Failed to send email');
     }
 
-    console.log('Email sent successfully:', result.data);
+    console.log('✅ Email sent successfully!');
+    console.log('   Email ID:', result.data?.id);
 
     // Return success response
     return res.status(200).json({
@@ -95,7 +99,7 @@ module.exports = async (req, res) => {
     });
 
   } catch (error) {
-    console.error('Error sending email:', error);
+    console.error('❌ Error sending email:', error);
     return res.status(500).json({
       success: false,
       message: `Error sending email: ${error.message}`
