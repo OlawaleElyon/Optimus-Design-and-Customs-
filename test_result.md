@@ -206,3 +206,13 @@ test_plan:
 agent_communication:
     - agent: "testing"
       message: "Comprehensive backend testing completed for appointment system. All 5 test scenarios passed: 1) Create appointment with valid data, 2) Validation testing (email format, required fields), 3) Get all appointments with proper sorting, 4) Get single appointment by ID, 5) 404 handling for non-existent appointments. MongoDB persistence verified. All APIs working correctly with proper HTTP status codes."
+    
+    - agent: "main"
+      message: "🔧 BOOKING FORM BUG FIXED: Identified and resolved the issue with /api/send.js serverless function. The Resend API response structure was being accessed incorrectly (data.id vs result.data.id). Code now works perfectly in local testing. 
+      
+      📋 USER ACTION REQUIRED: The user needs to configure 3 environment variables in Vercel dashboard and redeploy:
+      1. RESEND_API_KEY = re_iBSMDRfP_DHb6h4azEy8bz1PUo5Bw5hG9
+      2. RESEND_SENDER_EMAIL = onboarding@resend.dev
+      3. RECIPIENT_EMAIL = elyonolawale@gmail.com
+      
+      Complete step-by-step instructions provided in /app/VERCEL_SETUP_GUIDE.md"
