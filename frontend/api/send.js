@@ -18,10 +18,14 @@ module.exports = async (req, res) => {
 
   // Only allow POST requests
   if (req.method !== 'POST') {
+    console.log('❌ Method not allowed:', req.method);
     return res.status(405).json({ success: false, message: 'Method not allowed' });
   }
 
   try {
+    console.log('📧 Booking email request received');
+    console.log('Request body:', JSON.stringify(req.body));
+    
     // Get data from request body
     const { name, email, phone, serviceType, preferredDate, message } = req.body;
 
