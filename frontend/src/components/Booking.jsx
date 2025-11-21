@@ -64,19 +64,28 @@ const Booking = () => {
     setLoading(true);
 
     try {
-      const response = await axios.post(`${API}/appointments`, formData);
-      
-      toast.success("Your request has been sent successfully! We'll contact you shortly.");
-
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        serviceType: '',
-        preferredDate: '',
-        message: ''
+      // Use relative path for Vercel serverless function
+      const response = await axios.post('/api/send', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
       });
+      
+      if (response.data.success) {
+        toast.success("Your request has been sent successfully! We'll contact you shortly.");
+        
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          serviceType: '',
+          preferredDate: '',
+          message: ''
+        });
+      } else {
+        throw new Error(response.data.message || 'Failed to send');
+      }
     } catch (error) {
       console.error('Error submitting appointment:', error);
       toast.error("Failed to submit request. Please try again.");
