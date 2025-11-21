@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Test the complete booking/appointment system for the Optimus Design & Customs automotive website"
+user_problem_statement: "Fix the booking form on the live production website (https://www.optimuscustomz.com/) - users are seeing 'failed to send message' error"
 
 backend:
   - task: "POST /api/appointments - Create appointment"
