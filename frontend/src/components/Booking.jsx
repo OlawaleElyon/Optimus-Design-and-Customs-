@@ -61,8 +61,8 @@ const Booking = () => {
     setLoading(true);
 
     try {
-      // Call Vercel serverless function - uses relative path
-      // This works on both Vercel production AND preview deployments
+      // Send booking to Vercel serverless function
+      // Updated: 2025-11-21 - Using /api/send endpoint
       const response = await axios.post('/api/send', formData, {
         headers: {
           'Content-Type': 'application/json',
