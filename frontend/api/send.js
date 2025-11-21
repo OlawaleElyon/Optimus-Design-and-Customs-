@@ -1,4 +1,29 @@
 const { Resend } = require('resend');
+const { MongoClient } = require('mongodb');
+
+// MongoDB connection (singleton pattern)
+let cachedClient = null;
+let cachedDb = null;
+
+async function connectToDatabase() {
+  if (cachedClient && cachedDb) {
+    return { client: cachedClient, db: cachedDb };
+  }
+
+  const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017';
+  const dbName = process.env.DB_NAME || 'bookings_db';
+
+  console.log('🔌 Connecting to MongoDB:', mongoUrl);
+
+  const client = new MongoClient(mongoUrl);
+  await client.connect();
+  const db = client.db(dbName);
+
+  cachedClient = client;
+  cachedDb = db;
+
+  return { client, db };
+}
 
 module.exports = async (req, res) => {
   // Set CORS headers
@@ -40,7 +65,37 @@ module.exports = async (req, res) => {
 
     console.log('✅ All required fields present');
 
-    // Get Resend API credentials from environment variables
+    // Prepare booking data
+    const bookingData = {
+      name,
+      email,
+      phone,
+      serviceType,
+      preferredDate,
+      message: message || 'No message provided',
+      createdAt: new Date(),
+      status: 'pending',
+      emailSent: false,
+      emailError: null
+    };
+
+    // STEP 1: Save to MongoDB FIRST (so we never lose data)
+    console.log('💾 Saving to MongoDB...');
+    let bookingId = null;
+    let mongoError = null;
+
+    try {
+      const { db } = await connectToDatabase();
+      const result = await db.collection('bookings').insertOne(bookingData);
+      bookingId = result.insertedId;
+      console.log('✅ Saved to MongoDB! ID:', bookingId);
+    } catch (error) {
+      console.error('⚠️ MongoDB save failed:', error.message);
+      mongoError = error.message;
+      // Continue anyway - we'll still try to send email
+    }
+
+    // STEP 2: Try to send email via Resend
     const resendApiKey = process.env.RESEND_API_KEY;
     const senderEmail = process.env.SENDER_EMAIL || 'onboarding@resend.dev';
     const recipientEmail = process.env.RECIPIENT_EMAIL || 'elyonolawale@gmail.com';
@@ -50,59 +105,128 @@ module.exports = async (req, res) => {
     console.log('   Sender Email:', senderEmail);
     console.log('   Recipient Email:', recipientEmail);
 
-    if (!resendApiKey) {
-      console.error('❌ RESEND_API_KEY not found in environment variables');
-      return res.status(500).json({ 
-        success: false, 
-        message: 'Email service not configured - Resend API key missing' 
+    let emailId = null;
+    let emailError = null;
+
+    if (resendApiKey) {
+      try {
+        console.log('📤 Initializing Resend client...');
+        const resend = new Resend(resendApiKey);
+
+        // Generate HTML email
+        const htmlBody = generateEmailHtml({
+          name,
+          email,
+          phone,
+          serviceType,
+          preferredDate,
+          message: message || 'No message provided'
+        });
+
+        console.log('📨 Sending email via Resend API...');
+        
+        // Send email via Resend
+        const result = await resend.emails.send({
+          from: `Optimus Design & Customs <${senderEmail}>`,
+          to: [recipientEmail],
+          subject: `New Booking Request from ${name}`,
+          html: htmlBody,
+          reply_to: email,
+        });
+
+        // Resend API returns { data: { id }, error }
+        if (result.error) {
+          console.error('❌ Resend API error:', JSON.stringify(result.error, null, 2));
+          emailError = result.error.message || 'Failed to send email';
+        } else {
+          emailId = result.data?.id;
+          console.log('✅ Email sent successfully!');
+          console.log('   Email ID:', emailId);
+
+          // Update MongoDB with email success
+          if (bookingId) {
+            try {
+              const { db } = await connectToDatabase();
+              await db.collection('bookings').updateOne(
+                { _id: bookingId },
+                { 
+                  $set: { 
+                    emailSent: true, 
+                    emailId: emailId,
+                    emailSentAt: new Date()
+                  } 
+                }
+              );
+              console.log('✅ Updated MongoDB with email status');
+            } catch (err) {
+              console.error('⚠️ Failed to update MongoDB:', err.message);
+            }
+          }
+        }
+      } catch (error) {
+        console.error('❌ Error sending email:', error);
+        emailError = error.message;
+
+        // Update MongoDB with email error
+        if (bookingId) {
+          try {
+            const { db } = await connectToDatabase();
+            await db.collection('bookings').updateOne(
+              { _id: bookingId },
+              { $set: { emailError: error.message } }
+            );
+          } catch (err) {
+            console.error('⚠️ Failed to update MongoDB:', err.message);
+          }
+        }
+      }
+    } else {
+      console.error('⚠️ RESEND_API_KEY not found - email not sent');
+      emailError = 'Resend API key not configured';
+    }
+
+    // STEP 3: Return response based on what succeeded
+    if (bookingId && emailId) {
+      // Perfect - both saved and emailed
+      return res.status(200).json({
+        success: true,
+        message: 'Booking saved and email sent successfully',
+        booking_id: bookingId.toString(),
+        email_id: emailId
+      });
+    } else if (bookingId && !emailId) {
+      // Saved to DB but email failed
+      return res.status(200).json({
+        success: true,
+        message: 'Booking saved to database (email failed - will retry manually)',
+        booking_id: bookingId.toString(),
+        warning: `Email not sent: ${emailError}`
+      });
+    } else if (!bookingId && emailId) {
+      // Email sent but DB save failed
+      return res.status(200).json({
+        success: true,
+        message: 'Email sent successfully (database save failed)',
+        email_id: emailId,
+        warning: `Database error: ${mongoError}`
+      });
+    } else {
+      // Both failed
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to save booking',
+        errors: {
+          mongodb: mongoError,
+          email: emailError
+        }
       });
     }
 
-    console.log('📤 Initializing Resend client...');
-    const resend = new Resend(resendApiKey);
-
-    // Generate HTML email
-    const htmlBody = generateEmailHtml({
-      name,
-      email,
-      phone,
-      serviceType,
-      preferredDate,
-      message: message || 'No message provided'
-    });
-
-    console.log('📨 Sending email via Resend API...');
-    
-    // Send email via Resend
-    const result = await resend.emails.send({
-      from: `Optimus Design & Customs <${senderEmail}>`,
-      to: [recipientEmail],
-      subject: `New Booking Request from ${name}`,
-      html: htmlBody,
-      reply_to: email,
-    });
-
-    // Resend API returns { data: { id }, error }
-    if (result.error) {
-      console.error('❌ Resend API error:', JSON.stringify(result.error, null, 2));
-      throw new Error(result.error.message || 'Failed to send email');
-    }
-
-    console.log('✅ Email sent successfully!');
-    console.log('   Email ID:', result.data?.id);
-
-    // Return success response
-    return res.status(200).json({
-      success: true,
-      message: 'Booking email sent successfully',
-      email_id: result.data?.id
-    });
-
   } catch (error) {
-    console.error('❌ Error sending email:', error);
+    console.error('❌ Unexpected error:', error);
     return res.status(500).json({
       success: false,
-      message: `Error sending email: ${error.message}`
+      message: `Error processing booking: ${error.message}`
     });
   }
 };
