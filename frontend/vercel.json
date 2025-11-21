@@ -1,8 +1,26 @@
 {
   "version": 2,
-  "buildCommand": "yarn install && yarn build",
-  "devCommand": "yarn start",
-  "installCommand": "yarn install",
-  "framework": "create-react-app",
-  "outputDirectory": "build"
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "build"
+      }
+    },
+    {
+      "src": "api/send.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/$1"
+    }
+  ]
 }
