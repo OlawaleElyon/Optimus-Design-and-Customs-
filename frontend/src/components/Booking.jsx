@@ -3,12 +3,9 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Mail, Phone, Instagram, MapPin, Clock } from 'lucide-react';
+import { Mail, Phone, Instagram, MapPin } from 'lucide-react';
 import { toast } from 'sonner';
 import axios from 'axios';
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
 
 const Booking = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -64,7 +61,8 @@ const Booking = () => {
     setLoading(true);
 
     try {
-      // Use relative path for Vercel serverless function
+      // Call Vercel serverless function - uses relative path
+      // This works on both Vercel production AND preview deployments
       const response = await axios.post('/api/send', formData, {
         headers: {
           'Content-Type': 'application/json',
@@ -87,8 +85,11 @@ const Booking = () => {
         throw new Error(response.data.message || 'Failed to send');
       }
     } catch (error) {
-      console.error('Error submitting appointment:', error);
-      toast.error("Failed to submit request. Please try again.");
+      console.error('Error submitting booking:', error);
+      
+      // Show user-friendly error message
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to submit request';
+      toast.error(`Error: ${errorMessage}. Please try again.`);
     } finally {
       setLoading(false);
     }
