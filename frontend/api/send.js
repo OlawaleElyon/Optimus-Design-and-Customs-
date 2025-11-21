@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 
 module.exports = async (req, res) => {
   // Set CORS headers
@@ -40,42 +40,26 @@ module.exports = async (req, res) => {
 
     console.log('✅ All required fields present');
 
-    // Get Mailtrap SMTP credentials from environment variables
-    const smtpHost = process.env.MAILTRAP_HOST || 'live.smtp.mailtrap.io';
-    const smtpPort = parseInt(process.env.MAILTRAP_PORT || '587');
-    const smtpUser = process.env.MAILTRAP_USER || 'api';
-    const smtpPass = process.env.MAILTRAP_PASSWORD;
-    const senderEmail = process.env.SENDER_EMAIL || 'hello@optimuscustomz.com';
+    // Get Resend API credentials from environment variables
+    const resendApiKey = process.env.RESEND_API_KEY;
+    const senderEmail = process.env.SENDER_EMAIL || 'onboarding@resend.dev';
     const recipientEmail = process.env.RECIPIENT_EMAIL || 'elyonolawale@gmail.com';
 
     console.log('🔑 Environment check:');
-    console.log('   SMTP Host:', smtpHost);
-    console.log('   SMTP Port:', smtpPort);
-    console.log('   SMTP User:', smtpUser);
-    console.log('   SMTP Password:', smtpPass ? 'Present' : 'MISSING');
+    console.log('   Resend API Key:', resendApiKey ? 'Present' : 'MISSING');
     console.log('   Sender Email:', senderEmail);
     console.log('   Recipient Email:', recipientEmail);
 
-    if (!smtpPass) {
-      console.error('❌ MAILTRAP_PASSWORD not found in environment variables');
+    if (!resendApiKey) {
+      console.error('❌ RESEND_API_KEY not found in environment variables');
       return res.status(500).json({ 
         success: false, 
-        message: 'Email service not configured - Mailtrap password missing' 
+        message: 'Email service not configured - Resend API key missing' 
       });
     }
 
-    console.log('📤 Creating Mailtrap SMTP transporter...');
-    
-    // Create Mailtrap SMTP transporter
-    const transporter = nodemailer.createTransport({
-      host: smtpHost,
-      port: smtpPort,
-      secure: false, // Use TLS
-      auth: {
-        user: smtpUser,
-        pass: smtpPass,
-      },
-    });
+    console.log('📤 Initializing Resend client...');
+    const resend = new Resend(resendApiKey);
 
     // Generate HTML email
     const htmlBody = generateEmailHtml({
@@ -87,25 +71,31 @@ module.exports = async (req, res) => {
       message: message || 'No message provided'
     });
 
-    console.log('📨 Sending email via Mailtrap SMTP...');
+    console.log('📨 Sending email via Resend API...');
     
-    // Send email
-    const info = await transporter.sendMail({
-      from: `"Optimus Design & Customs" <${senderEmail}>`,
-      to: recipientEmail,
+    // Send email via Resend
+    const result = await resend.emails.send({
+      from: `Optimus Design & Customs <${senderEmail}>`,
+      to: [recipientEmail],
       subject: `New Booking Request from ${name}`,
       html: htmlBody,
-      replyTo: email,
+      reply_to: email,
     });
 
+    // Resend API returns { data: { id }, error }
+    if (result.error) {
+      console.error('❌ Resend API error:', JSON.stringify(result.error, null, 2));
+      throw new Error(result.error.message || 'Failed to send email');
+    }
+
     console.log('✅ Email sent successfully!');
-    console.log('   Message ID:', info.messageId);
+    console.log('   Email ID:', result.data?.id);
 
     // Return success response
     return res.status(200).json({
       success: true,
       message: 'Booking email sent successfully',
-      email_id: info.messageId
+      email_id: result.data?.id
     });
 
   } catch (error) {
