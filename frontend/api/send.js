@@ -31,22 +31,30 @@ module.exports = async (req, res) => {
 
     // Validate required fields
     if (!name || !email || !phone || !serviceType || !preferredDate) {
+      console.log('❌ Missing required fields');
       return res.status(400).json({ 
         success: false, 
         message: 'Missing required fields' 
       });
     }
 
+    console.log('✅ All required fields present');
+
     // Initialize Resend
     const resendApiKey = process.env.RESEND_API_KEY;
     const senderEmail = process.env.RESEND_SENDER_EMAIL || 'onboarding@resend.dev';
     const recipientEmail = process.env.RECIPIENT_EMAIL || 'elyonolawale@gmail.com';
 
+    console.log('🔑 Environment check:');
+    console.log('   API Key:', resendApiKey ? 'Present' : 'MISSING');
+    console.log('   Sender:', senderEmail);
+    console.log('   Recipient:', recipientEmail);
+
     if (!resendApiKey) {
-      console.error('RESEND_API_KEY not found in environment variables');
+      console.error('❌ RESEND_API_KEY not found in environment variables');
       return res.status(500).json({ 
         success: false, 
-        message: 'Email service not configured' 
+        message: 'Email service not configured - API key missing' 
       });
     }
 
