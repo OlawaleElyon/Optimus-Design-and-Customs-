@@ -133,7 +133,7 @@ def test_create_appointment():
         print(f"Status Code: {response.status_code}")
         print(f"Response: {response.text}")
         
-        if response.status_code == 200:
+        if response.status_code == 201:  # 201 Created is correct for POST
             data = response.json()
             # Verify required fields are present
             required_fields = ['id', 'name', 'email', 'phone', 'serviceType', 'preferredDate', 'status', 'createdAt']
@@ -150,9 +150,11 @@ def test_create_appointment():
                 
             print("✅ PASS: Appointment created successfully")
             print(f"Created appointment ID: {data['id']}")
+            print(f"Status: {data['status']}")
+            print(f"Created at: {data['createdAt']}")
             return True, data['id']
         else:
-            print(f"❌ FAIL: Expected 200, got {response.status_code}")
+            print(f"❌ FAIL: Expected 201, got {response.status_code}")
             return False, None
             
     except requests.exceptions.RequestException as e:
