@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Backend API Testing for Optimus Design & Customs Appointment System
-Tests the complete booking/appointment system APIs
+Tests the NEW appointment booking system with Supabase and Resend integration
 """
 
 import requests
@@ -13,12 +13,12 @@ import uuid
 # Get backend URL from frontend .env
 BACKEND_URL = "https://luxury-auto-book.preview.emergentagent.com/api"
 
-def test_env_variables():
-    """Test GET /api/test-env - Should return masked environment variables and confirm RESEND_API_KEY is set"""
-    print("\n=== Testing GET /api/test-env ===")
+def test_health_check():
+    """Test GET /api/health - Health check endpoint"""
+    print("\n=== Testing GET /api/health ===")
     
     try:
-        response = requests.get(f"{BACKEND_URL}/test-env", timeout=10)
+        response = requests.get(f"{BACKEND_URL}/health", timeout=10)
         print(f"Status Code: {response.status_code}")
         print(f"Response: {response.text}")
         
@@ -26,32 +26,17 @@ def test_env_variables():
             data = response.json()
             
             # Check if response has expected structure
-            if "status" not in data or "environment_variables" not in data:
-                print("❌ FAIL: Missing required response fields")
+            if "status" not in data:
+                print("❌ FAIL: Missing 'status' field in response")
                 return False
             
-            env_vars = data["environment_variables"]
-            
-            # Check if RESEND_API_KEY is set and has proper length
-            if not env_vars.get("RESEND_API_KEY_SET"):
-                print("❌ FAIL: RESEND_API_KEY is not set")
+            if data["status"] != "healthy":
+                print(f"❌ FAIL: Expected status 'healthy', got '{data['status']}'")
                 return False
             
-            api_key_length = env_vars.get("RESEND_API_KEY_LENGTH", 0)
-            if api_key_length < 20:  # Resend API keys should be longer
-                print(f"❌ FAIL: RESEND_API_KEY length too short: {api_key_length}")
-                return False
-            
-            # Check if API key is properly masked
-            masked_key = env_vars.get("RESEND_API_KEY", "")
-            if not masked_key or "NOT_SET" in masked_key:
-                print("❌ FAIL: API key not properly masked")
-                return False
-            
-            print(f"✅ PASS: Environment variables loaded correctly")
-            print(f"  - RESEND_API_KEY set: {env_vars.get('RESEND_API_KEY_SET')}")
-            print(f"  - API key length: {api_key_length}")
-            print(f"  - Masked key: {masked_key}")
+            print("✅ PASS: Health check working correctly")
+            print(f"  - Status: {data['status']}")
+            print(f"  - Service: {data.get('service', 'N/A')}")
             return True
         else:
             print(f"❌ FAIL: Expected 200, got {response.status_code}")
@@ -64,97 +49,57 @@ def test_env_variables():
         print(f"❌ FAIL: Invalid JSON response - {str(e)}")
         return False
 
-def test_email_sending():
-    """Test POST /api/test-email - Should send a test email using Resend and return success with email ID"""
-    print("\n=== Testing POST /api/test-email ===")
+def test_create_appointment_valid():
+    """Test POST /api/appointment - Create appointment with valid data"""
+    print("\n=== Testing POST /api/appointment - Valid Data ===")
     
-    try:
-        response = requests.post(f"{BACKEND_URL}/test-email", json={}, timeout=30)  # Longer timeout for email
-        print(f"Status Code: {response.status_code}")
-        print(f"Response: {response.text}")
-        
-        if response.status_code == 200:
-            data = response.json()
-            
-            # Check if response has expected structure
-            if "status" not in data or data["status"] != "success":
-                print("❌ FAIL: Email test did not return success status")
-                return False
-            
-            # Check if email_id is present
-            if "email_id" not in data or not data["email_id"]:
-                print("❌ FAIL: No email_id returned")
-                return False
-            
-            # Check details
-            details = data.get("details", {})
-            if not details.get("api_key_set"):
-                print("❌ FAIL: API key not set according to response")
-                return False
-            
-            print(f"✅ PASS: Test email sent successfully")
-            print(f"  - Email ID: {data['email_id']}")
-            print(f"  - Sender: {details.get('sender', 'N/A')}")
-            print(f"  - Recipient: {details.get('recipient', 'N/A')}")
-            return True
-        else:
-            print(f"❌ FAIL: Expected 200, got {response.status_code}")
-            if response.status_code == 500:
-                try:
-                    error_data = response.json()
-                    print(f"Error details: {error_data.get('detail', 'No details')}")
-                except:
-                    pass
-            return False
-            
-    except requests.exceptions.RequestException as e:
-        print(f"❌ FAIL: Request failed - {str(e)}")
-        return False
-    except json.JSONDecodeError as e:
-        print(f"❌ FAIL: Invalid JSON response - {str(e)}")
-        return False
-
-def test_create_appointment():
-    """Test POST /api/appointments - Create a new appointment with enhanced debugging"""
-    print("\n=== Testing POST /api/appointments ===")
-    
-    # Test data as specified in the request
+    # Test data as specified in the review request
     test_data = {
         "name": "Test Customer",
-        "email": "test@example.com", 
+        "email": "test@example.com",
         "phone": "+1234567890",
-        "serviceType": "Custom Paint Job",
-        "preferredDate": "2025-12-01",
-        "message": "Test booking message"
+        "serviceType": "Vehicle Wraps",
+        "preferredDate": "2025-12-15",
+        "message": "I need a full vehicle wrap for my car"
     }
     
     try:
-        response = requests.post(f"{BACKEND_URL}/appointments", json=test_data, timeout=10)
+        response = requests.post(f"{BACKEND_URL}/appointment", json=test_data, timeout=30)  # Longer timeout for email
         print(f"Status Code: {response.status_code}")
         print(f"Response: {response.text}")
         
-        if response.status_code == 201:  # 201 Created is correct for POST
+        if response.status_code == 200:
             data = response.json()
-            # Verify required fields are present
-            required_fields = ['id', 'name', 'email', 'phone', 'serviceType', 'preferredDate', 'status', 'createdAt']
-            missing_fields = [field for field in required_fields if field not in data]
             
-            if missing_fields:
-                print(f"❌ FAIL: Missing required fields: {missing_fields}")
+            # Check expected response structure
+            if "success" not in data:
+                print("❌ FAIL: Missing 'success' field in response")
                 return False, None
             
-            # Verify default status is "pending"
-            if data.get('status') != 'pending':
-                print(f"❌ FAIL: Expected status 'pending', got '{data.get('status')}'")
+            if not data["success"]:
+                print("❌ FAIL: success field is False")
+                return False, None
+            
+            if "message" not in data:
+                print("❌ FAIL: Missing 'message' field in response")
+                return False, None
+            
+            if "appointment_id" not in data or not data["appointment_id"]:
+                print("❌ FAIL: Missing or empty 'appointment_id' field")
                 return False, None
                 
             print("✅ PASS: Appointment created successfully")
-            print(f"Created appointment ID: {data['id']}")
-            print(f"Status: {data['status']}")
-            print(f"Created at: {data['createdAt']}")
-            return True, data['id']
+            print(f"  - Success: {data['success']}")
+            print(f"  - Message: {data['message']}")
+            print(f"  - Appointment ID: {data['appointment_id']}")
+            return True, data['appointment_id']
         else:
-            print(f"❌ FAIL: Expected 201, got {response.status_code}")
+            print(f"❌ FAIL: Expected 200, got {response.status_code}")
+            try:
+                error_data = response.json()
+                print(f"Error details: {error_data.get('detail', 'No details')}")
+            except:
+                pass
             return False, None
             
     except requests.exceptions.RequestException as e:
@@ -164,26 +109,27 @@ def test_create_appointment():
         print(f"❌ FAIL: Invalid JSON response - {str(e)}")
         return False, None
 
-def test_create_appointment_validation():
-    """Test POST /api/appointments with invalid data"""
-    print("\n=== Testing POST /api/appointments - Validation ===")
+def test_create_appointment_invalid_email():
+    """Test POST /api/appointment with invalid email format"""
+    print("\n=== Testing POST /api/appointment - Invalid Email ===")
     
-    # Test invalid email
     invalid_email_data = {
-        "name": "Jane Doe",
-        "email": "invalid-email",
-        "phone": "(555) 123-4567", 
-        "serviceType": "vehicle-wrap",
-        "preferredDate": "2025-07-20",
+        "name": "Test Customer",
+        "email": "invalid-email-format",
+        "phone": "+1234567890",
+        "serviceType": "Vehicle Wraps",
+        "preferredDate": "2025-12-15",
         "message": "Test message"
     }
     
     try:
-        response = requests.post(f"{BACKEND_URL}/appointments", json=invalid_email_data, timeout=10)
-        print(f"Invalid email test - Status Code: {response.status_code}")
+        response = requests.post(f"{BACKEND_URL}/appointment", json=invalid_email_data, timeout=10)
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.text}")
         
         if response.status_code == 422:  # FastAPI validation error
             print("✅ PASS: Email validation working correctly")
+            return True
         else:
             print(f"❌ FAIL: Expected 422 for invalid email, got {response.status_code}")
             return False
@@ -191,122 +137,97 @@ def test_create_appointment_validation():
     except requests.exceptions.RequestException as e:
         print(f"❌ FAIL: Request failed - {str(e)}")
         return False
+
+def test_create_appointment_missing_fields():
+    """Test POST /api/appointment with missing required fields"""
+    print("\n=== Testing POST /api/appointment - Missing Required Fields ===")
     
-    # Test missing required fields
-    incomplete_data = {
-        "name": "Jane Doe"
-        # Missing required fields
+    # Test missing name
+    missing_name_data = {
+        "email": "test@example.com",
+        "phone": "+1234567890",
+        "serviceType": "Vehicle Wraps",
+        "preferredDate": "2025-12-15"
     }
     
     try:
-        response = requests.post(f"{BACKEND_URL}/appointments", json=incomplete_data, timeout=10)
-        print(f"Missing fields test - Status Code: {response.status_code}")
+        response = requests.post(f"{BACKEND_URL}/appointment", json=missing_name_data, timeout=10)
+        print(f"Missing name test - Status Code: {response.status_code}")
         
-        if response.status_code == 422:  # FastAPI validation error
+        if response.status_code != 422:
+            print(f"❌ FAIL: Expected 422 for missing name, got {response.status_code}")
+            return False
+            
+    except requests.exceptions.RequestException as e:
+        print(f"❌ FAIL: Request failed - {str(e)}")
+        return False
+    
+    # Test missing email
+    missing_email_data = {
+        "name": "Test Customer",
+        "phone": "+1234567890",
+        "serviceType": "Vehicle Wraps",
+        "preferredDate": "2025-12-15"
+    }
+    
+    try:
+        response = requests.post(f"{BACKEND_URL}/appointment", json=missing_email_data, timeout=10)
+        print(f"Missing email test - Status Code: {response.status_code}")
+        
+        if response.status_code != 422:
+            print(f"❌ FAIL: Expected 422 for missing email, got {response.status_code}")
+            return False
+            
+    except requests.exceptions.RequestException as e:
+        print(f"❌ FAIL: Request failed - {str(e)}")
+        return False
+    
+    # Test missing serviceType
+    missing_service_data = {
+        "name": "Test Customer",
+        "email": "test@example.com",
+        "phone": "+1234567890",
+        "preferredDate": "2025-12-15"
+    }
+    
+    try:
+        response = requests.post(f"{BACKEND_URL}/appointment", json=missing_service_data, timeout=10)
+        print(f"Missing serviceType test - Status Code: {response.status_code}")
+        
+        if response.status_code == 422:
             print("✅ PASS: Required field validation working correctly")
             return True
         else:
-            print(f"❌ FAIL: Expected 422 for missing fields, got {response.status_code}")
+            print(f"❌ FAIL: Expected 422 for missing serviceType, got {response.status_code}")
             return False
             
     except requests.exceptions.RequestException as e:
         print(f"❌ FAIL: Request failed - {str(e)}")
         return False
 
-def test_get_all_appointments():
-    """Test GET /api/appointments - Get all appointments"""
-    print("\n=== Testing GET /api/appointments ===")
+def test_create_appointment_empty_service_type():
+    """Test POST /api/appointment with empty serviceType"""
+    print("\n=== Testing POST /api/appointment - Empty Service Type ===")
+    
+    empty_service_data = {
+        "name": "Test Customer",
+        "email": "test@example.com",
+        "phone": "+1234567890",
+        "serviceType": "",
+        "preferredDate": "2025-12-15",
+        "message": "Test message"
+    }
     
     try:
-        response = requests.get(f"{BACKEND_URL}/appointments", timeout=10)
+        response = requests.post(f"{BACKEND_URL}/appointment", json=empty_service_data, timeout=10)
         print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.text}")
         
-        if response.status_code == 200:
-            data = response.json()
-            print(f"Response type: {type(data)}")
-            
-            if isinstance(data, list):
-                print(f"✅ PASS: Retrieved {len(data)} appointments")
-                
-                # Check if appointments are sorted by createdAt (newest first)
-                if len(data) > 1:
-                    dates = [appt.get('createdAt') for appt in data if 'createdAt' in appt]
-                    if dates:
-                        # Convert to datetime for comparison
-                        parsed_dates = []
-                        for date_str in dates:
-                            try:
-                                parsed_dates.append(datetime.fromisoformat(date_str.replace('Z', '+00:00')))
-                            except:
-                                parsed_dates.append(datetime.fromisoformat(date_str))
-                        
-                        is_sorted = all(parsed_dates[i] >= parsed_dates[i+1] for i in range(len(parsed_dates)-1))
-                        if is_sorted:
-                            print("✅ PASS: Appointments sorted by createdAt (newest first)")
-                        else:
-                            print("❌ FAIL: Appointments not properly sorted")
-                            return False
-                
-                return True
-            else:
-                print(f"❌ FAIL: Expected list, got {type(data)}")
-                return False
-        else:
-            print(f"❌ FAIL: Expected 200, got {response.status_code}")
-            return False
-            
-    except requests.exceptions.RequestException as e:
-        print(f"❌ FAIL: Request failed - {str(e)}")
-        return False
-    except json.JSONDecodeError as e:
-        print(f"❌ FAIL: Invalid JSON response - {str(e)}")
-        return False
-
-def test_get_single_appointment(appointment_id):
-    """Test GET /api/appointments/{id} - Get single appointment"""
-    print(f"\n=== Testing GET /api/appointments/{appointment_id} ===")
-    
-    try:
-        response = requests.get(f"{BACKEND_URL}/appointments/{appointment_id}", timeout=10)
-        print(f"Status Code: {response.status_code}")
-        
-        if response.status_code == 200:
-            data = response.json()
-            print(f"Retrieved appointment: {data.get('name', 'Unknown')}")
-            
-            # Verify it's the correct appointment
-            if data.get('id') == appointment_id:
-                print("✅ PASS: Retrieved correct appointment")
-                return True
-            else:
-                print(f"❌ FAIL: Expected ID {appointment_id}, got {data.get('id')}")
-                return False
-        else:
-            print(f"❌ FAIL: Expected 200, got {response.status_code}")
-            return False
-            
-    except requests.exceptions.RequestException as e:
-        print(f"❌ FAIL: Request failed - {str(e)}")
-        return False
-    except json.JSONDecodeError as e:
-        print(f"❌ FAIL: Invalid JSON response - {str(e)}")
-        return False
-
-def test_get_nonexistent_appointment():
-    """Test GET /api/appointments/{id} with invalid ID"""
-    print("\n=== Testing GET /api/appointments with invalid ID ===")
-    
-    fake_id = str(uuid.uuid4())
-    
-    try:
-        response = requests.get(f"{BACKEND_URL}/appointments/{fake_id}", timeout=10)
-        print(f"Status Code: {response.status_code}")
-        
-        if response.status_code == 404:
-            print("✅ PASS: Correctly returned 404 for non-existent appointment")
+        if response.status_code == 422:  # FastAPI validation error
+            print("✅ PASS: Empty serviceType validation working correctly")
             return True
         else:
-            print(f"❌ FAIL: Expected 404, got {response.status_code}")
+            print(f"❌ FAIL: Expected 422 for empty serviceType, got {response.status_code}")
             return False
             
     except requests.exceptions.RequestException as e:
