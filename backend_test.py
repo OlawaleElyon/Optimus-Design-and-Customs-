@@ -109,6 +109,66 @@ def test_create_appointment_michael_johnson():
         print(f"❌ FAIL: Invalid JSON response - {str(e)}")
         return False, None
 
+def test_create_appointment_sarah_williams():
+    """Test POST /api/appointment - Sarah Williams test case from review request"""
+    print("\n=== Testing POST /api/appointment - Sarah Williams (Review Request Test 2) ===")
+    
+    # Test data as specified in the review request
+    test_data = {
+        "name": "Sarah Williams",
+        "email": "sarah.w@example.com",
+        "phone": "555-8642",
+        "serviceType": "Window Tint",
+        "preferredDate": "2026-01-15"
+        # Note: No message field - testing optional field
+    }
+    
+    try:
+        response = requests.post(f"{BACKEND_URL}/appointment", json=test_data, timeout=30)  # Longer timeout for email
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.text}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Check expected response structure
+            if "success" not in data:
+                print("❌ FAIL: Missing 'success' field in response")
+                return False, None
+            
+            if not data["success"]:
+                print("❌ FAIL: success field is False")
+                return False, None
+            
+            if "message" not in data:
+                print("❌ FAIL: Missing 'message' field in response")
+                return False, None
+            
+            if "appointment_id" not in data or not data["appointment_id"]:
+                print("❌ FAIL: Missing or empty 'appointment_id' field")
+                return False, None
+                
+            print("✅ PASS: Sarah Williams appointment created successfully")
+            print(f"  - Success: {data['success']}")
+            print(f"  - Message: {data['message']}")
+            print(f"  - Appointment ID: {data['appointment_id']}")
+            return True, data['appointment_id']
+        else:
+            print(f"❌ FAIL: Expected 200, got {response.status_code}")
+            try:
+                error_data = response.json()
+                print(f"Error details: {error_data.get('detail', 'No details')}")
+            except:
+                pass
+            return False, None
+            
+    except requests.exceptions.RequestException as e:
+        print(f"❌ FAIL: Request failed - {str(e)}")
+        return False, None
+    except json.JSONDecodeError as e:
+        print(f"❌ FAIL: Invalid JSON response - {str(e)}")
+        return False, None
+
 def test_create_appointment_invalid_email():
     """Test POST /api/appointment with invalid email format"""
     print("\n=== Testing POST /api/appointment - Invalid Email ===")
