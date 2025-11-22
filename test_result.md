@@ -161,6 +161,9 @@ backend:
         - working: "NA"
           agent: "testing"
           comment: "Cannot test email functionality due to Supabase table issue preventing appointment creation. Email code appears properly implemented with correct API key and HTML template. Needs testing after database issue is resolved."
+        - working: false
+          agent: "testing"
+          comment: "❌ EMAIL INTEGRATION FAILING: Resend API key 're_h2RQUS8m_PM3SgEtQcRe5gd9MSUbPqRSH' is invalid. Backend logs show 'API key is invalid' error when attempting to send emails. Email code implementation is correct with proper HTML template and recipient (elyonolawale@gmail.com). CRITICAL: Need valid Resend API key to enable email notifications. Appointments are still being saved successfully to Supabase despite email failure."
 
 frontend:
   - task: "Booking Form Component - Submit to /api/appointment"
