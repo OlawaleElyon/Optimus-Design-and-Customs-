@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Fix the booking form on the live production website (https://www.optimuscustomz.com/) - users are seeing 'failed to send message' error"
+user_problem_statement: "Build a Python backend with comprehensive debugging capabilities. Remove Node.js serverless function completely. Add /api/test-env, /api/test-email, and enhanced /api/appointments endpoints with detailed logging and error handling."
 
 backend:
   - task: "POST /api/appointments - Create appointment"
