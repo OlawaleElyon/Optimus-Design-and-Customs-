@@ -67,7 +67,7 @@ Email sent via Resend API
 ### Already Configured! ✅
 
 The booking form on your Emergent preview should work now:
-- Preview URL: https://auto-design-hub-6.preview.emergentagent.com/
+- Preview URL: https://luxury-auto-book.preview.emergentagent.com/
 
 **To test on Emergent:**
 1. Visit the preview URL
@@ -128,7 +128,7 @@ Value: elyonolawale@gmail.com
 ## 📊 WHERE EMAILS ARE SENT:
 
 ### Emergent Preview:
-- **URL:** https://auto-design-hub-6.preview.emergentagent.com/
+- **URL:** https://luxury-auto-book.preview.emergentagent.com/
 - **Sends to:** elyonolawale@gmail.com ✅
 - **Status:** Configured and working ✅
 

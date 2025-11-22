@@ -11,7 +11,7 @@ from datetime import datetime
 import uuid
 
 # Get backend URL from frontend .env
-BACKEND_URL = "https://auto-design-hub-6.preview.emergentagent.com/api"
+BACKEND_URL = "https://luxury-auto-book.preview.emergentagent.com/api"
 
 def test_create_appointment():
     """Test POST /api/appointments - Create a new appointment"""
