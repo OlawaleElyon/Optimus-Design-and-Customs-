@@ -105,17 +105,41 @@
 user_problem_statement: "Build a Python backend with comprehensive debugging capabilities. Remove Node.js serverless function completely. Add /api/test-env, /api/test-email, and enhanced /api/appointments endpoints with detailed logging and error handling."
 
 backend:
-  - task: "POST /api/appointments - Create appointment"
+  - task: "GET /api/test-env - Test environment variables"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-        - working: true
-          agent: "testing"
-          comment: "✅ PASS: Appointment creation working correctly. API accepts valid data (name, email, phone, serviceType, preferredDate, message), returns created appointment with id, status='pending', and createdAt timestamp. Email validation working (422 for invalid email). Required field validation working (422 for missing fields)."
+        - working: "NA"
+          agent: "main"
+          comment: "New debugging endpoint added to verify environment variables are loaded correctly. Returns masked versions of sensitive data. Updated RESEND_API_KEY to re_h2RQUS8m_PM3SgEtQcRe5gd9MSUbPqRSH in .env file."
+
+  - task: "POST /api/test-email - Test email sending"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "New debugging endpoint to directly test Resend email sending. Sends a test email with comprehensive logging at each step. Uses send_booking_confirmation function from email_service.py."
+
+  - task: "POST /api/appointments - Create appointment with enhanced debugging"
+    implemented: true
+    working: "NA"
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "NA"
+          agent: "main"
+          comment: "Enhanced with comprehensive logging and error handling. Each step (validation, MongoDB save, email send) now has detailed logging. Continues even if email fails as long as appointment is saved to MongoDB. Ready for testing."
 
   - task: "GET /api/appointments - Get all appointments"
     implemented: true
