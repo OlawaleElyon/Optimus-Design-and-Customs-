@@ -49,18 +49,18 @@ def test_health_check():
         print(f"❌ FAIL: Invalid JSON response - {str(e)}")
         return False
 
-def test_create_appointment_valid():
-    """Test POST /api/appointment - Create appointment with valid data"""
-    print("\n=== Testing POST /api/appointment - Valid Data ===")
+def test_create_appointment_michael_johnson():
+    """Test POST /api/appointment - Michael Johnson test case from review request"""
+    print("\n=== Testing POST /api/appointment - Michael Johnson (Review Request Test 1) ===")
     
     # Test data as specified in the review request
     test_data = {
-        "name": "Test Customer",
-        "email": "test@example.com",
-        "phone": "+1234567890",
-        "serviceType": "Vehicle Wraps",
-        "preferredDate": "2025-12-15",
-        "message": "I need a full vehicle wrap for my car"
+        "name": "Michael Johnson",
+        "email": "michael.j@example.com",
+        "phone": "+1-555-2468",
+        "serviceType": "Custom Decals",
+        "preferredDate": "2026-01-10",
+        "message": "I want custom racing stripes and side decals for my Mustang"
     }
     
     try:
