@@ -122,6 +122,9 @@ backend:
         - working: "NA"
           agent: "main"
           comment: "User confirmed appointments table created in Supabase. Backend restarted with fresh RESEND_API_KEY (re_h2RQUS8m_PM3SgEtQcRe5gd9MSUbPqRSH). Ready for retesting."
+        - working: true
+          agent: "testing"
+          comment: "✅ CRITICAL FUNCTIONALITY WORKING: POST /api/appointment endpoint successfully saves appointments to Supabase with UUID generation. Tested with complete valid data (John Smith example) and minimal data (Jane Doe example) - both created appointments successfully. Validation working for invalid email format and missing required fields. ❌ MINOR ISSUE: Resend email integration failing due to invalid API key 're_h2RQUS8m_PM3SgEtQcRe5gd9MSUbPqRSH' - appointments still save successfully but email notifications not sent. Empty serviceType validation needs improvement (currently allows empty strings)."
 
   - task: "Supabase integration - Save appointments"
     implemented: true
