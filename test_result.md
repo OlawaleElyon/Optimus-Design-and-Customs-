@@ -195,14 +195,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Supabase integration - Save appointments"
-    - "POST /api/appointment - New clean appointment endpoint"
-    - "Resend email integration - Send notifications"
     - "Booking Form Component - Submit to /api/appointment"
-  stuck_tasks:
-    - "Resend email integration - Send notifications"
-  test_all: true
-  test_priority: "stuck_first"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
 
 agent_communication:
     - agent: "main"
