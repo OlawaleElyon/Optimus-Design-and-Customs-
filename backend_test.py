@@ -235,60 +235,48 @@ def test_create_appointment_empty_service_type():
         return False
 
 def main():
-    """Run all tests"""
-    print("🚀 Starting Backend API Tests for Optimus Design & Customs")
+    """Run all tests for the NEW appointment booking system"""
+    print("🚀 Starting Backend API Tests for NEW Appointment Booking System")
+    print("Testing Supabase + Resend Integration")
     print(f"Testing against: {BACKEND_URL}")
     
     results = []
+    appointment_id = None
     
-    # Priority 1 - Debugging Endpoints
+    # Priority 1 - Health Check
     print("\n" + "="*60)
-    print("🔧 PRIORITY 1 - DEBUGGING ENDPOINTS")
+    print("🏥 PRIORITY 1 - HEALTH CHECK")
     print("="*60)
     
-    # Test 1: Environment variables
-    success = test_env_variables()
-    results.append(("GET /api/test-env", success))
+    # Test 1: Health check
+    success = test_health_check()
+    results.append(("GET /api/health", success))
     
-    # Test 2: Email sending
-    success = test_email_sending()
-    results.append(("POST /api/test-email", success))
-    
-    # Priority 2 - Main Booking Endpoint
+    # Priority 2 - Main Appointment Endpoint (Valid Data)
     print("\n" + "="*60)
-    print("📝 PRIORITY 2 - MAIN BOOKING ENDPOINT")
+    print("📝 PRIORITY 2 - MAIN APPOINTMENT ENDPOINT")
     print("="*60)
     
-    # Test 3: Create appointment
-    success, appointment_id = test_create_appointment()
-    results.append(("POST /api/appointments", success))
+    # Test 2: Create appointment with valid data
+    success, appointment_id = test_create_appointment_valid()
+    results.append(("POST /api/appointment - Valid Data", success))
     
-    # Priority 3 - Validation
+    # Priority 3 - Validation Testing
     print("\n" + "="*60)
-    print("✅ PRIORITY 3 - VALIDATION")
+    print("✅ PRIORITY 3 - VALIDATION TESTING")
     print("="*60)
     
-    # Test 4: Validation tests
-    success = test_create_appointment_validation()
-    results.append(("Appointment Validation", success))
+    # Test 3: Invalid email format
+    success = test_create_appointment_invalid_email()
+    results.append(("POST /api/appointment - Invalid Email", success))
     
-    # Additional tests
-    print("\n" + "="*60)
-    print("🔍 ADDITIONAL TESTS")
-    print("="*60)
+    # Test 4: Missing required fields
+    success = test_create_appointment_missing_fields()
+    results.append(("POST /api/appointment - Missing Fields", success))
     
-    # Test 5: Get all appointments
-    success = test_get_all_appointments()
-    results.append(("Get All Appointments", success))
-    
-    # Test 6: Get single appointment (if we have an ID)
-    if appointment_id:
-        success = test_get_single_appointment(appointment_id)
-        results.append(("Get Single Appointment", success))
-    
-    # Test 7: Get non-existent appointment
-    success = test_get_nonexistent_appointment()
-    results.append(("Get Non-existent Appointment", success))
+    # Test 5: Empty serviceType
+    success = test_create_appointment_empty_service_type()
+    results.append(("POST /api/appointment - Empty ServiceType", success))
     
     # Summary
     print("\n" + "="*60)
@@ -308,6 +296,10 @@ def main():
     
     if passed == total:
         print("🎉 All tests passed!")
+        print("\n📋 EXPECTED RESULTS ACHIEVED:")
+        print("✅ Appointment successfully saved to Supabase with UUID")
+        print("✅ Email sent via Resend with all appointment details")
+        print("✅ Proper error handling for validation failures")
         return 0
     else:
         print("⚠️  Some tests failed!")
