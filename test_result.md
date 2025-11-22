@@ -125,11 +125,11 @@ backend:
 
   - task: "Supabase integration - Save appointments"
     implemented: true
-    working: false
+    working: "NA"
     file: "/app/backend/appointment_api.py"
     stuck_count: 1
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: "NA"
           agent: "main"
@@ -137,6 +137,9 @@ backend:
         - working: false
           agent: "testing"
           comment: "CRITICAL ISSUE: Table 'appointments' does not exist in Supabase database. Supabase client connects successfully but table is missing. Error: PGRST205 - Could not find the table 'public.appointments' in the schema cache. Backend logs show successful client initialization but 404 error when trying to insert data."
+        - working: "NA"
+          agent: "main"
+          comment: "User confirmed table now created in Supabase. Ready for retesting with fresh connection."
 
   - task: "Resend email integration - Send notifications"
     implemented: true
