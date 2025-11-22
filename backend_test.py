@@ -13,6 +13,107 @@ import uuid
 # Get backend URL from frontend .env
 BACKEND_URL = "https://luxury-auto-book.preview.emergentagent.com/api"
 
+def test_env_variables():
+    """Test GET /api/test-env - Should return masked environment variables and confirm RESEND_API_KEY is set"""
+    print("\n=== Testing GET /api/test-env ===")
+    
+    try:
+        response = requests.get(f"{BACKEND_URL}/test-env", timeout=10)
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.text}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Check if response has expected structure
+            if "status" not in data or "environment_variables" not in data:
+                print("❌ FAIL: Missing required response fields")
+                return False
+            
+            env_vars = data["environment_variables"]
+            
+            # Check if RESEND_API_KEY is set and has proper length
+            if not env_vars.get("RESEND_API_KEY_SET"):
+                print("❌ FAIL: RESEND_API_KEY is not set")
+                return False
+            
+            api_key_length = env_vars.get("RESEND_API_KEY_LENGTH", 0)
+            if api_key_length < 20:  # Resend API keys should be longer
+                print(f"❌ FAIL: RESEND_API_KEY length too short: {api_key_length}")
+                return False
+            
+            # Check if API key is properly masked
+            masked_key = env_vars.get("RESEND_API_KEY", "")
+            if not masked_key or "NOT_SET" in masked_key:
+                print("❌ FAIL: API key not properly masked")
+                return False
+            
+            print(f"✅ PASS: Environment variables loaded correctly")
+            print(f"  - RESEND_API_KEY set: {env_vars.get('RESEND_API_KEY_SET')}")
+            print(f"  - API key length: {api_key_length}")
+            print(f"  - Masked key: {masked_key}")
+            return True
+        else:
+            print(f"❌ FAIL: Expected 200, got {response.status_code}")
+            return False
+            
+    except requests.exceptions.RequestException as e:
+        print(f"❌ FAIL: Request failed - {str(e)}")
+        return False
+    except json.JSONDecodeError as e:
+        print(f"❌ FAIL: Invalid JSON response - {str(e)}")
+        return False
+
+def test_email_sending():
+    """Test POST /api/test-email - Should send a test email using Resend and return success with email ID"""
+    print("\n=== Testing POST /api/test-email ===")
+    
+    try:
+        response = requests.post(f"{BACKEND_URL}/test-email", json={}, timeout=30)  # Longer timeout for email
+        print(f"Status Code: {response.status_code}")
+        print(f"Response: {response.text}")
+        
+        if response.status_code == 200:
+            data = response.json()
+            
+            # Check if response has expected structure
+            if "status" not in data or data["status"] != "success":
+                print("❌ FAIL: Email test did not return success status")
+                return False
+            
+            # Check if email_id is present
+            if "email_id" not in data or not data["email_id"]:
+                print("❌ FAIL: No email_id returned")
+                return False
+            
+            # Check details
+            details = data.get("details", {})
+            if not details.get("api_key_set"):
+                print("❌ FAIL: API key not set according to response")
+                return False
+            
+            print(f"✅ PASS: Test email sent successfully")
+            print(f"  - Email ID: {data['email_id']}")
+            print(f"  - Sender: {details.get('sender', 'N/A')}")
+            print(f"  - Recipient: {details.get('recipient', 'N/A')}")
+            return True
+        else:
+            print(f"❌ FAIL: Expected 200, got {response.status_code}")
+            if response.status_code == 500:
+                try:
+                    error_data = response.json()
+                    print(f"Error details: {error_data.get('detail', 'No details')}")
+                except:
+                    pass
+            return False
+            
+    except requests.exceptions.RequestException as e:
+        print(f"❌ FAIL: Request failed - {str(e)}")
+        return False
+    except json.JSONDecodeError as e:
+        print(f"❌ FAIL: Invalid JSON response - {str(e)}")
+        return False
+
 def test_create_appointment():
     """Test POST /api/appointments - Create a new appointment"""
     print("\n=== Testing POST /api/appointments ===")
