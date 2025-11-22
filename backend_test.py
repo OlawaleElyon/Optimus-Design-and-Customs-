@@ -115,17 +115,17 @@ def test_email_sending():
         return False
 
 def test_create_appointment():
-    """Test POST /api/appointments - Create a new appointment"""
+    """Test POST /api/appointments - Create a new appointment with enhanced debugging"""
     print("\n=== Testing POST /api/appointments ===")
     
     # Test data as specified in the request
     test_data = {
-        "name": "John Doe",
-        "email": "john@example.com", 
-        "phone": "(555) 123-4567",
-        "serviceType": "vehicle-wrap",
-        "preferredDate": "2025-07-20",
-        "message": "I want a matte black wrap for my Tesla Model 3"
+        "name": "Test Customer",
+        "email": "test@example.com", 
+        "phone": "+1234567890",
+        "serviceType": "Custom Paint Job",
+        "preferredDate": "2025-12-01",
+        "message": "Test booking message"
     }
     
     try:
