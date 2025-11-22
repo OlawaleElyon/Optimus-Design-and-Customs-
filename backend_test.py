@@ -294,11 +294,51 @@ def test_create_appointment_empty_service_type():
         print(f"❌ FAIL: Request failed - {str(e)}")
         return False
 
+def check_backend_logs():
+    """Check backend logs for email integration verification"""
+    print("\n=== Checking Backend Logs for Email Integration ===")
+    
+    try:
+        import subprocess
+        result = subprocess.run(
+            ["tail", "-n", "50", "/var/log/supervisor/backend.out.log"],
+            capture_output=True,
+            text=True,
+            timeout=10
+        )
+        
+        if result.returncode == 0:
+            logs = result.stdout
+            print("📋 Recent Backend Logs:")
+            print("-" * 40)
+            print(logs)
+            print("-" * 40)
+            
+            # Check for email success indicators
+            if "Email sent successfully" in logs:
+                print("✅ FOUND: 'Email sent successfully' in logs")
+                return True
+            elif "ID:" in logs and "Email sent" in logs:
+                print("✅ FOUND: Email ID in logs indicating successful send")
+                return True
+            else:
+                print("❌ No email success indicators found in logs")
+                return False
+        else:
+            print(f"❌ Failed to read logs: {result.stderr}")
+            return False
+            
+    except Exception as e:
+        print(f"❌ Error checking logs: {str(e)}")
+        return False
+
 def main():
     """Run all tests for the NEW appointment booking system"""
     print("🚀 Starting Backend API Tests for NEW Appointment Booking System")
-    print("Testing Supabase + Resend Integration")
-    print(f"Testing against: {BACKEND_URL}")
+    print("🔑 Testing with NEW RESEND_API_KEY: re_jk3kFpBa_K3RKpjpMp3RGKBvMdepmjTYA")
+    print("📧 Expected email recipient: elyonolawale@gmail.com")
+    print("💾 Expected Supabase storage with UUID generation")
+    print(f"🌐 Testing against: {BACKEND_URL}")
     
     results = []
     appointment_id = None
