@@ -64,15 +64,15 @@ const Booking = () => {
     setLoading(true);
 
     try {
-      // Send booking to Vercel serverless function
-      // Updated: 2025-11-21 - Using /api/send endpoint
-      const response = await axios.post('/api/send', formData, {
+      // Send booking to Python backend
+      // Updated: Using /api/appointments endpoint with MongoDB backup and Resend email
+      const response = await axios.post('/api/appointments', formData, {
         headers: {
           'Content-Type': 'application/json',
         }
       });
       
-      if (response.data.success) {
+      if (response.data && response.data.id) {
         toast.success("Your request has been sent successfully! We'll contact you shortly.");
         
         // Reset form
@@ -85,13 +85,13 @@ const Booking = () => {
           message: ''
         });
       } else {
-        throw new Error(response.data.message || 'Failed to send');
+        throw new Error('Failed to create appointment');
       }
     } catch (error) {
       console.error('Error submitting booking:', error);
       
       // Show user-friendly error message
-      const errorMessage = error.response?.data?.message || error.message || 'Failed to submit request';
+      const errorMessage = error.response?.data?.detail || error.message || 'Failed to submit request';
       toast.error(`Error: ${errorMessage}. Please try again.`);
     } finally {
       setLoading(false);
