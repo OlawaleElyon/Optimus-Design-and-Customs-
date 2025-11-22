@@ -210,9 +210,12 @@ metadata:
 
 test_plan:
   current_focus:
-    - "All appointment system APIs tested and working"
+    - "GET /api/test-env - Test environment variables"
+    - "POST /api/test-email - Test email sending"
+    - "POST /api/appointments - Create appointment with enhanced debugging"
+    - "Booking Form Component - Submit to /api/appointments"
   stuck_tasks: []
-  test_all: false
+  test_all: true
   test_priority: "high_first"
 
 agent_communication:
