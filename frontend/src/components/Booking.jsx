@@ -7,8 +7,8 @@ import { Mail, Phone, Instagram, MapPin, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 import axios from 'axios';
 
-// Using Vercel serverless function - no backend URL needed
-// Calls /api/send directly (works on both Vercel and Emergent)
+// Using Python FastAPI backend with comprehensive debugging
+// Calls /api/appointments - saves to MongoDB and sends email via Resend
 
 const Booking = () => {
   const [isVisible, setIsVisible] = useState(false);
