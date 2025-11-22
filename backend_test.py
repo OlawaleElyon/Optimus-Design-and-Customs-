@@ -382,6 +382,15 @@ def main():
     success = test_create_appointment_empty_service_type()
     results.append(("POST /api/appointment - Empty ServiceType", success))
     
+    # Priority 4 - Backend Log Verification
+    print("\n" + "="*60)
+    print("📋 PRIORITY 4 - BACKEND LOG VERIFICATION")
+    print("="*60)
+    
+    # Check backend logs for email integration
+    log_success = check_backend_logs()
+    results.append(("Backend Logs - Email Integration", log_success))
+    
     # Summary
     print("\n" + "="*60)
     print("📊 TEST RESULTS SUMMARY")
