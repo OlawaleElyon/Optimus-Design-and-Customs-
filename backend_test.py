@@ -88,7 +88,7 @@ def test_create_appointment_michael_johnson():
                 print("❌ FAIL: Missing or empty 'appointment_id' field")
                 return False, None
                 
-            print("✅ PASS: Appointment created successfully")
+            print("✅ PASS: Michael Johnson appointment created successfully")
             print(f"  - Success: {data['success']}")
             print(f"  - Message: {data['message']}")
             print(f"  - Appointment ID: {data['appointment_id']}")
