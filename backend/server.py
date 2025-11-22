@@ -43,6 +43,33 @@ app.add_middleware(
 # Include appointment router
 app.include_router(appointment_router)
 
+# Log environment configuration status on startup
+@app.on_event("startup")
+async def startup_event():
+    """Log configuration status on startup."""
+    logger.info("="*80)
+    logger.info("OPTIMUS DESIGN & CUSTOMS API - STARTUP")
+    logger.info("="*80)
+    
+    # Check Supabase configuration
+    supabase_url = os.environ.get("SUPABASE_URL")
+    supabase_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+    if supabase_url and supabase_key:
+        logger.info("✅ Supabase configured")
+    else:
+        logger.warning("⚠️  Supabase NOT configured - appointments will fail")
+    
+    # Check Resend configuration
+    resend_key = os.environ.get("RESEND_API_KEY")
+    if resend_key and resend_key.strip():
+        logger.info("✅ Resend email configured")
+    else:
+        logger.warning("⚠️  Resend NOT configured - email notifications disabled")
+    
+    # Check CORS
+    logger.info(f"🌐 CORS origins: {cors_origins}")
+    logger.info("="*80)
+
 # Health check endpoint
 @app.get("/api/health")
 async def health_check():
