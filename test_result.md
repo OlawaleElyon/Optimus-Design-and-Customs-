@@ -191,8 +191,7 @@ test_plan:
     - "Resend email integration - Send notifications"
     - "Booking Form Component - Submit to /api/appointment"
   stuck_tasks:
-    - "Supabase integration - Save appointments"
-    - "POST /api/appointment - New clean appointment endpoint"
+    - "Resend email integration - Send notifications"
   test_all: true
   test_priority: "stuck_first"
 
