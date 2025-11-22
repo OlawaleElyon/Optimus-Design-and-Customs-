@@ -330,15 +330,15 @@ def main():
     print("✅ PRIORITY 3 - VALIDATION TESTING")
     print("="*60)
     
-    # Test 3: Invalid email format
+    # Test 4: Invalid email format
     success = test_create_appointment_invalid_email()
     results.append(("POST /api/appointment - Invalid Email", success))
     
-    # Test 4: Missing required fields
+    # Test 5: Missing required fields
     success = test_create_appointment_missing_fields()
     results.append(("POST /api/appointment - Missing Fields", success))
     
-    # Test 5: Empty serviceType
+    # Test 6: Empty serviceType
     success = test_create_appointment_empty_service_type()
     results.append(("POST /api/appointment - Empty ServiceType", success))
     
