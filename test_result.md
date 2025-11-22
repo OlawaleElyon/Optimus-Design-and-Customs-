@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Build a Python backend with comprehensive debugging capabilities. Remove Node.js serverless function completely. Add /api/test-env, /api/test-email, and enhanced /api/appointments endpoints with detailed logging and error handling."
+user_problem_statement: "Complete rebuild of booking section from scratch. Remove ALL old booking code. Create brand new POST /api/appointment endpoint with Supabase storage and Resend email. Rebuild booking form UI with proper validation."
 
 backend:
   - task: "GET /api/test-env - Test environment variables"
