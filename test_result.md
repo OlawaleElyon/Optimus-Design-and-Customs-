@@ -142,7 +142,7 @@ backend:
           comment: "Email notification function sends HTML email to elyonolawale@gmail.com from onboarding@resend.dev. Includes all form fields formatted properly. Uses RESEND_API_KEY from .env (re_h2RQUS8m_PM3SgEtQcRe5gd9MSUbPqRSH)."
 
 frontend:
-  - task: "Booking Form Component - Submit to /api/appointments"
+  - task: "Booking Form Component - Submit to /api/appointment"
     implemented: true
     working: "NA"
     file: "/app/frontend/src/components/Booking.jsx"
@@ -152,7 +152,7 @@ frontend:
     status_history:
         - working: "NA"
           agent: "main"
-          comment: "Updated to call /api/appointments endpoint instead of /api/send. Updated error handling to check for response.data.id and display response.data.detail for errors. Removed Node.js serverless function (/app/frontend/api/) completely. Ready for testing."
+          comment: "Completely rebuilt from scratch. Form fields: name, email, phone, serviceType (dropdown: Vehicle Wraps, Window Tint, Custom Decals, Other), preferredDate (date picker), message (textarea). Calls POST /api/appointment. Shows success toast on success, error toast on failure. Form resets only on success. All fields required except message."
 
 metadata:
   created_by: "testing_agent"
