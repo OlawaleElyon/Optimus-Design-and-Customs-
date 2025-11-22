@@ -85,7 +85,14 @@ def send_appointment_email(appointment_data: Dict) -> bool:
     """
     try:
         # Set API key here to ensure environment variables are loaded
-        resend.api_key = os.environ.get('RESEND_API_KEY')
+        api_key = os.environ.get('RESEND_API_KEY')
+        
+        # Check if API key is configured
+        if not api_key or api_key.strip() == '':
+            logger.warning("⚠️  RESEND_API_KEY not configured - email notifications disabled")
+            return False
+        
+        resend.api_key = api_key
         
         sender_email = os.environ.get('RESEND_SENDER_EMAIL', 'onboarding@resend.dev')
         recipient_email = os.environ.get('RECIPIENT_EMAIL', 'elyonolawale@gmail.com')
