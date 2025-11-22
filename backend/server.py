@@ -97,6 +97,125 @@ async def root():
 async def health_check():
     return {"status": "healthy", "service": "Optimus Design & Customs API"}
 
+# ==================== DEBUGGING ENDPOINTS ====================
+
+@api_router.get("/test-env")
+async def test_environment_variables():
+    """
+    Test endpoint to verify environment variables are loaded correctly.
+    Returns masked versions of sensitive data for security.
+    """
+    try:
+        resend_key = os.environ.get('RESEND_API_KEY', '')
+        sender_email = os.environ.get('RESEND_SENDER_EMAIL', '')
+        recipient_email = os.environ.get('RECIPIENT_EMAIL', '')
+        mongo_url = os.environ.get('MONGO_URL', '')
+        db_name = os.environ.get('DB_NAME', '')
+        
+        # Mask sensitive data
+        def mask_key(key: str) -> str:
+            if not key:
+                return "NOT_SET"
+            if len(key) <= 8:
+                return "*" * len(key)
+            return key[:4] + "*" * (len(key) - 8) + key[-4:]
+        
+        return {
+            "status": "success",
+            "environment_variables": {
+                "RESEND_API_KEY": mask_key(resend_key),
+                "RESEND_API_KEY_LENGTH": len(resend_key),
+                "RESEND_API_KEY_SET": bool(resend_key),
+                "RESEND_SENDER_EMAIL": sender_email,
+                "RECIPIENT_EMAIL": recipient_email,
+                "MONGO_URL": mask_key(mongo_url),
+                "DB_NAME": db_name,
+            },
+            "message": "All environment variables loaded successfully" if resend_key else "WARNING: RESEND_API_KEY not set!"
+        }
+    except Exception as e:
+        logger.error(f"Error checking environment variables: {str(e)}")
+        return {
+            "status": "error",
+            "message": str(e)
+        }
+
+@api_router.post("/test-email")
+async def test_email_sending(test_data: Optional[Dict] = None):
+    """
+    Test endpoint to directly test Resend email sending.
+    Sends a test email to verify the integration is working.
+    """
+    try:
+        logger.info("=" * 80)
+        logger.info("STARTING EMAIL TEST")
+        logger.info("=" * 80)
+        
+        # Check if API key is set
+        resend_key = os.environ.get('RESEND_API_KEY')
+        if not resend_key:
+            error_msg = "RESEND_API_KEY environment variable is not set"
+            logger.error(error_msg)
+            raise HTTPException(status_code=500, detail=error_msg)
+        
+        logger.info(f"✓ API Key loaded (length: {len(resend_key)})")
+        
+        # Get email addresses
+        sender_email = os.environ.get('RESEND_SENDER_EMAIL', 'onboarding@resend.dev')
+        recipient_email = os.environ.get('RECIPIENT_EMAIL', 'elyonolawale@gmail.com')
+        
+        logger.info(f"✓ Sender: {sender_email}")
+        logger.info(f"✓ Recipient: {recipient_email}")
+        
+        # Create test booking data
+        test_booking = {
+            "name": "Test Customer",
+            "email": "test@example.com",
+            "phone": "+1234567890",
+            "serviceType": "Email Test",
+            "preferredDate": datetime.now(timezone.utc).isoformat(),
+            "message": "This is a test email to verify Resend integration is working correctly."
+        }
+        
+        logger.info("✓ Test booking data created")
+        logger.info("📧 Attempting to send test email...")
+        
+        # Send test email using the email service
+        email_result = send_booking_confirmation(test_booking)
+        
+        logger.info("=" * 80)
+        logger.info("EMAIL TEST COMPLETED")
+        logger.info("=" * 80)
+        
+        if email_result["success"]:
+            logger.info(f"✅ SUCCESS: Email sent with ID: {email_result.get('email_id')}")
+            return {
+                "status": "success",
+                "message": "Test email sent successfully",
+                "email_id": email_result.get('email_id'),
+                "details": {
+                    "sender": sender_email,
+                    "recipient": recipient_email,
+                    "api_key_set": True,
+                    "api_key_length": len(resend_key)
+                }
+            }
+        else:
+            logger.error(f"❌ FAILED: {email_result['message']}")
+            raise HTTPException(
+                status_code=500, 
+                detail=f"Email sending failed: {email_result['message']}"
+            )
+            
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"❌ EXCEPTION in test_email: {str(e)}")
+        logger.error(f"Exception type: {type(e).__name__}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=f"Email test failed: {str(e)}")
+
 # Status Check Routes
 @api_router.post("/status", response_model=StatusCheck)
 async def create_status_check(input: StatusCheckCreate):
