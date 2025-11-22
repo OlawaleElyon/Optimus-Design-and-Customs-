@@ -1,8 +1,0 @@
-{
-  "name": "api",
-  "version": "1.0.0",
-  "dependencies": {
-    "resend": "^3.0.0",
-    "mongodb": "^6.3.0"
-  }
-}
