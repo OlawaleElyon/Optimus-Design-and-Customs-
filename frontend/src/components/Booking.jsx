@@ -132,35 +132,35 @@ const Booking = () => {
               <h3 className="text-2xl font-bold text-white mb-6">Get in Touch</h3>
               
               <div className="space-y-6">
-                <div className="flex items-start space-x-4 group">
+                <a href="tel:4434771124" className="flex items-start space-x-4 group hover:scale-105 transition-transform cursor-pointer">
                   <div className="p-3 bg-cyan-500/10 rounded-lg group-hover:bg-cyan-500/20 transition-colors">
                     <Phone className="w-6 h-6 text-cyan-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Phone</p>
-                    <p className="text-white font-semibold">(555) 123-4567</p>
+                    <p className="text-white font-semibold hover:text-cyan-400 transition-colors">(443) 477-1124</p>
                   </div>
-                </div>
+                </a>
 
-                <div className="flex items-start space-x-4 group">
+                <a href="mailto:optimusxcustoms@gmail.com" className="flex items-start space-x-4 group hover:scale-105 transition-transform cursor-pointer">
                   <div className="p-3 bg-cyan-500/10 rounded-lg group-hover:bg-cyan-500/20 transition-colors">
                     <Mail className="w-6 h-6 text-cyan-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Email</p>
-                    <p className="text-white font-semibold">info@optimuscustomz.com</p>
+                    <p className="text-white font-semibold hover:text-cyan-400 transition-colors">optimusxcustoms@gmail.com</p>
                   </div>
-                </div>
+                </a>
 
-                <div className="flex items-start space-x-4 group">
+                <a href="https://www.google.com/maps/search/?api=1&query=Cherry+Lane+Laurel+MD+20707" target="_blank" rel="noopener noreferrer" className="flex items-start space-x-4 group hover:scale-105 transition-transform cursor-pointer">
                   <div className="p-3 bg-cyan-500/10 rounded-lg group-hover:bg-cyan-500/20 transition-colors">
                     <MapPin className="w-6 h-6 text-cyan-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Location</p>
-                    <p className="text-white font-semibold">123 Custom Ave, City, State 12345</p>
+                    <p className="text-white font-semibold hover:text-cyan-400 transition-colors">Cherry Lane, Laurel MD, 20707</p>
                   </div>
-                </div>
+                </a>
 
                 <div className="flex items-start space-x-4 group">
                   <div className="p-3 bg-cyan-500/10 rounded-lg group-hover:bg-cyan-500/20 transition-colors">
