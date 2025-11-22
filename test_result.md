@@ -111,7 +111,7 @@ backend:
     file: "/app/backend/appointment_api.py"
     stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
@@ -132,7 +132,7 @@ backend:
     file: "/app/backend/appointment_api.py"
     stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
@@ -153,7 +153,7 @@ backend:
     file: "/app/backend/appointment_api.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
@@ -172,7 +172,7 @@ frontend:
     file: "/app/frontend/src/components/Booking.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
