@@ -318,24 +318,52 @@ def main():
     
     results = []
     
-    # Test 1: Create appointment
-    success, appointment_id = test_create_appointment()
-    results.append(("Create Appointment", success))
+    # Priority 1 - Debugging Endpoints
+    print("\n" + "="*60)
+    print("🔧 PRIORITY 1 - DEBUGGING ENDPOINTS")
+    print("="*60)
     
-    # Test 2: Validation tests
+    # Test 1: Environment variables
+    success = test_env_variables()
+    results.append(("GET /api/test-env", success))
+    
+    # Test 2: Email sending
+    success = test_email_sending()
+    results.append(("POST /api/test-email", success))
+    
+    # Priority 2 - Main Booking Endpoint
+    print("\n" + "="*60)
+    print("📝 PRIORITY 2 - MAIN BOOKING ENDPOINT")
+    print("="*60)
+    
+    # Test 3: Create appointment
+    success, appointment_id = test_create_appointment()
+    results.append(("POST /api/appointments", success))
+    
+    # Priority 3 - Validation
+    print("\n" + "="*60)
+    print("✅ PRIORITY 3 - VALIDATION")
+    print("="*60)
+    
+    # Test 4: Validation tests
     success = test_create_appointment_validation()
     results.append(("Appointment Validation", success))
     
-    # Test 3: Get all appointments
+    # Additional tests
+    print("\n" + "="*60)
+    print("🔍 ADDITIONAL TESTS")
+    print("="*60)
+    
+    # Test 5: Get all appointments
     success = test_get_all_appointments()
     results.append(("Get All Appointments", success))
     
-    # Test 4: Get single appointment (if we have an ID)
+    # Test 6: Get single appointment (if we have an ID)
     if appointment_id:
         success = test_get_single_appointment(appointment_id)
         results.append(("Get Single Appointment", success))
     
-    # Test 5: Get non-existent appointment
+    # Test 7: Get non-existent appointment
     success = test_get_nonexistent_appointment()
     results.append(("Get Non-existent Appointment", success))
     
