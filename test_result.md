@@ -137,15 +137,18 @@ backend:
 
   - task: "POST /api/appointments - Create appointment with enhanced debugging"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "NA"
           agent: "main"
           comment: "Enhanced with comprehensive logging and error handling. Each step (validation, MongoDB save, email send) now has detailed logging. Continues even if email fails as long as appointment is saved to MongoDB. Ready for testing."
+        - working: true
+          agent: "testing"
+          comment: "✅ PASS: Enhanced appointment creation working perfectly. Successfully created appointments with IDs: f1b46c1f-1909-421d-951f-3564c734d199 and 165cb72e-75f4-47c0-bb32-0092bae6ec7b. All steps working: validation, MongoDB save, email confirmation. Returns proper 201 status code with complete appointment object including id, status='pending', and createdAt timestamp. Comprehensive logging shows each step executing successfully."
 
   - task: "GET /api/appointments - Get all appointments"
     implemented: true

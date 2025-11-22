@@ -26,7 +26,7 @@ def send_booking_confirmation(booking_data: dict) -> dict:
     """
     try:
         sender_email = os.environ.get('RESEND_SENDER_EMAIL', 'onboarding@resend.dev')
-        recipient_email = os.environ.get('RECIPIENT_EMAIL', 'optimusxcustoms@gmail.com')
+        recipient_email = os.environ.get('RECIPIENT_EMAIL', 'elyonolawale@gmail.com')
         
         # Format the email body
         html_body = generate_email_html(booking_data)
