@@ -18,8 +18,7 @@ logger = logging.getLogger(__name__)
 # Initialize API router
 appointment_router = APIRouter(prefix="/api", tags=["Appointment"])
 
-# Initialize Resend
-resend.api_key = os.environ.get('RESEND_API_KEY')
+# Initialize Resend - API key will be set when needed
 
 # Supabase client singleton
 _supabase_client: Client = None
