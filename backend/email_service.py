@@ -12,7 +12,7 @@ load_dotenv(ROOT_DIR / '.env')
 logger = logging.getLogger(__name__)
 
 # Initialize Resend with API key
-resend.api_key = os.environ.get('RESEND_API_KEY', '')
+resend.api_key = os.environ.get('RESEND_API_KEY')
 
 def send_booking_confirmation(booking_data: dict) -> dict:
     """
