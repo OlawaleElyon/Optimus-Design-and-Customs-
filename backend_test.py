@@ -312,14 +312,18 @@ def main():
     success = test_health_check()
     results.append(("GET /api/health", success))
     
-    # Priority 2 - Main Appointment Endpoint (Valid Data)
+    # Priority 2 - Main Appointment Endpoint (Review Request Tests)
     print("\n" + "="*60)
-    print("📝 PRIORITY 2 - MAIN APPOINTMENT ENDPOINT")
+    print("📝 PRIORITY 2 - REVIEW REQUEST SPECIFIC TESTS")
     print("="*60)
     
-    # Test 2: Create appointment with valid data
-    success, appointment_id = test_create_appointment_valid()
-    results.append(("POST /api/appointment - Valid Data", success))
+    # Test 2: Michael Johnson appointment (Review Request Test 1)
+    success, appointment_id1 = test_create_appointment_michael_johnson()
+    results.append(("POST /api/appointment - Michael Johnson", success))
+    
+    # Test 3: Sarah Williams appointment (Review Request Test 2)
+    success, appointment_id2 = test_create_appointment_sarah_williams()
+    results.append(("POST /api/appointment - Sarah Williams", success))
     
     # Priority 3 - Validation Testing
     print("\n" + "="*60)
