@@ -69,7 +69,9 @@ const Booking = () => {
 
     try {
       // Call the new /api/appointment endpoint
-      const response = await axios.post('/api/appointment', formData, {
+      // Use environment variable for backend URL to work in both local and production
+      const backendUrl = process.env.REACT_APP_BACKEND_URL || '';
+      const response = await axios.post(`${backendUrl}/api/appointment`, formData, {
         headers: {
           'Content-Type': 'application/json',
         }
