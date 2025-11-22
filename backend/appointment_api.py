@@ -84,6 +84,9 @@ def send_appointment_email(appointment_data: Dict) -> bool:
         bool: True if email sent successfully, False otherwise
     """
     try:
+        # Set API key here to ensure environment variables are loaded
+        resend.api_key = os.environ.get('RESEND_API_KEY')
+        
         sender_email = os.environ.get('RESEND_SENDER_EMAIL', 'onboarding@resend.dev')
         recipient_email = os.environ.get('RECIPIENT_EMAIL', 'elyonolawale@gmail.com')
         
