@@ -190,29 +190,17 @@ backend:
           comment: "✅ PASS: Email validation working (returns 422 for invalid email format). Required field validation working (returns 422 for missing fields). Proper HTTP status codes returned (200, 404, 422, 500)."
 
 frontend:
-  - task: "Vercel Serverless Function /api/send - Email booking notification"
+  - task: "Booking Form Component - Submit to /api/appointments"
     implemented: true
-    working: true
-    file: "/app/frontend/api/send.js"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        - working: true
-          agent: "main"
-          comment: "✅ FIXED: Bug in Resend API response handling. The API returns { data: { id }, error } but code was trying to access data.id directly. Fixed to use result.data.id and added proper error handling. Local testing confirmed email sending works correctly with proper email ID returned."
-        
-  - task: "Booking Form Component - Submit to /api/send"
-    implemented: true
-    working: true
+    working: "NA"
     file: "/app/frontend/src/components/Booking.jsx"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
-        - working: true
+        - working: "NA"
           agent: "main"
-          comment: "✅ PASS: Form correctly calls /api/send endpoint with proper headers and data structure. UI rendering correctly with all fields. Waiting on user to configure Vercel environment variables for production deployment."
+          comment: "Updated to call /api/appointments endpoint instead of /api/send. Updated error handling to check for response.data.id and display response.data.detail for errors. Removed Node.js serverless function (/app/frontend/api/) completely. Ready for testing."
 
 metadata:
   created_by: "testing_agent"
