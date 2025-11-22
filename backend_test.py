@@ -301,7 +301,7 @@ def check_backend_logs():
     try:
         import subprocess
         result = subprocess.run(
-            ["tail", "-n", "50", "/var/log/supervisor/backend.out.log"],
+            ["tail", "-n", "50", "/var/log/supervisor/backend.err.log"],
             capture_output=True,
             text=True,
             timeout=10
