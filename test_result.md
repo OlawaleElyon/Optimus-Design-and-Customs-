@@ -107,11 +107,11 @@ user_problem_statement: "Complete rebuild of booking section from scratch. Remov
 backend:
   - task: "POST /api/appointment - New clean appointment endpoint"
     implemented: true
-    working: false
+    working: "NA"
     file: "/app/backend/appointment_api.py"
     stuck_count: 1
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: "NA"
           agent: "main"
@@ -119,6 +119,9 @@ backend:
         - working: false
           agent: "testing"
           comment: "CRITICAL ISSUE: Supabase table 'appointments' does not exist. API returns 500 error: 'Could not find the table public.appointments in the schema cache'. Validation works correctly (422 errors for invalid data). Health check passes. Table must be created in Supabase dashboard with SQL: CREATE TABLE appointments (id uuid primary key default gen_random_uuid(), name text not null, email text not null, phone text, service_type text not null, preferred_date date, project_details text, created_at timestamptz not null default now());"
+        - working: "NA"
+          agent: "main"
+          comment: "User confirmed appointments table created in Supabase. Backend restarted with fresh RESEND_API_KEY (re_h2RQUS8m_PM3SgEtQcRe5gd9MSUbPqRSH). Ready for retesting."
 
   - task: "Supabase integration - Save appointments"
     implemented: true
