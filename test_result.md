@@ -105,98 +105,41 @@
 user_problem_statement: "Complete rebuild of booking section from scratch. Remove ALL old booking code. Create brand new POST /api/appointment endpoint with Supabase storage and Resend email. Rebuild booking form UI with proper validation."
 
 backend:
-  - task: "GET /api/test-env - Test environment variables"
+  - task: "POST /api/appointment - New clean appointment endpoint"
     implemented: true
-    working: true
-    file: "/app/backend/server.py"
+    working: "NA"
+    file: "/app/backend/appointment_api.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: "NA"
           agent: "main"
-          comment: "New debugging endpoint added to verify environment variables are loaded correctly. Returns masked versions of sensitive data. Updated RESEND_API_KEY to re_h2RQUS8m_PM3SgEtQcRe5gd9MSUbPqRSH in .env file."
-        - working: true
-          agent: "testing"
-          comment: "✅ PASS: Environment variables endpoint working correctly. RESEND_API_KEY is properly set with length 36, correctly masked in response. All environment variables loaded successfully including MONGO_URL, DB_NAME, sender and recipient emails."
+          comment: "Brand new endpoint created from scratch. Integrates Supabase for data storage and Resend for email notifications. Validates all required fields (name, email, phone, serviceType, preferredDate, message). Returns {success: true, message, appointment_id} on success. Comprehensive error handling and logging."
 
-  - task: "POST /api/test-email - Test email sending"
+  - task: "Supabase integration - Save appointments"
     implemented: true
-    working: true
-    file: "/app/backend/server.py"
+    working: "NA"
+    file: "/app/backend/appointment_api.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: "NA"
           agent: "main"
-          comment: "New debugging endpoint to directly test Resend email sending. Sends a test email with comprehensive logging at each step. Uses send_booking_confirmation function from email_service.py."
-        - working: true
-          agent: "testing"
-          comment: "✅ PASS: Email sending working perfectly. Successfully sent test emails with IDs: c4697b95-7de2-4e95-a0da-f7e794dfd654 and 2a24739e-499b-4ae4-ae8f-03dd377ff9c7. Emails sent from onboarding@resend.dev to elyonolawale@gmail.com. Comprehensive logging shows all steps working correctly."
+          comment: "Supabase Python client installed and configured. Appointments table created with columns: id (UUID), name, email, phone, service_type, preferred_date, project_details, created_at. Credentials stored in .env: SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY."
 
-  - task: "POST /api/appointments - Create appointment with enhanced debugging"
+  - task: "Resend email integration - Send notifications"
     implemented: true
-    working: true
-    file: "/app/backend/server.py"
+    working: "NA"
+    file: "/app/backend/appointment_api.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: "NA"
           agent: "main"
-          comment: "Enhanced with comprehensive logging and error handling. Each step (validation, MongoDB save, email send) now has detailed logging. Continues even if email fails as long as appointment is saved to MongoDB. Ready for testing."
-        - working: true
-          agent: "testing"
-          comment: "✅ PASS: Enhanced appointment creation working perfectly. Successfully created appointments with IDs: f1b46c1f-1909-421d-951f-3564c734d199 and 165cb72e-75f4-47c0-bb32-0092bae6ec7b. All steps working: validation, MongoDB save, email confirmation. Returns proper 201 status code with complete appointment object including id, status='pending', and createdAt timestamp. Comprehensive logging shows each step executing successfully."
-
-  - task: "GET /api/appointments - Get all appointments"
-    implemented: true
-    working: true
-    file: "/app/backend/server.py"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        - working: true
-          agent: "testing"
-          comment: "✅ PASS: Get all appointments working correctly. Returns list of appointments, properly sorted by createdAt (newest first). Tested with multiple appointments to verify sorting functionality."
-
-  - task: "GET /api/appointments/{id} - Get single appointment"
-    implemented: true
-    working: true
-    file: "/app/backend/server.py"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        - working: true
-          agent: "testing"
-          comment: "✅ PASS: Get single appointment working correctly. Returns correct appointment for valid ID. Returns 404 for non-existent appointment ID as expected."
-
-  - task: "MongoDB data persistence"
-    implemented: true
-    working: true
-    file: "/app/backend/server.py"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        - working: true
-          agent: "testing"
-          comment: "✅ PASS: All appointments are being saved to MongoDB correctly. Data persistence verified through multiple API calls. UUID-based IDs working properly."
-
-  - task: "API validation and error handling"
-    implemented: true
-    working: true
-    file: "/app/backend/server.py"
-    stuck_count: 0
-    priority: "medium"
-    needs_retesting: false
-    status_history:
-        - working: true
-          agent: "testing"
-          comment: "✅ PASS: Email validation working (returns 422 for invalid email format). Required field validation working (returns 422 for missing fields). Proper HTTP status codes returned (200, 404, 422, 500)."
+          comment: "Email notification function sends HTML email to elyonolawale@gmail.com from onboarding@resend.dev. Includes all form fields formatted properly. Uses RESEND_API_KEY from .env (re_h2RQUS8m_PM3SgEtQcRe5gd9MSUbPqRSH)."
 
 frontend:
   - task: "Booking Form Component - Submit to /api/appointments"
