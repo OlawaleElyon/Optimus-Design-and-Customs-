@@ -3,9 +3,12 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Mail, Phone, Instagram, MapPin } from 'lucide-react';
+import { Mail, Phone, Instagram, MapPin, Clock } from 'lucide-react';
 import { toast } from 'sonner';
 import axios from 'axios';
+
+// Using Vercel serverless function - no backend URL needed
+// Calls /api/send directly (works on both Vercel and Emergent)
 
 const Booking = () => {
   const [isVisible, setIsVisible] = useState(false);
