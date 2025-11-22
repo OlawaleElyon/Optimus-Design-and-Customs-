@@ -237,30 +237,63 @@ async def get_status_checks():
 # Appointment Routes
 @api_router.post("/appointments", response_model=Appointment, status_code=status.HTTP_201_CREATED)
 async def create_appointment(appointment_data: AppointmentCreate):
+    """
+    Create a new appointment with comprehensive logging and error handling.
+    Saves to MongoDB and sends email notification.
+    """
     try:
+        logger.info("=" * 80)
+        logger.info("NEW APPOINTMENT REQUEST")
+        logger.info("=" * 80)
+        logger.info(f"📝 Received appointment data: {appointment_data.model_dump()}")
+        
+        # Step 1: Create appointment object
         appointment_dict = appointment_data.model_dump()
         appointment_obj = Appointment(**appointment_dict)
+        logger.info(f"✓ Appointment object created with ID: {appointment_obj.id}")
         
-        # Convert to dict and serialize datetime
+        # Step 2: Prepare for database insertion
         doc = appointment_obj.model_dump()
         doc['createdAt'] = doc['createdAt'].isoformat()
+        logger.info("✓ Document prepared for MongoDB")
         
-        # Insert into database
-        result = await db.appointments.insert_one(doc)
+        # Step 3: Save to MongoDB (backup)
+        try:
+            result = await db.appointments.insert_one(doc)
+            if not result.inserted_id:
+                raise HTTPException(status_code=500, detail="Failed to create appointment in database")
+            logger.info(f"✅ Appointment saved to MongoDB successfully")
+        except Exception as db_error:
+            logger.error(f"❌ Database error: {str(db_error)}")
+            raise HTTPException(status_code=500, detail=f"Database error: {str(db_error)}")
         
-        if not result.inserted_id:
-            raise HTTPException(status_code=500, detail="Failed to create appointment")
+        # Step 4: Send confirmation email
+        logger.info("📧 Attempting to send confirmation email...")
+        try:
+            email_result = send_booking_confirmation(appointment_dict)
+            if email_result["success"]:
+                logger.info(f"✅ Email sent successfully! Email ID: {email_result.get('email_id')}")
+            else:
+                logger.warning(f"⚠️  Email failed but appointment saved: {email_result['message']}")
+        except Exception as email_error:
+            logger.error(f"❌ Email sending exception: {str(email_error)}")
+            # Don't fail the request if email fails - appointment is already saved
+            logger.warning("⚠️  Continuing despite email failure - appointment is saved in database")
         
-        # Send confirmation email
-        email_result = send_booking_confirmation(appointment_dict)
-        if not email_result["success"]:
-            logger.warning(f"Email failed to send: {email_result['message']}")
+        logger.info("=" * 80)
+        logger.info(f"✅ APPOINTMENT CREATED SUCCESSFULLY: {appointment_obj.id}")
+        logger.info("=" * 80)
         
         return appointment_obj
         
+    except HTTPException:
+        raise
     except Exception as e:
-        logger.error(f"Error creating appointment: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
+        logger.error(f"❌ CRITICAL ERROR creating appointment: {str(e)}")
+        logger.error(f"Exception type: {type(e).__name__}")
+        import traceback
+        logger.error(f"Traceback: {traceback.format_exc()}")
+        raise HTTPException(status_code=500, detail=f"Failed to create appointment: {str(e)}")
 
 @api_router.get("/appointments", response_model=List[Appointment])
 async def get_appointments():
