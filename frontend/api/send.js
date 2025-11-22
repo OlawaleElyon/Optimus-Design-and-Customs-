@@ -11,7 +11,7 @@ async function connectToDatabase() {
   }
 
   const mongoUrl = process.env.MONGO_URL || 'mongodb://localhost:27017';
-  const dbName = process.env.DB_NAME || 'bookings_db';
+  const dbName = process.env.DB_NAME || 'optimuscustoms';
 
   console.log('🔌 Connecting to MongoDB:', mongoUrl);
 
