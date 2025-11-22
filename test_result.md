@@ -162,10 +162,10 @@ metadata:
 
 test_plan:
   current_focus:
-    - "GET /api/test-env - Test environment variables"
-    - "POST /api/test-email - Test email sending"
-    - "POST /api/appointments - Create appointment with enhanced debugging"
-    - "Booking Form Component - Submit to /api/appointments"
+    - "POST /api/appointment - New clean appointment endpoint"
+    - "Supabase integration - Save appointments"
+    - "Resend email integration - Send notifications"
+    - "Booking Form Component - Submit to /api/appointment"
   stuck_tasks: []
   test_all: true
   test_priority: "high_first"
