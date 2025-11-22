@@ -247,7 +247,7 @@ const Booking = () => {
                     <SelectItem value="Vehicle Wraps" className="text-white hover:bg-gray-800">Vehicle Wraps</SelectItem>
                     <SelectItem value="Window Tint" className="text-white hover:bg-gray-800">Window Tint</SelectItem>
                     <SelectItem value="Custom Decals" className="text-white hover:bg-gray-800">Custom Decals</SelectItem>
-                    <SelectItem value="Other" className="text-white hover:bg-gray-800">Other</SelectItem>
+                    <SelectItem value="Request a quote" className="text-white hover:bg-gray-800">Request a quote</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
