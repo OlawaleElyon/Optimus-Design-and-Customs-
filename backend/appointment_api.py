@@ -203,8 +203,22 @@ def send_appointment_email(appointment_data: Dict, appointment_id: str = None, r
         return True
         
     except Exception as e:
-        logger.error(f"❌ Email sending failed: {str(e)}")
-        return False
+        error_msg = str(e)
+        logger.error(f"❌ Email sending failed (Attempt {retry_count + 1}/{max_retries}): {error_msg}")
+        
+        # Retry logic
+        if retry_count < max_retries - 1:
+            import time
+            wait_time = (retry_count + 1) * 2  # 2s, 4s, 6s
+            logger.info(f"🔄 Retrying in {wait_time} seconds...")
+            time.sleep(wait_time)
+            return send_appointment_email(appointment_data, appointment_id, retry_count + 1)
+        else:
+            # All retries failed - log to Supabase
+            logger.error(f"❌ All {max_retries} email attempts failed")
+            if appointment_id:
+                log_failed_notification(appointment_id, appointment_data, error_msg)
+            return False
 
 
 def save_to_supabase(appointment_data: Dict) -> Dict:
