@@ -73,16 +73,49 @@ class AppointmentResponse(BaseModel):
 
 # ==================== HELPER FUNCTIONS ====================
 
-def send_appointment_email(appointment_data: Dict) -> bool:
+def log_failed_notification(appointment_id: str, appointment_data: Dict, error_message: str):
     """
-    Send appointment notification email using Resend.
+    Log failed email notifications to Supabase for tracking.
+    Owner can check Supabase dashboard to see missed notifications.
+    """
+    try:
+        supabase = get_supabase()
+        
+        failed_notification = {
+            "appointment_id": appointment_id,
+            "recipient_email": os.environ.get('RECIPIENT_EMAIL', 'elyonolawale@gmail.com'),
+            "appointment_details": appointment_data,
+            "error_message": error_message,
+            "retry_count": 0,
+            "status": "failed"
+        }
+        
+        # Try to save to failed_notifications table (create if doesn't exist)
+        try:
+            supabase.table("failed_notifications").insert(failed_notification).execute()
+            logger.info("📝 Failed notification logged to Supabase for manual review")
+        except Exception as e:
+            logger.warning(f"Could not log to failed_notifications table: {str(e)}")
+            logger.warning("Please check Supabase dashboard manually for new appointments")
+            
+    except Exception as e:
+        logger.error(f"Failed to log notification failure: {str(e)}")
+
+
+def send_appointment_email(appointment_data: Dict, appointment_id: str = None, retry_count: int = 0) -> bool:
+    """
+    Send appointment notification email using Resend with retry logic.
     
     Args:
         appointment_data: Dictionary containing appointment details
+        appointment_id: ID of the appointment for logging
+        retry_count: Current retry attempt number
         
     Returns:
         bool: True if email sent successfully, False otherwise
     """
+    max_retries = 3
+    
     try:
         # Set API key here to ensure environment variables are loaded
         api_key = os.environ.get('RESEND_API_KEY')
@@ -90,6 +123,8 @@ def send_appointment_email(appointment_data: Dict) -> bool:
         # Check if API key is configured
         if not api_key or api_key.strip() == '':
             logger.warning("⚠️  RESEND_API_KEY not configured - email notifications disabled")
+            if appointment_id:
+                log_failed_notification(appointment_id, appointment_data, "RESEND_API_KEY not configured")
             return False
         
         resend.api_key = api_key
