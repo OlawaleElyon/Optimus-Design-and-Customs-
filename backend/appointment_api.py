@@ -298,10 +298,12 @@ async def submit_appointment(appointment: AppointmentRequest):
                 detail=f"Failed to save appointment: {str(db_error)}"
             )
         
-        # Step 2: Send email notification (non-blocking failure)
-        email_sent = send_appointment_email(appointment_data)
+        # Step 2: Send email notification with retry logic (non-blocking failure)
+        email_sent = send_appointment_email(appointment_data, appointment_id=str(appointment_id))
         if not email_sent:
-            logger.warning("⚠️  Email notification failed, but appointment was saved")
+            logger.warning("⚠️  Email notification failed after retries, but appointment was saved")
+            logger.warning(f"⚠️  CHECK SUPABASE DASHBOARD for appointment ID: {appointment_id}")
+            logger.warning("⚠️  Recipient should check Supabase 'appointments' table or 'failed_notifications' table")
         
         logger.info("=" * 80)
         logger.info(f"✅ APPOINTMENT CREATED SUCCESSFULLY: {appointment_id}")
