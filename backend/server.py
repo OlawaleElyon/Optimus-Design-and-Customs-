@@ -55,7 +55,7 @@ async def startup_event():
     
     # Check Supabase
     supabase_url = os.environ.get("SUPABASE_URL")
-    supabase_key = os.environ.get("SUPABASE_ANON_KEY")
+    supabase_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SUPABASE_ANON_KEY")
     if supabase_url and supabase_key:
         logger.info("✅ Supabase configured")
     else:
