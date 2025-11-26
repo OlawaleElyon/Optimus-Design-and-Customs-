@@ -1,11 +1,11 @@
 """
-Brand new clean appointment API endpoint.
-Handles booking form submissions with Supabase storage and Resend email.
+Optimus Design & Customs - Appointment Booking API
+Clean implementation with ONLY Resend + Supabase
 """
 import os
 import logging
 from datetime import datetime
-from typing import Dict
+from typing import Dict, Optional
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel, EmailStr, Field
 from supabase import create_client, Client
@@ -18,10 +18,9 @@ logger = logging.getLogger(__name__)
 # Initialize API router
 appointment_router = APIRouter(prefix="/api", tags=["Appointment"])
 
-# Initialize Resend - API key will be set when needed
-
 # Supabase client singleton
-_supabase_client: Client = None
+_supabase_client: Optional[Client] = None
+
 
 def get_supabase() -> Client:
     """Get or create Supabase client."""
@@ -29,13 +28,14 @@ def get_supabase() -> Client:
     
     if _supabase_client is None:
         supabase_url = os.environ.get("SUPABASE_URL")
-        supabase_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+        supabase_key = os.environ.get("SUPABASE_ANON_KEY")
         
         if not supabase_url or not supabase_key:
-            raise ValueError("SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY must be set")
+            logger.error("❌ SUPABASE_URL and SUPABASE_ANON_KEY must be set")
+            raise ValueError("Supabase configuration missing")
         
         _supabase_client = create_client(supabase_url, supabase_key)
-        logger.info("✓ Supabase client initialized")
+        logger.info("✅ Supabase client initialized")
     
     return _supabase_client
 
@@ -44,87 +44,71 @@ def get_supabase() -> Client:
 
 class AppointmentRequest(BaseModel):
     """Request model for booking form submission."""
-    name: str = Field(..., min_length=1, max_length=255, description="Customer name")
-    email: EmailStr = Field(..., description="Customer email")
-    phone: str = Field(..., min_length=1, max_length=50, description="Customer phone")
-    serviceType: str = Field(..., description="Service type selected")
-    preferredDate: str = Field(..., description="Preferred appointment date")
-    message: str = Field(default="", description="Additional project details")
-    
-    class Config:
-        json_schema_extra = {
-            "example": {
-                "name": "John Doe",
-                "email": "john@example.com",
-                "phone": "+1234567890",
-                "serviceType": "Vehicle Wraps",
-                "preferredDate": "2025-01-15",
-                "message": "I need a full vehicle wrap for my Tesla Model 3"
-            }
-        }
+    name: str = Field(..., min_length=1, max_length=255)
+    email: EmailStr
+    phone: str = Field(..., min_length=1, max_length=50)
+    serviceType: str = Field(..., min_length=1)
+    preferredDate: str
+    message: str = Field(default="")
 
 
 class AppointmentResponse(BaseModel):
-    """Response model for successful submission."""
-    success: bool
-    message: str = "Appointment request received successfully"
-    appointment_id: str = None
+    """Response model for booking submission."""
+    status: str = "success"
+    message: str = "Your request has been submitted."
+    appointment_id: Optional[str] = None
 
 
-# ==================== HELPER FUNCTIONS ====================
+# ==================== CORE FUNCTIONS ====================
 
-def log_failed_notification(appointment_id: str, appointment_data: Dict, error_message: str):
+def save_to_supabase(appointment_data: Dict) -> str:
     """
-    Log failed email notifications to Supabase for tracking.
-    Owner can check Supabase dashboard to see missed notifications.
+    Save appointment to Supabase.
+    This ALWAYS happens first - guaranteed data persistence.
+    
+    Returns:
+        str: Appointment ID
     """
     try:
         supabase = get_supabase()
         
-        failed_notification = {
-            "appointment_id": appointment_id,
-            "recipient_email": os.environ.get('RECIPIENT_EMAIL', 'elyonolawale@gmail.com'),
-            "appointment_details": appointment_data,
-            "error_message": error_message,
-            "retry_count": 0,
-            "status": "failed"
+        db_data = {
+            "name": appointment_data["name"],
+            "email": appointment_data["email"],
+            "phone": appointment_data["phone"],
+            "service_type": appointment_data["serviceType"],
+            "preferred_date": appointment_data["preferredDate"],
+            "project_details": appointment_data.get("message", "")
         }
         
-        # Try to save to failed_notifications table (create if doesn't exist)
-        try:
-            supabase.table("failed_notifications").insert(failed_notification).execute()
-            logger.info("📝 Failed notification logged to Supabase for manual review")
-        except Exception as e:
-            logger.warning(f"Could not log to failed_notifications table: {str(e)}")
-            logger.warning("Please check Supabase dashboard manually for new appointments")
+        logger.info("💾 Saving to Supabase...")
+        response = supabase.table("appointments").insert(db_data).execute()
+        
+        if response.data and len(response.data) > 0:
+            appointment_id = response.data[0].get('id')
+            logger.info(f"✅ Saved to Supabase: {appointment_id}")
+            return str(appointment_id)
+        else:
+            raise Exception("No data returned from Supabase")
             
     except Exception as e:
-        logger.error(f"Failed to log notification failure: {str(e)}")
+        logger.error(f"❌ Supabase save failed: {str(e)}")
+        raise
 
 
-def send_appointment_email(appointment_data: Dict, appointment_id: str = None, retry_count: int = 0) -> bool:
+def send_email_notification(appointment_data: Dict, appointment_id: str) -> bool:
     """
-    Send appointment notification email using Resend with retry logic.
+    Send email notification via Resend.
+    This is secondary - failure doesn't affect the booking.
     
-    Args:
-        appointment_data: Dictionary containing appointment details
-        appointment_id: ID of the appointment for logging
-        retry_count: Current retry attempt number
-        
     Returns:
-        bool: True if email sent successfully, False otherwise
+        bool: True if sent, False if failed
     """
-    max_retries = 3
-    
     try:
-        # Set API key here to ensure environment variables are loaded
         api_key = os.environ.get('RESEND_API_KEY')
         
-        # Check if API key is configured
         if not api_key or api_key.strip() == '':
-            logger.warning("⚠️  RESEND_API_KEY not configured - email notifications disabled")
-            if appointment_id:
-                log_failed_notification(appointment_id, appointment_data, "RESEND_API_KEY not configured")
+            logger.warning("⚠️  RESEND_API_KEY not configured")
             return False
         
         resend.api_key = api_key
@@ -132,54 +116,47 @@ def send_appointment_email(appointment_data: Dict, appointment_id: str = None, r
         sender_email = os.environ.get('RESEND_SENDER_EMAIL', 'onboarding@resend.dev')
         recipient_email = os.environ.get('RECIPIENT_EMAIL', 'elyonolawale@gmail.com')
         
-        # Format email body
-        email_body = f"""
+        # Build HTML email
+        email_html = f"""
         <html>
-            <head>
-                <style>
-                    body {{ font-family: Arial, sans-serif; line-height: 1.6; color: #333; }}
-                    .container {{ max-width: 600px; margin: 0 auto; padding: 20px; }}
-                    .header {{ background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%); color: white; padding: 30px 20px; text-align: center; border-radius: 8px 8px 0 0; }}
-                    .content {{ background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px; }}
-                    .detail {{ margin: 15px 0; padding: 15px; background: white; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }}
-                    .label {{ font-weight: bold; color: #0891b2; display: block; margin-bottom: 5px; }}
-                    .value {{ color: #333; font-size: 16px; }}
-                </style>
-            </head>
-            <body>
-                <div class="container">
-                    <div class="header">
-                        <h1>New Appointment Request</h1>
-                        <p>Optimus Design & Customs</p>
+            <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+                <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+                    <div style="background: linear-gradient(135deg, #0891b2 0%, #06b6d4 100%); color: white; padding: 30px 20px; text-align: center; border-radius: 8px 8px 0 0;">
+                        <h1 style="margin: 0;">New Appointment Request</h1>
+                        <p style="margin: 10px 0 0 0;">Optimus Design & Customs</p>
                     </div>
-                    <div class="content">
-                        <div class="detail">
-                            <span class="label">Name:</span>
-                            <span class="value">{appointment_data['name']}</span>
+                    <div style="background: #f9fafb; padding: 30px; border-radius: 0 0 8px 8px;">
+                        <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 6px;">
+                            <strong style="color: #0891b2;">Name:</strong><br/>
+                            <span style="font-size: 16px;">{appointment_data['name']}</span>
                         </div>
-                        <div class="detail">
-                            <span class="label">Email:</span>
-                            <span class="value">{appointment_data['email']}</span>
+                        <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 6px;">
+                            <strong style="color: #0891b2;">Email:</strong><br/>
+                            <span style="font-size: 16px;">{appointment_data['email']}</span>
                         </div>
-                        <div class="detail">
-                            <span class="label">Phone:</span>
-                            <span class="value">{appointment_data['phone']}</span>
+                        <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 6px;">
+                            <strong style="color: #0891b2;">Phone:</strong><br/>
+                            <span style="font-size: 16px;">{appointment_data['phone']}</span>
                         </div>
-                        <div class="detail">
-                            <span class="label">Service Type:</span>
-                            <span class="value">{appointment_data['serviceType']}</span>
+                        <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 6px;">
+                            <strong style="color: #0891b2;">Service Type:</strong><br/>
+                            <span style="font-size: 16px;">{appointment_data['serviceType']}</span>
                         </div>
-                        <div class="detail">
-                            <span class="label">Preferred Date:</span>
-                            <span class="value">{appointment_data['preferredDate']}</span>
+                        <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 6px;">
+                            <strong style="color: #0891b2;">Preferred Date:</strong><br/>
+                            <span style="font-size: 16px;">{appointment_data['preferredDate']}</span>
                         </div>
-                        <div class="detail">
-                            <span class="label">Project Details:</span>
-                            <span class="value">{appointment_data.get('message', 'No additional details provided')}</span>
+                        <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 6px;">
+                            <strong style="color: #0891b2;">Project Details:</strong><br/>
+                            <span style="font-size: 16px;">{appointment_data.get('message', 'No additional details provided')}</span>
                         </div>
-                        <div class="detail">
-                            <span class="label">Sent on:</span>
-                            <span class="value">{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')}</span>
+                        <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 6px;">
+                            <strong style="color: #0891b2;">Appointment ID:</strong><br/>
+                            <span style="font-size: 14px; color: #666;">{appointment_id}</span>
+                        </div>
+                        <div style="margin: 15px 0; padding: 15px; background: white; border-radius: 6px;">
+                            <strong style="color: #0891b2;">Submitted:</strong><br/>
+                            <span style="font-size: 14px;">{datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')}</span>
                         </div>
                     </div>
                 </div>
@@ -192,71 +169,20 @@ def send_appointment_email(appointment_data: Dict, appointment_id: str = None, r
         params = {
             "from": f"Optimus Design & Customs <{sender_email}>",
             "to": [recipient_email],
-            "subject": f"New Appointment Request – Optimus Design & Customs",
-            "html": email_body,
+            "subject": "New Appointment Request – Optimus Design & Customs",
+            "html": email_html,
             "reply_to": appointment_data['email'],
         }
         
         email_response = resend.Emails.send(params)
+        email_id = email_response.get('id')
         
-        logger.info(f"✅ Email sent successfully. ID: {email_response.get('id')}")
+        logger.info(f"✅ Email sent successfully: {email_id}")
         return True
         
     except Exception as e:
-        error_msg = str(e)
-        logger.error(f"❌ Email sending failed (Attempt {retry_count + 1}/{max_retries}): {error_msg}")
-        
-        # Retry logic
-        if retry_count < max_retries - 1:
-            import time
-            wait_time = (retry_count + 1) * 2  # 2s, 4s, 6s
-            logger.info(f"🔄 Retrying in {wait_time} seconds...")
-            time.sleep(wait_time)
-            return send_appointment_email(appointment_data, appointment_id, retry_count + 1)
-        else:
-            # All retries failed - log to Supabase
-            logger.error(f"❌ All {max_retries} email attempts failed")
-            if appointment_id:
-                log_failed_notification(appointment_id, appointment_data, error_msg)
-            return False
-
-
-def save_to_supabase(appointment_data: Dict) -> Dict:
-    """
-    Save appointment data to Supabase.
-    
-    Args:
-        appointment_data: Dictionary containing appointment details
-        
-    Returns:
-        Dict: Supabase response with inserted record
-    """
-    try:
-        supabase = get_supabase()
-        
-        # Prepare data for insertion (match table schema)
-        db_data = {
-            "name": appointment_data["name"],
-            "email": appointment_data["email"],
-            "phone": appointment_data["phone"],
-            "service_type": appointment_data["serviceType"],
-            "preferred_date": appointment_data["preferredDate"],
-            "project_details": appointment_data.get("message", "")
-        }
-        
-        logger.info("💾 Saving to Supabase...")
-        
-        response = supabase.table("appointments").insert(db_data).execute()
-        
-        if response.data and len(response.data) > 0:
-            logger.info(f"✅ Saved to Supabase with ID: {response.data[0].get('id')}")
-            return response.data[0]
-        else:
-            raise Exception("No data returned from Supabase")
-        
-    except Exception as e:
-        logger.error(f"❌ Supabase save failed: {str(e)}")
-        raise
+        logger.error(f"❌ Email failed: {str(e)}")
+        return False
 
 
 # ==================== API ENDPOINT ====================
@@ -266,63 +192,60 @@ def save_to_supabase(appointment_data: Dict) -> Dict:
     response_model=AppointmentResponse,
     status_code=status.HTTP_200_OK,
     summary="Submit appointment request",
-    description="Submit a new appointment request. Saves to Supabase and sends email notification."
+    description="Submit a new appointment. Always saves to Supabase, attempts email via Resend."
 )
 async def submit_appointment(appointment: AppointmentRequest):
     """
     Submit a new appointment request.
     
     Process:
-    1. Validate all input fields
-    2. Save to Supabase database
-    3. Send email notification via Resend
-    4. Return success response
+    1. ALWAYS save to Supabase first (guaranteed persistence)
+    2. THEN try to send email (non-critical)
+    3. ALWAYS return success if Supabase save worked
+    
+    This ensures no bookings are ever lost.
     """
     try:
-        logger.info("=" * 80)
+        logger.info("="*80)
         logger.info("NEW APPOINTMENT REQUEST")
-        logger.info("=" * 80)
-        logger.info(f"📝 Received data: {appointment.model_dump()}")
+        logger.info("="*80)
         
-        # Convert to dict
         appointment_data = appointment.model_dump()
+        logger.info(f"📝 Data: {appointment_data}")
         
-        # Step 1: Save to Supabase (primary storage)
+        # STEP 1: Save to Supabase (MUST succeed)
         try:
-            db_record = save_to_supabase(appointment_data)
-            appointment_id = db_record.get('id')
+            appointment_id = save_to_supabase(appointment_data)
         except Exception as db_error:
-            logger.error(f"❌ Database error: {str(db_error)}")
+            logger.error(f"❌ Critical: Supabase save failed: {str(db_error)}")
             raise HTTPException(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-                detail=f"Failed to save appointment: {str(db_error)}"
+                detail="Failed to save appointment. Please try again."
             )
         
-        # Step 2: Send email notification with retry logic (non-blocking failure)
-        email_sent = send_appointment_email(appointment_data, appointment_id=str(appointment_id))
+        # STEP 2: Send email (best effort, non-critical)
+        email_sent = send_email_notification(appointment_data, appointment_id)
+        
         if not email_sent:
-            logger.warning("⚠️  Email notification failed after retries, but appointment was saved")
-            logger.warning(f"⚠️  CHECK SUPABASE DASHBOARD for appointment ID: {appointment_id}")
-            logger.warning("⚠️  Recipient should check Supabase 'appointments' table or 'failed_notifications' table")
+            logger.warning("⚠️  Email failed BUT appointment saved")
+            logger.warning(f"⚠️  Check Supabase for ID: {appointment_id}")
         
-        logger.info("=" * 80)
-        logger.info(f"✅ APPOINTMENT CREATED SUCCESSFULLY: {appointment_id}")
-        logger.info("=" * 80)
+        logger.info("="*80)
+        logger.info(f"✅ SUCCESS: {appointment_id}")
+        logger.info("="*80)
         
+        # ALWAYS return success if saved to Supabase
         return AppointmentResponse(
-            success=True,
-            message="Your appointment request has been received. We'll contact you shortly!",
-            appointment_id=str(appointment_id)
+            status="success",
+            message="Your request has been submitted.",
+            appointment_id=appointment_id
         )
         
     except HTTPException:
         raise
     except Exception as e:
-        logger.error(f"❌ CRITICAL ERROR: {str(e)}")
-        import traceback
-        logger.error(f"Traceback: {traceback.format_exc()}")
-        
+        logger.error(f"❌ Unexpected error: {str(e)}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to process appointment request. Please try again."
+            detail="An error occurred. Please try again."
         )
