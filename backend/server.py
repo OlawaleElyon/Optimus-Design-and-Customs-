@@ -1,6 +1,6 @@
 """
-Optimus Design & Customs API
-Clean rebuild with only appointment functionality
+Optimus Design & Customs API Server
+Production-ready with ONLY Resend + Supabase
 """
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,7 +9,7 @@ import os
 import logging
 from pathlib import Path
 
-# Import the new appointment router
+# Import appointment router
 from appointment_api import appointment_router
 
 # Load environment variables
@@ -26,15 +26,17 @@ logger = logging.getLogger(__name__)
 # Create FastAPI app
 app = FastAPI(
     title="Optimus Design & Customs API",
-    description="Appointment booking API with Supabase and Resend",
-    version="2.0.0"
+    description="Appointment booking system powered by Supabase and Resend",
+    version="2.0.0",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
 # Configure CORS
 cors_origins = os.environ.get("CORS_ORIGINS", "*").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=cors_origins,
+    allow_origins=cors_origins if cors_origins[0] != "*" else ["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -43,52 +45,56 @@ app.add_middleware(
 # Include appointment router
 app.include_router(appointment_router)
 
-# Log environment configuration status on startup
+
 @app.on_event("startup")
 async def startup_event():
-    """Log configuration status on startup."""
+    """Validate configuration on startup."""
     logger.info("="*80)
-    logger.info("OPTIMUS DESIGN & CUSTOMS API - STARTUP")
+    logger.info("OPTIMUS DESIGN & CUSTOMS API - STARTING")
     logger.info("="*80)
     
-    # Check Supabase configuration
+    # Check Supabase
     supabase_url = os.environ.get("SUPABASE_URL")
-    supabase_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+    supabase_key = os.environ.get("SUPABASE_ANON_KEY")
     if supabase_url and supabase_key:
         logger.info("✅ Supabase configured")
     else:
-        logger.warning("⚠️  Supabase NOT configured - appointments will fail")
+        logger.error("❌ Supabase NOT configured - app will not work!")
     
-    # Check Resend configuration
+    # Check Resend (optional but recommended)
     resend_key = os.environ.get("RESEND_API_KEY")
     if resend_key and resend_key.strip():
-        logger.info("✅ Resend email configured")
+        logger.info("✅ Resend configured")
     else:
-        logger.warning("⚠️  Resend NOT configured - email notifications disabled")
+        logger.warning("⚠️  Resend NOT configured - emails disabled")
     
-    # Check CORS
-    logger.info(f"🌐 CORS origins: {cors_origins}")
+    logger.info(f"🌐 CORS: {cors_origins}")
     logger.info("="*80)
 
-# Health check endpoint
+
 @app.get("/api/health")
 async def health_check():
     """Health check endpoint."""
     return {
         "status": "healthy",
-        "service": "Optimus Design & Customs API v2.0",
-        "endpoints": {
-            "appointment": "/api/appointment"
-        }
+        "service": "Optimus Design & Customs API",
+        "version": "2.0.0",
+        "stack": ["Supabase", "Resend", "FastAPI"]
     }
+
 
 @app.get("/api/")
 async def root():
     """Root endpoint."""
     return {
-        "message": "Optimus Design & Customs API v2.0",
-        "docs": "/docs"
+        "message": "Optimus Design & Customs API",
+        "endpoints": {
+            "health": "/api/health",
+            "appointment": "POST /api/appointment",
+            "docs": "/docs"
+        }
     }
+
 
 if __name__ == "__main__":
     import uvicorn
