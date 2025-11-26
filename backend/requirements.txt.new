@@ -1,0 +1,22 @@
+# FastAPI Framework
+fastapi==0.110.1
+uvicorn==0.25.0
+
+# Data Validation
+pydantic==2.12.4
+pydantic_core==2.41.5
+
+# Supabase Client
+supabase==2.24.0
+
+# Resend Email
+resend==0.8.0
+
+# Environment Variables
+python-dotenv==1.2.1
+
+# HTTP Client (for Supabase)
+httpx==0.28.1
+
+# CORS Middleware
+python-multipart==0.0.18
