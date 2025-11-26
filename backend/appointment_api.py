@@ -28,10 +28,11 @@ def get_supabase() -> Client:
     
     if _supabase_client is None:
         supabase_url = os.environ.get("SUPABASE_URL")
-        supabase_key = os.environ.get("SUPABASE_ANON_KEY")
+        # Try service role key first (for backend), fallback to anon key
+        supabase_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY") or os.environ.get("SUPABASE_ANON_KEY")
         
         if not supabase_url or not supabase_key:
-            logger.error("❌ SUPABASE_URL and SUPABASE_ANON_KEY must be set")
+            logger.error("❌ SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY/SUPABASE_ANON_KEY must be set")
             raise ValueError("Supabase configuration missing")
         
         _supabase_client = create_client(supabase_url, supabase_key)
