@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
         const resend = new Resend(apiKey);
         
         const recipientEmail = process.env.RECIPIENT_EMAIL || 'elyonolawale@gmail.com';
-        const senderEmail = process.env.RESEND_SENDER_EMAIL || 'onboarding@resend.dev';
+        const senderEmail = process.env.RESEND_SENDER_EMAIL || 'bookings@optimuscustomz.com';
         
         const emailHtml = `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; border: 1px solid #e5e7eb; border-radius: 8px; overflow: hidden;">
