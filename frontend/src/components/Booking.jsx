@@ -95,9 +95,9 @@ const Booking = () => {
     } catch (error) {
       console.error('Error submitting booking:', error);
       
-      // Show detailed error message
-      const errorMessage = error.response?.data?.detail || error.message || 'Failed to submit request. Please try again.';
-      toast.error(`Error: ${errorMessage}`);
+      // Show detailed error message from API
+      const errorMessage = error.response?.data?.message || error.message || 'Failed to submit request. Please try again.';
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
