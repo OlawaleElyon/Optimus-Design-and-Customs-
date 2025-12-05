@@ -39,9 +39,9 @@ const Projects = () => {
       description: 'Nissan blue windshield tint'
     },
     {
-      image: 'https://images.unsplash.com/photo-1755079602229-f46eceb2683e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwxfHxjdXN0b20lMjBjYXIlMjBkZWNhbHN8ZW58MHx8fHwxNzYzMDU4MDU2fDA&ixlib=rb-4.1.0&q=85',
+      image: 'https://customer-assets.emergentagent.com/job_d82a89b0-3b7b-4e9f-952f-30a60f62b0f3/artifacts/t479uuit_WhatsApp%20Image%202025-12-05%20at%2016.06.43_6206c248.jpg',
       category: 'Custom Decals',
-      description: 'Racing stripes & graphics'
+      description: 'Camo wrap design'
     },
     {
       image: 'https://images.unsplash.com/photo-1755079601926-0003a950186b?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwyfHxjdXN0b20lMjBjYXIlMjBkZWNhbHN8ZW58MHx8fHwxNzYzMDU4MDU2fDA&ixlib=rb-4.1.0&q=85',
