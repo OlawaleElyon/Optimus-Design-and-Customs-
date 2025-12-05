@@ -1,7 +1,7 @@
 {
   "version": 2,
-  "installCommand": "cd frontend && yarn install && cd ../api && yarn install",
-  "buildCommand": "cd frontend && yarn build",
+  "installCommand": "cd /frontend && yarn install && cd /api && yarn install",
+  "buildCommand": "cd /frontend && yarn build",
   "outputDirectory": "frontend/build",
   "framework": null,
   "functions": {
