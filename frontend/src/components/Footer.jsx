@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Instagram, Facebook, Twitter, Youtube } from 'lucide-react';
+import { Instagram } from 'lucide-react';
 
 const Footer = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -57,30 +57,6 @@ const Footer = () => {
                 className="bg-gray-800 hover:bg-sky-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
               >
                 <Instagram className="w-5 h-5 text-white" />
-              </a>
-              <a 
-                href="https://facebook.com/optimusdesign" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-gray-800 hover:bg-sky-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
-              >
-                <Facebook className="w-5 h-5 text-white" />
-              </a>
-              <a 
-                href="https://twitter.com/optimusdesign" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-gray-800 hover:bg-sky-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
-              >
-                <Twitter className="w-5 h-5 text-white" />
-              </a>
-              <a 
-                href="https://youtube.com/@optimusdesign" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="bg-gray-800 hover:bg-sky-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
-              >
-                <Youtube className="w-5 h-5 text-white" />
               </a>
             </div>
           </div>
