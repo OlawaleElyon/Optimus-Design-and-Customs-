@@ -11,8 +11,8 @@
     "api"
   ],
   "scripts": {
-    "build": "cd frontend && yarn install && yarn build",
-    "start": "cd frontend && yarn start",
-    "install:all": "yarn install && cd frontend && yarn install && cd ../api && yarn install"
+    "build": "cd /frontend && yarn install && yarn build",
+    "start": "cd /frontend && yarn start",
+    "install:all": "yarn install && cd /frontend && yarn install && cd /api && yarn install"
   }
 }
