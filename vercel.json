@@ -1,19 +1,10 @@
 {
   "version": 2,
-  "installCommand": "cd frontend && yarn install && cd /api && yarn install",
-  "buildCommand": "cd frontend && yarn build",
-  "outputDirectory": "frontend/build",
+  "installCommand": "yarn install",
+  "buildCommand": "yarn build",
+  "outputDirectory": "build",
   "framework": null,
-  "functions": {
-    "api/*.js": {
-      "runtime": "@vercel/node@3"
-    }
-  },
   "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api/:path*"
-    },
     {
       "source": "/(.*)",
       "destination": "/index.html"
