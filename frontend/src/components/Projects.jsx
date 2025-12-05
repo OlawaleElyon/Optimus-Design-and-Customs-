@@ -24,19 +24,19 @@ const Projects = () => {
       description: 'Commercial trailer wrap'
     },
     {
-      image: 'https://images.unsplash.com/photo-1646531839801-7d0010d7513a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwzfHxjYXIlMjB3aW5kb3clMjB0aW50fGVufDB8fHx8MTc2MzA1ODA1MHww&ixlib=rb-4.1.0&q=85',
+      image: 'https://customer-assets.emergentagent.com/job_d82a89b0-3b7b-4e9f-952f-30a60f62b0f3/artifacts/g72crkgc_WhatsApp%20Image%202025-12-05%20at%2016.06.00_84e76854.jpg',
       category: 'Window Tint',
-      description: 'Premium dark tint installation'
+      description: 'Ford F-150 dark tint'
     },
     {
-      image: 'https://images.unsplash.com/photo-1646531839844-034be6a06aad?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwyfHxjYXIlMjB3aW5kb3clMjB0aW50fGVufDB8fHx8MTc2MzA1ODA1MHww&ixlib=rb-4.1.0&q=85',
+      image: 'https://customer-assets.emergentagent.com/job_d82a89b0-3b7b-4e9f-952f-30a60f62b0f3/artifacts/0oph98k7_WhatsApp%20Image%202025-12-05%20at%2016.06.00_37d1db8a.jpg',
       category: 'Window Tint',
-      description: 'Ceramic tint application'
+      description: 'Honda sedan full tint'
     },
     {
-      image: 'https://images.pexels.com/photos/30815197/pexels-photo-30815197.jpeg',
+      image: 'https://customer-assets.emergentagent.com/job_d82a89b0-3b7b-4e9f-952f-30a60f62b0f3/artifacts/zsb9kpf3_WhatsApp%20Image%202025-12-05%20at%2016.06.00_ac9e0bf5.jpg',
       category: 'Window Tint',
-      description: 'SUV full window tinting'
+      description: 'Nissan blue windshield tint'
     },
     {
       image: 'https://images.unsplash.com/photo-1755079602229-f46eceb2683e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2Mzl8MHwxfHNlYXJjaHwxfHxjdXN0b20lMjBjYXIlMjBkZWNhbHN8ZW58MHx8fHwxNzYzMDU4MDU2fDA&ixlib=rb-4.1.0&q=85',
