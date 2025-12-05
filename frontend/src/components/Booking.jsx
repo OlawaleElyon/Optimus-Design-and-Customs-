@@ -77,7 +77,7 @@ const Booking = () => {
         }
       });
       
-      if (response.data && response.data.success) {
+      if (response.data && response.data.status === 'success') {
         toast.success(response.data.message || "Your request has been sent successfully! We'll contact you shortly.");
         
         // Reset form on success
