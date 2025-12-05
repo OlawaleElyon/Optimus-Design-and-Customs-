@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "buildCommand": "cd frontend && yarn install --frozen-lockfile && yarn build",
+  "outputDirectory": "frontend/build",
+  "installCommand": "yarn install --cwd frontend --frozen-lockfile && yarn install --cwd api --frozen-lockfile",
+  "framework": null,
+  "devCommand": "cd frontend && yarn start",
+  "functions": {
+    "api/**/*.js": {
+      "runtime": "nodejs18.x",
+      "maxDuration": 10
+    }
+  }
+}
