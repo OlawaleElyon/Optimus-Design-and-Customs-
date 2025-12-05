@@ -273,7 +273,7 @@ Once you complete these steps, you'll have:
 ## 📞 READY TO GO LIVE:
 
 **Emergent (Preview):** ✅ Already working!  
-Test at: https://luxury-auto-book.preview.emergentagent.com/
+Test at: https://vercel-fix-6.preview.emergentagent.com/
 
 **Vercel (Production):** ⏳ Add 4 variables + redeploy = ✅ DONE!
 

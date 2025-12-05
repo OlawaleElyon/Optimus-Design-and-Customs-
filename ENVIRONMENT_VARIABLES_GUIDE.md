@@ -218,7 +218,7 @@ Environment variables only take effect AFTER redeployment!
 
 ### Test on Emergent (Local):
 Already configured! Just test the booking form:
-- https://luxury-auto-book.preview.emergentagent.com/
+- https://vercel-fix-6.preview.emergentagent.com/
 
 ### Test on Vercel:
 1. Add all 4 variables

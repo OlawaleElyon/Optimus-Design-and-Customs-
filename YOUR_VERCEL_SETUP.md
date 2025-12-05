@@ -163,7 +163,7 @@ bookings_db
 - ✅ Resend configured
 - ✅ Ready to test!
 
-Test now: https://luxury-auto-book.preview.emergentagent.com/
+Test now: https://vercel-fix-6.preview.emergentagent.com/
 
 ### Vercel (Production):
 - ✅ Code deployed

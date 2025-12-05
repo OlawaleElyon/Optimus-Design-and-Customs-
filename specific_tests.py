@@ -8,7 +8,7 @@ import json
 import sys
 
 # Get backend URL from frontend .env
-BACKEND_URL = "https://luxury-auto-book.preview.emergentagent.com/api"
+BACKEND_URL = "https://vercel-fix-6.preview.emergentagent.com/api"
 
 def test_complete_valid_data():
     """Test POST /api/appointment - Create appointment with complete valid data"""

@@ -11,7 +11,7 @@ from datetime import datetime
 import uuid
 
 # Get backend URL from frontend .env
-BACKEND_URL = "https://luxury-auto-book.preview.emergentagent.com/api"
+BACKEND_URL = "https://vercel-fix-6.preview.emergentagent.com/api"
 
 def test_health_check():
     """Test GET /api/health - Health check endpoint"""
