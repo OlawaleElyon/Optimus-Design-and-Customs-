@@ -2,6 +2,10 @@
   "name": "optimus-design-customs",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": "18.x",
+    "yarn": "1.x"
+  },
   "scripts": {
     "build": "cd frontend && yarn install && yarn build",
     "start": "cd frontend && yarn start"
