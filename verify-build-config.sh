@@ -62,11 +62,11 @@ echo "⚙️  Checking vercel.json..."
 if [ -f "vercel.json" ]; then
     echo -e "${GREEN}✓${NC} vercel.json exists"
     
-    # Check if it contains correct paths
-    if grep -q '"frontend/package.json"' vercel.json; then
-        echo -e "${GREEN}✓${NC} vercel.json references frontend/package.json"
+    # Check if it contains correct paths or build commands
+    if grep -q '"frontend/package.json"' vercel.json || grep -q '"frontend/build"' vercel.json || grep -q 'cd frontend' vercel.json; then
+        echo -e "${GREEN}✓${NC} vercel.json has correct frontend configuration"
     else
-        echo -e "${RED}✗${NC} vercel.json does not reference frontend/package.json correctly"
+        echo -e "${RED}✗${NC} vercel.json does not reference frontend correctly"
         ERRORS=$((ERRORS + 1))
     fi
 else
