@@ -3,16 +3,6 @@
   "version": "1.0.0",
   "private": true,
   "engines": {
-    "node": "18.x",
-    "yarn": "1.x"
-  },
-  "workspaces": [
-    "frontend",
-    "api"
-  ],
-  "scripts": {
-    "build": "cd /frontend && yarn install && yarn build",
-    "start": "cd /frontend && yarn start",
-    "install:all": "yarn install && cd /frontend && yarn install && cd /api && yarn install"
+    "node": "18.x"
   }
 }
