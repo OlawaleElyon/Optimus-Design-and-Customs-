@@ -51,7 +51,7 @@ const Footer = () => {
             </p>
             <div className="flex gap-4">
               <a 
-                href="https://instagram.com/optimusdesign" 
+                href="https://instagram.com/optimus.customs" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-gray-800 hover:bg-sky-600 p-3 rounded-lg transition-all duration-300 hover:scale-110"
