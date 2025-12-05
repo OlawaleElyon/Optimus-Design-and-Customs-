@@ -9,19 +9,19 @@ const Projects = () => {
 
   const projects = [
     {
-      image: 'https://images.unsplash.com/photo-1638731006124-1c9a33edba30?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwzfHxsdXh1cnklMjBjYXIlMjB3cmFwfGVufDB8fHx8MTc2MzA1ODAzOXww&ixlib=rb-4.1.0&q=85',
+      image: 'https://customer-assets.emergentagent.com/job_d82a89b0-3b7b-4e9f-952f-30a60f62b0f3/artifacts/9nvoz2y5_WhatsApp%20Image%202025-12-05%20at%2016.05.36_1620f27e.jpg',
       category: 'Vehicle Wrap',
-      description: 'Matte black full body wrap'
+      description: 'Red commercial truck wrap'
     },
     {
-      image: 'https://images.unsplash.com/photo-1555534650-6bb24b6fc0e7?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHw0fHxsdXh1cnklMjBjYXIlMjB3cmFwfGVufDB8fHx8MTc2MzA1ODAzOXww&ixlib=rb-4.1.0&q=85',
+      image: 'https://customer-assets.emergentagent.com/job_d82a89b0-3b7b-4e9f-952f-30a60f62b0f3/artifacts/t60sptr3_WhatsApp%20Image%202025-12-05%20at%2016.05.37_15fdf985.jpg',
       category: 'Vehicle Wrap',
-      description: 'Metallic blue wrap finish'
+      description: 'Black contractor truck wrap'
     },
     {
-      image: 'https://images.unsplash.com/photo-1632432604371-cf8353f02be0?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDQ2NDJ8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjBjYXIlMjB3cmFwfGVufDB8fHx8MTc2MzA1ODAzOXww&ixlib=rb-4.1.0&q=85',
+      image: 'https://customer-assets.emergentagent.com/job_d82a89b0-3b7b-4e9f-952f-30a60f62b0f3/artifacts/sgg5hhho_WhatsApp%20Image%202025-12-05%20at%2016.05.37_7f9531a4.jpg',
       category: 'Vehicle Wrap',
-      description: 'Chrome silver luxury wrap'
+      description: 'Commercial trailer wrap'
     },
     {
       image: 'https://images.unsplash.com/photo-1646531839801-7d0010d7513a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1Nzd8MHwxfHNlYXJjaHwzfHxjYXIlMjB3aW5kb3clMjB0aW50fGVufDB8fHx8MTc2MzA1ODA1MHww&ixlib=rb-4.1.0&q=85',
