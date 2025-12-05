@@ -180,15 +180,15 @@ const Booking = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4 group">
+                <a href="https://instagram.com/optimus.customs" target="_blank" rel="noopener noreferrer" className="flex items-start space-x-4 group cursor-pointer">
                   <div className="p-3 bg-cyan-500/10 rounded-lg group-hover:bg-cyan-500/20 transition-colors">
                     <Instagram className="w-6 h-6 text-cyan-400" />
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Instagram</p>
-                    <p className="text-white font-semibold">@optimus.customs</p>
+                    <p className="text-white font-semibold group-hover:text-cyan-400 transition-colors">Optimus Customs LLC</p>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
           </div>
