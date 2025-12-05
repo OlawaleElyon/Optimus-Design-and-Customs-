@@ -186,7 +186,7 @@ const Booking = () => {
                   </div>
                   <div>
                     <p className="text-gray-400 text-sm">Instagram</p>
-                    <p className="text-white font-semibold">@optimuscustomz</p>
+                    <p className="text-white font-semibold">@optimus.customs</p>
                   </div>
                 </div>
               </div>
