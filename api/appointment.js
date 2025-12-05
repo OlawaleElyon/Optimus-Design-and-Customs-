@@ -1,31 +1,41 @@
 /**
  * Vercel Serverless Function - Appointment Booking
- * Production-grade with Supabase + Resend
- * Guaranteed data persistence with email fallback
+ * Sends email via Resend + optional Supabase storage
  */
 
-const { createClient } = require('@supabase/supabase-js');
 const { Resend } = require('resend');
 
-// Initialize clients
+// Try to import Supabase (optional)
+let createClient;
+try {
+  createClient = require('@supabase/supabase-js').createClient;
+} catch (e) {
+  console.log('Supabase not available');
+}
+
+// Initialize Resend client
+const getResendClient = () => {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error('❌ RESEND_API_KEY not configured');
+    return null;
+  }
+  return new Resend(apiKey);
+};
+
+// Initialize Supabase client (optional)
 const getSupabaseClient = () => {
+  if (!createClient) return null;
+  
   const supabaseUrl = process.env.SUPABASE_URL;
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
   
   if (!supabaseUrl || !supabaseKey) {
-    throw new Error('Supabase credentials missing');
+    console.log('Supabase credentials not configured');
+    return null;
   }
   
   return createClient(supabaseUrl, supabaseKey);
-};
-
-const getResendClient = () => {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.warn('⚠️  RESEND_API_KEY not configured');
-    return null;
-  }
-  return new Resend(apiKey);
 };
 
 // Validation helper
@@ -56,7 +66,7 @@ const validateInput = (data) => {
 };
 
 // Create email HTML
-const createEmailHtml = (data, appointmentId) => {
+const createEmailHtml = (data) => {
   return `
 <!DOCTYPE html>
 <html>
@@ -106,10 +116,6 @@ const createEmailHtml = (data, appointmentId) => {
                 <span class="value">${data.message || 'No additional details provided'}</span>
             </div>
             <div class="detail-box">
-                <span class="label">Appointment ID</span>
-                <span class="value" style="font-family: monospace; background: #e5e7eb; padding: 2px 6px;">${appointmentId}</span>
-            </div>
-            <div class="detail-box">
                 <span class="label">Submitted</span>
                 <span class="value">${new Date().toUTCString()}</span>
             </div>
@@ -146,10 +152,7 @@ module.exports = async (req, res) => {
     });
   }
   
-  const requestId = Date.now();
-  console.log(`\n${'='.repeat(80)}`);
-  console.log(`📋 NEW APPOINTMENT REQUEST [${requestId}]`);
-  console.log(`${'='.repeat(80)}`);
+  console.log('📋 NEW APPOINTMENT REQUEST');
   
   try {
     const data = req.body;
@@ -165,132 +168,103 @@ module.exports = async (req, res) => {
       });
     }
     
-    console.log(`   Customer: ${data.name}`);
-    console.log(`   Email: ${data.email}`);
-    console.log(`   Service: ${data.serviceType}`);
+    console.log(`Customer: ${data.name}, Email: ${data.email}, Service: ${data.serviceType}`);
     
-    // STEP 1: SAVE TO SUPABASE (CRITICAL - MUST SUCCEED)
-    let appointmentId;
-    try {
-      console.log('💾 Saving to Supabase...');
-      
-      const supabase = getSupabaseClient();
-      
-      const dbData = {
-        name: data.name,
-        email: data.email,
-        phone: data.phone,
-        service_type: data.serviceType,
-        preferred_date: data.preferredDate,
-        project_details: data.message || ''
-      };
-      
-      const { data: insertData, error: insertError } = await supabase
-        .from('appointments')
-        .insert([dbData])
-        .select();
-      
-      if (insertError) {
-        throw new Error(`Supabase error: ${insertError.message}`);
-      }
-      
-      if (!insertData || insertData.length === 0) {
-        throw new Error('No data returned from Supabase');
-      }
-      
-      appointmentId = insertData[0].id;
-      console.log(`✅ Saved to Supabase: ${appointmentId}`);
-      
-    } catch (dbError) {
-      console.error('❌ CRITICAL: Database save failed:', dbError);
-      return res.status(500).json({
-        status: 'error',
-        message: 'Failed to save appointment. Please try again or contact us directly.',
-        details: process.env.NODE_ENV === 'development' ? dbError.message : undefined
-      });
-    }
-    
-    // STEP 2: SEND EMAIL VIA RESEND (BEST EFFORT)
+    // STEP 1: SEND EMAIL VIA RESEND (PRIMARY)
     let emailSent = false;
+    let emailError = null;
+    
     try {
       const resend = getResendClient();
       
-      if (resend) {
-        console.log('📧 Sending email via Resend...');
-        
-        const senderEmail = process.env.RESEND_SENDER_EMAIL || 'onboarding@resend.dev';
-        const recipientEmail = process.env.RECIPIENT_EMAIL || 'elyonolawale@gmail.com';
-        
-        const emailHtml = createEmailHtml(data, appointmentId);
-        
-        const { data: emailData, error: emailError } = await resend.emails.send({
-          from: `Optimus Design & Customs <${senderEmail}>`,
-          to: [recipientEmail],
-          subject: `New Appointment Request - ${data.serviceType}`,
-          html: emailHtml,
-          replyTo: data.email
-        });
-        
-        if (emailError) {
-          throw new Error(emailError.message);
-        }
-        
-        console.log(`✅ Email sent successfully: ${emailData.id}`);
-        emailSent = true;
-        
-      } else {
-        console.warn('⚠️  Resend not configured, skipping email');
+      if (!resend) {
+        throw new Error('Resend API key not configured');
       }
       
-    } catch (emailError) {
-      console.error('❌ Email sending failed:', emailError.message);
+      console.log('📧 Sending email via Resend...');
       
-      // STEP 3: LOG TO FALLBACK SYSTEM
-      try {
-        console.log('📝 Logging to email fallback system...');
-        
-        const supabase = getSupabaseClient();
-        const recipientEmail = process.env.RECIPIENT_EMAIL || 'elyonolawale@gmail.com';
-        const emailHtml = createEmailHtml(data, appointmentId);
-        
-        await supabase.from('email_notifications').insert([{
-          appointment_id: appointmentId,
-          recipient_email: recipientEmail,
-          subject: `New Appointment Request - ${data.serviceType}`,
-          body: emailHtml,
-          status: 'pending',
-          attempts: 0,
-          error_message: emailError.message.substring(0, 500)
-        }]);
-        
-        console.log('✅ Logged to fallback system');
-        
-      } catch (fallbackError) {
-        console.error('❌ Fallback logging failed:', fallbackError.message);
-        console.warn(`⚠️  MANUAL ACTION: Check Supabase appointments table for ID: ${appointmentId}`);
+      const recipientEmail = process.env.RECIPIENT_EMAIL || 'elyonolawale@gmail.com';
+      const senderEmail = process.env.RESEND_SENDER_EMAIL || 'onboarding@resend.dev';
+      
+      const emailHtml = createEmailHtml(data);
+      
+      const { data: emailData, error: sendError } = await resend.emails.send({
+        from: `Optimus Design & Customs <${senderEmail}>`,
+        to: [recipientEmail],
+        subject: `New Appointment Request - ${data.serviceType}`,
+        html: emailHtml,
+        reply_to: data.email
+      });
+      
+      if (sendError) {
+        throw new Error(sendError.message);
       }
+      
+      console.log(`✅ Email sent successfully: ${emailData.id}`);
+      emailSent = true;
+      
+    } catch (err) {
+      console.error('❌ Email sending failed:', err.message);
+      emailError = err.message;
     }
     
-    // ALWAYS RETURN SUCCESS IF SAVED TO DATABASE
-    console.log(`${'='.repeat(80)}`);
-    console.log(`✅ APPOINTMENT COMPLETED [${requestId}]`);
-    console.log(`   ID: ${appointmentId}`);
-    console.log(`   Email Sent: ${emailSent}`);
-    console.log(`${'='.repeat(80)}\n`);
+    // STEP 2: SAVE TO SUPABASE (OPTIONAL)
+    let appointmentId = null;
     
-    return res.status(200).json({
-      status: 'success',
-      message: 'Your request has been submitted successfully. We\'ll contact you shortly!',
-      appointment_id: appointmentId,
-      email_sent: emailSent
-    });
+    try {
+      const supabase = getSupabaseClient();
+      
+      if (supabase) {
+        console.log('💾 Saving to Supabase...');
+        
+        const dbData = {
+          name: data.name,
+          email: data.email,
+          phone: data.phone,
+          service_type: data.serviceType,
+          preferred_date: data.preferredDate,
+          project_details: data.message || '',
+          email_sent: emailSent
+        };
+        
+        const { data: insertData, error: insertError } = await supabase
+          .from('appointments')
+          .insert([dbData])
+          .select();
+        
+        if (insertError) {
+          console.error('Supabase error:', insertError.message);
+        } else if (insertData && insertData.length > 0) {
+          appointmentId = insertData[0].id;
+          console.log(`✅ Saved to Supabase: ${appointmentId}`);
+        }
+      }
+    } catch (dbError) {
+      console.error('Database save failed:', dbError.message);
+    }
+    
+    // Return response based on email status
+    if (emailSent) {
+      return res.status(200).json({
+        status: 'success',
+        message: "Your request has been submitted successfully. We'll contact you shortly!",
+        appointment_id: appointmentId,
+        email_sent: true
+      });
+    } else {
+      // Email failed - return error
+      return res.status(500).json({
+        status: 'error',
+        message: 'Failed to send your request. Please try again or contact us directly.',
+        error: emailError
+      });
+    }
     
   } catch (error) {
     console.error('❌ UNEXPECTED ERROR:', error);
     return res.status(500).json({
       status: 'error',
-      message: 'An unexpected error occurred. Please try again or contact us directly.',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      message: 'An unexpected error occurred. Please try again or contact us directly.'
     });
   }
 };
